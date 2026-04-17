@@ -12,9 +12,8 @@
 
 ### 🎯 Entry Points (Start Here)
 
-1. **START_HERE.txt** - Quick welcome and 3-step setup
-2. **README.md** - Project overview and quick reference
-3. **docs/guides/PHASE4_5_EXECUTION_GUIDE.md** - Detailed 10-minute setup guide
+1. **README.md** - Project overview and comprehensive setup guide
+2. **docs/guides/PHASE4_5_EXECUTION_GUIDE.md** - Detailed 10-minute setup guide
 
 ### 📚 Documentation (8 Files, 5,600+ Lines)
 
@@ -57,8 +56,7 @@
 
 ### 📋 Index & Reference Files
 
-- `START_HERE.txt` - Quick 1-page welcome
-- `README.md` - Project overview
+- `README.md` - Project overview and getting started guide
 - `FILE_INDEX.md` - Complete file reference (this file)
 - `PROJECT_STATUS.md` - Completion report
 - `MANIFEST.md` - This manifest
@@ -175,10 +173,10 @@ app/
 
 ### First Day
 
-1. **START_HERE.txt** (2 min) - Welcome and overview
-2. **docs/guides/PHASE4_5_EXECUTION_GUIDE.md** (8 min) - Setup instructions
+1. **README.md** (5 min) - Welcome and project overview
+2. **Prerequisites & Setup** section in README.md (10 min) - Setup instructions
 3. **Run setup.py** (5 min) - Automated setup
-4. **README.md** (5 min) - Project overview
+4. **Running Experiments** section in README.md (5 min) - How to execute
 
 ### First Week
 
@@ -201,11 +199,11 @@ app/
 
 ```bash
 1. Clone/download the project
-2. Read: START_HERE.txt (2 min)
-3. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md (8 min)
-4. Run: python setup.py (5 min)
-5. Edit: config/.env (2 min)
-6. Verify: python scripts/check_environment.py (1 min)
+2. Read: README.md "Prerequisites & Setup" section (10 min)
+3. Run: python setup.py (5 min)
+4. Edit: config/.env (2 min)
+5. Verify: python experiments/01_verify_infrastructure.py (5 min)
+6. Read: README.md "Running Experiments" section (5 min)
 7. Continue: docs/plans/PROJECT_EXECUTION_PLAN.md
 ```
 
