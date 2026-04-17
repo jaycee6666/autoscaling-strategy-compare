@@ -1,224 +1,224 @@
-# Phase 2b: Application Development Implementation Plan
+# Phase 2B: 应用开发实现计划
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task.
+> **对于 Claude**: 必需的子技能：使用 superpowers:subagent-driven-development 或 superpowers:executing-plans 逐任务实现本计划。
 
-**Goal:** Create load generation tools, metrics collection utilities, and a test Flask application to support autoscaling experiments.
+**目标**: 创建负载生成工具、指标收集实用程序和测试 Flask 应用以支持自动扩缩容实验。
 
-**Architecture:** 
-- **load_generator.py**: HTTP load generation with configurable patterns (constant/ramp/wave)
-- **metrics_collector.py**: Real-time CloudWatch metrics polling and CSV export
-- **experiment_runner.py**: Orchestration layer coordinating load tests and metrics collection
-- **apps/test_app/app.py**: Lightweight Flask application with health checks, data endpoints, and CPU-intensive operations
+**架构**: 
+- **load_generator.py**: 具有可配置模式的 HTTP 负载生成（恒定/加速/波浪）
+- **metrics_collector.py**: 实时 CloudWatch 指标轮询和 CSV 导出
+- **experiment_runner.py**: 协调负载测试和指标收集的编排层
+- **apps/test_app/app.py**: 轻量级 Flask 应用，包含健康检查、数据端点和 CPU 密集型操作
 
-**Tech Stack:** 
-- Python 3.8+, boto3, requests, Flask, pandas, matplotlib
+**技术栈**: 
+- Python 3.8+、boto3、requests、Flask、pandas、matplotlib
 - AWS CloudWatch API
-- HTTP/REST protocols
+- HTTP/REST 协议
 
-> ⚠️ **CANONICAL GUIDE**: For step-by-step implementation instructions, see **[../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)**. This document contains the planning tasks and verification steps; the deployment guide contains the detailed code and setup instructions.
-
----
-
-## Implementation Tasks
-
-**See [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) for complete step-by-step implementation instructions, code examples, and verification procedures.**
-
-This plan document outlines the task structure and validation criteria. The canonical execution guide is in the guides/ directory.
-
-### Task 1: Create Load Generator Core
-
-**Files:**
-- Create: `scripts/load_generator.py`
-- Test: `tests/test_load_generator.py`
-
-**Objective:** Implement HTTP load generation with configurable patterns (constant rate, ramp-up, wave).
-
-**Deliverables:**
-- ✅ LoadGenerator class with constant/ramp/wave pattern support
-- ✅ Thread-based request execution with configurable concurrency
-- ✅ Response time tracking and statistical analysis (mean, P95)
-- ✅ CSV export functionality for load statistics
-- ✅ Comprehensive test suite (≥4 test cases)
-
-**Success Criteria:**
-- `pytest tests/test_load_generator.py` returns all PASS
-- LoadGenerator produces correct request rates within ±10% tolerance
-- Response times captured with microsecond precision
-
-**For implementation**: See Task 1 in [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)
+> ⚠️ **规范指南**: 有关分步实现说明，请参阅 **[../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)**。本文档包含规划任务和验证步骤；部署指南包含详细的代码和设置说明。
 
 ---
 
-### Task 2: Create Metrics Collector
+## 实现任务
 
-**Files:**
-- Create: `scripts/metrics_collector.py`
-- Test: `tests/test_metrics_collector.py`
+**有关完整的分步实现说明、代码示例和验证流程，请参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)**
 
-**Objective:** Poll CloudWatch metrics for ASG health, instance counts, and CPU utilization.
+此计划文档概述了任务结构和验证标准。规范执行指南位于 guides/ 目录中。
 
-**Deliverables:**
-- ✅ MetricsCollector class with background polling thread
-- ✅ CloudWatch integration for CPU utilization, network metrics
-- ✅ ASG integration for instance count and health status
-- ✅ CSV export with timestamp, CPU, instance_count, request_rate columns
-- ✅ Summary statistics (avg, min, max for all metrics)
-- ✅ Comprehensive test suite (≥3 test cases)
+### 任务 1: 创建负载生成器核心
 
-**Success Criteria:**
-- `pytest tests/test_metrics_collector.py` returns all PASS
-- Metrics collected at configurable intervals (default 10s)
-- CSV export contains valid timestamps and numeric data
+**文件**:
+- 创建: `scripts/load_generator.py`
+- 测试: `tests/test_load_generator.py`
 
-**For implementation**: See Task 2 in [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)
+**目标**: 实现具有可配置模式的 HTTP 负载生成（恒定速率、加速、波浪）。
 
----
+**交付物**:
+- ✅ LoadGenerator 类，支持恒定/加速/波浪模式
+- ✅ 基于线程的请求执行，支持可配置的并发
+- ✅ 响应时间跟踪和统计分析（平均值、P95）
+- ✅ 负载统计的 CSV 导出功能
+- ✅ 全面的测试套件（≥4 个测试用例）
 
-### Task 3: Create Experiment Runner Orchestrator
+**成功标准**:
+- `pytest tests/test_load_generator.py` 返回全部通过
+- LoadGenerator 生成正确的请求速率，容差在 ±10% 以内
+- 响应时间以微秒精度捕获
 
-**Files:**
-- Create: `scripts/experiment_runner.py`
-- Test: `tests/test_experiment_runner.py`
-
-**Objective:** Orchestrate load generation and metrics collection for experiments.
-
-**Deliverables:**
-- ✅ ExperimentRunner class coordinating load + metrics
-- ✅ Automatic output directory creation per experiment
-- ✅ Parallel execution of load and metrics collection
-- ✅ JSON experiment log with metadata and results
-- ✅ Results export: experiment_log.json, load_stats.csv, metrics.csv
-- ✅ Results summary with status, load stats, metrics summary
-- ✅ Comprehensive test suite (≥3 test cases)
-
-**Success Criteria:**
-- `pytest tests/test_experiment_runner.py` returns all PASS
-- ExperimentRunner validates parameters (positive request_rate, duration, valid pattern)
-- Output directory created successfully under experiments/<experiment_name>/
-- All three output files generated after successful run
-
-**For implementation**: See Task 3 in [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)
+**实现**: 参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) 中的任务 1
 
 ---
 
-### Task 4: Create Test Flask Application
+### 任务 2: 创建指标收集器
 
-**Files:**
-- Create: `apps/test_app/app.py`
-- Create: `apps/test_app/Dockerfile`
-- Test: `tests/test_app_endpoints.py`
+**文件**:
+- 创建: `scripts/metrics_collector.py`
+- 测试: `tests/test_metrics_collector.py`
 
-**Objective:** Lightweight HTTP service for testing autoscaling strategies.
+**目标**: 轮询 CloudWatch 指标以了解 ASG 健康状况、实例计数和 CPU 利用率。
 
-**Deliverables:**
-- ✅ Flask application listening on 0.0.0.0:8080
-- ✅ `/health` endpoint (GET): Simple health check
-- ✅ `/data` endpoint (GET): Return configurable random payload
-- ✅ `/cpu-intensive` endpoint (POST): CPU-bound workload simulation
-- ✅ `/metrics` endpoint (GET): In-process request tracking
-- ✅ `/reset` endpoint (POST): Reset metrics counters
-- ✅ Dockerfile with Python 3.9 base, health check, auto-restart
-- ✅ Comprehensive endpoint tests (≥5 test cases)
+**交付物**:
+- ✅ MetricsCollector 类，支持后台轮询线程
+- ✅ CPU 利用率、网络指标的 CloudWatch 集成
+- ✅ ASG 集成，用于实例计数和健康状态
+- ✅ CSV 导出，包含时间戳、CPU、instance_count、request_rate 列
+- ✅ 摘要统计（所有指标的平均值、最小值、最大值）
+- ✅ 全面的测试套件（≥3 个测试用例）
 
-**Success Criteria:**
-- `pytest tests/test_app_endpoints.py` returns all PASS
-- Flask app runs standalone: `python apps/test_app/app.py`
-- Docker build succeeds: `docker build -t test-app:latest apps/test_app`
-- All endpoints respond with 200 OK to valid requests
-- HEALTHCHECK curl command succeeds in container
+**成功标准**:
+- `pytest tests/test_metrics_collector.py` 返回全部通过
+- 指标在可配置的间隔（默认 10 秒）收集
+- CSV 导出包含有效的时间戳和数值数据
 
-**For implementation**: See Task 4 in [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)
+**实现**: 参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) 中的任务 2
 
 ---
 
-### Task 5: Project Structure & Documentation
+### 任务 3: 创建实验运行器编排器
 
-**Files:**
-- Update: `README.md` (add Phase 2b reference)
-- Update: Documentation cross-references
+**文件**:
+- 创建: `scripts/experiment_runner.py`
+- 测试: `tests/test_experiment_runner.py`
 
-**Objective:** Document Phase 2b components and usage.
+**目标**: 协调负载生成和指标收集以进行实验。
 
-**Deliverables:**
-- ✅ README.md updated with Phase 2b quick-start
-- ✅ Clear references from planning doc to canonical deployment guide
-- ✅ Integration instructions for Phase 2b outputs into Phase 3
+**交付物**:
+- ✅ ExperimentRunner 类，协调负载 + 指标
+- ✅ 每个实验的自动输出目录创建
+- ✅ 负载和指标收集的并行执行
+- ✅ 包含元数据和结果的 JSON 实验日志
+- ✅ 结果导出：experiment_log.json、load_stats.csv、metrics.csv
+- ✅ 包含状态、负载统计、指标摘要的结果摘要
+- ✅ 全面的测试套件（≥3 个测试用例）
 
-**Success Criteria:**
-- README.md includes Phase 2b section with component overview
-- Users can find deployment guide from this document
-- No broken links between plan and guide documents
+**成功标准**:
+- `pytest tests/test_experiment_runner.py` 返回全部通过
+- ExperimentRunner 验证参数（正数请求速率、持续时间、有效模式）
+- 在 experiments/<experiment_name>/ 下成功创建输出目录
+- 成功运行后生成所有三个输出文件
 
-**For implementation**: See Task 5 in [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md)
+**实现**: 参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) 中的任务 3
 
 ---
 
-## Commit Guidelines
+### 任务 4: 创建测试 Flask 应用
 
-When implementing this plan, make atomic commits with descriptive messages:
+**文件**:
+- 创建: `apps/test_app/app.py`
+- 创建: `apps/test_app/Dockerfile`
+- 测试: `tests/test_app_endpoints.py`
+
+**目标**: 用于测试自动扩缩容策略的轻量级 HTTP 服务。
+
+**交付物**:
+- ✅ Flask 应用监听 0.0.0.0:8080
+- ✅ `/health` 端点 (GET): 简单的健康检查
+- ✅ `/data` 端点 (GET): 返回可配置的随机负载
+- ✅ `/cpu-intensive` 端点 (POST): CPU 密集型工作负载模拟
+- ✅ `/metrics` 端点 (GET): 进程内请求跟踪
+- ✅ `/reset` 端点 (POST): 重置指标计数器
+- ✅ Dockerfile，使用 Python 3.9 基础、健康检查、自动重启
+- ✅ 全面的端点测试（≥5 个测试用例）
+
+**成功标准**:
+- `pytest tests/test_app_endpoints.py` 返回全部通过
+- Flask 应用独立运行: `python apps/test_app/app.py`
+- Docker 构建成功: `docker build -t test-app:latest apps/test_app`
+- 所有端点对有效请求的响应均为 200 OK
+- 容器中的 HEALTHCHECK curl 命令成功
+
+**实现**: 参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) 中的任务 4
+
+---
+
+### 任务 5: 项目结构和文档
+
+**文件**:
+- 更新: `README.md` (添加 Phase 2B 参考)
+- 更新: 文档交叉引用
+
+**目标**: 记录 Phase 2B 组件和用法。
+
+**交付物**:
+- ✅ README.md 更新，包含 Phase 2B 快速开始
+- ✅ 从规划文档到规范部署指南的清晰参考
+- ✅ Phase 2B 输出整合到 Phase 3 的说明
+
+**成功标准**:
+- README.md 包含 Phase 2B 部分，包含组件概述
+- 用户可以从本文档找到部署指南
+- 计划和指南文档之间没有破损的链接
+
+**实现**: 参阅 [../guides/PHASE2B_DEPLOYMENT_GUIDE.md](../guides/PHASE2B_DEPLOYMENT_GUIDE.md) 中的任务 5
+
+---
+
+## 提交指南
+
+实现此计划时，请使用描述性消息进行原子提交：
 
 ```bash
-# Task 1 commit
+# 任务 1 提交
 git add scripts/load_generator.py tests/test_load_generator.py
-git commit -m "feat: implement LoadGenerator with constant/ramp/wave patterns
+git commit -m "feat: 实现具有恒定/加速/波浪模式的 LoadGenerator
 
-- Add LoadGenerator class with configurable HTTP load generation
-- Support constant, ramp-up, and wave load patterns
-- Track response times, success rates, and errors
-- Export statistics to CSV format
-- Add comprehensive test suite"
+- 添加具有可配置 HTTP 负载生成的 LoadGenerator 类
+- 支持恒定、加速和波浪负载模式
+- 跟踪响应时间、成功率和错误
+- 将统计信息导出到 CSV 格式
+- 添加全面的测试套件"
 
-# Task 2 commit
+# 任务 2 提交
 git add scripts/metrics_collector.py tests/test_metrics_collector.py
-git commit -m "feat: implement MetricsCollector for CloudWatch monitoring
+git commit -m "feat: 实现用于 CloudWatch 监控的 MetricsCollector
 
-- Add background metrics collection thread
-- Poll ASG metrics: CPU, instance count, health status
-- Support network metrics (in/out bytes)
-- Export metrics history to CSV format
-- Add comprehensive test suite"
+- 添加后台指标收集线程
+- 轮询 ASG 指标：CPU、实例计数、健康状态
+- 支持网络指标（进出字节）
+- 将指标历史导出到 CSV 格式
+- 添加全面的测试套件"
 
-# Task 3 commit
+# 任务 3 提交
 git add scripts/experiment_runner.py tests/test_experiment_runner.py
-git commit -m "feat: implement ExperimentRunner orchestration
+git commit -m "feat: 实现 ExperimentRunner 编排
 
-- Coordinate load generation and metrics collection
-- Run complete experiments with validation
-- Export results (logs, stats, metrics)
-- Provide experiment results summary"
+- 协调负载生成和指标收集
+- 运行带有验证的完整实验
+- 导出结果（日志、统计、指标）
+- 提供实验结果摘要"
 
-# Task 4 commit
+# 任务 4 提交
 git add apps/test_app/app.py apps/test_app/Dockerfile tests/test_app_endpoints.py
-git commit -m "feat: create test Flask application for autoscaling
+git commit -m "feat: 为自动扩缩容创建测试 Flask 应用
 
-- Add /health endpoint for ALB health checks
-- Add /data endpoint for payload testing
-- Add /cpu-intensive endpoint for CPU strategy testing
-- Add /metrics endpoint for application metrics
-- Dockerize application for AWS deployment
-- Add comprehensive endpoint tests"
+- 添加 /health 端点用于 ALB 健康检查
+- 添加 /data 端点用于负载测试
+- 添加 /cpu-intensive 端点用于 CPU 策略测试
+- 添加 /metrics 端点用于应用指标
+- Dockerize 应用用于 AWS 部署
+- 添加全面的端点测试"
 ```
 
 ---
 
-## Verification Checklist
+## 验证清单
 
-- [ ] All tasks implemented per deployment guide
-- [ ] All tests passing: `pytest tests/test_*.py -v`
-- [ ] Type checking clean: `mypy scripts apps tests` (if available)
-- [ ] All files use boto3 (no AWS CLI subprocess calls)
-- [ ] Cross-platform compatible (Windows/macOS/Linux)
-- [ ] Git commits use author: jaycee6666 <sijiechan2-c@my.cityu.edu.hk>
-- [ ] README.md updated with Phase 2b overview
-- [ ] All deliverables working correctly
-- [ ] Output directory structure: experiments/<name>/{experiment_log.json, load_stats.csv, metrics.csv}
+- [ ] 所有任务均按部署指南实现
+- [ ] 所有测试通过: `pytest tests/test_*.py -v`
+- [ ] 类型检查清晰: `mypy scripts apps tests` (如果可用)
+- [ ] 所有文件使用 boto3（无 AWS CLI 子流程调用）
+- [ ] 跨平台兼容（Windows/macOS/Linux）
+- [ ] Git 提交使用作者: jaycee6666 <sijiechan2-c@my.cityu.edu.hk>
+- [ ] README.md 更新，包含 Phase 2B 概述
+- [ ] 所有交付物正常工作
+- [ ] 输出目录结构: experiments/<name>/{experiment_log.json, load_stats.csv, metrics.csv}
 
 ---
 
-## Next Steps (Phase 3)
+## 后续步骤 (Phase 3)
 
-After completing Phase 2b implementation and verification:
-1. Deploy test Flask application to AWS EC2 instances
-2. Configure ALB to route traffic to application
-3. Verify application health checks succeed
-4. Proceed to Phase 4-5 experimental execution
+完成 Phase 2B 实现和验证后：
+1. 将测试 Flask 应用部署到 AWS EC2 实例
+2. 配置 ALB 以将流量路由到应用
+3. 验证应用健康检查成功
+4. 继续进行 Phase 4-5 实验执行

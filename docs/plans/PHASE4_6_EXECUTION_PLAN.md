@@ -1,443 +1,443 @@
-# Phase 4-6 Execution Plan: Experiments & Analysis
+# Phase 4-6 执行计划：实验和分析
 
-**Date Created**: 2026-04-18  
-**Status**: ✅ COMPLETE (Plan Merged from Phase 4-5 & Phase 6)  
-**Actual Execution**: 2026-04-17 10:13:54 - 11:16:00 UTC  
-
----
-
-## Phase 4-6 Overview
-
-Phase 4-6 encompasses the core experimental validation and comprehensive analysis for the autoscaling strategy comparison project. This phase:
-
-1. **Phase 4-5**: Executes two 30-minute experiments comparing two autoscaling strategies using real AWS infrastructure
-2. **Phase 6**: Performs sophisticated multi-factor analysis to determine the optimal strategy
-
-The experiments collect real AWS CloudWatch metrics and automated analysis determines which strategy performs better with confidence scoring.
-
-### Two Autoscaling Strategies Being Tested
-
-1. **CPU Utilization Target Strategy** - Scales based on EC2 CPU utilization (target: 50%)
-2. **Request Rate Target Strategy** - Scales based on ALB request rate per instance (target: 10 req/s)
+**创建日期**: 2026-04-18  
+**状态**: ✅ 完成（从 Phase 4-5 和 Phase 6 合并计划）  
+**实际执行**: 2026-04-17 10:13:54 - 11:16:00 UTC  
 
 ---
 
-## Objectives
+## Phase 4-6 概述
 
-### Primary Goals
+Phase 4-6 涵盖了自动扩缩容策略对比项目的核心实验验证和全面分析。本阶段包括：
 
-- ✅ Execute 30-minute CPU strategy experiment (Step 2)
-- ✅ Execute 30-minute Request-Rate strategy experiment (Step 3)
-- ✅ Aggregate and compare results (Step 4)
-- ✅ Run Phase 6 analysis to determine winner with confidence score
-- ✅ Generate comprehensive analysis report
+1. **Phase 4-5**: 使用真实 AWS 基础设施执行两个 30 分钟的实验，对比两种自动扩缩容策略
+2. **Phase 6**: 执行复杂的多因素分析来确定最优策略
 
-### Success Criteria
+实验收集真实的 AWS CloudWatch 指标，自动化分析确定哪种策略表现更好，并计算置信度得分。
 
-- ✅ Success rate >90% on both strategies
-- ✅ Real AWS CloudWatch metrics collected
-- ✅ 12+ comparison metrics populated
-- ✅ Winner determined with confidence score > 1%
-- ✅ Analysis report generated with rationale
-- ✅ All output files valid JSON
+### 测试的两种自动扩缩容策略
+
+1. **CPU 利用率目标策略** - 基于 EC2 CPU 利用率进行扩展（目标：50%）
+2. **请求率目标策略** - 基于 ALB 每个实例的请求率进行扩展（目标：10 req/s）
 
 ---
 
-## Detailed Execution Plan
+## 目标
 
-### Step 1: Infrastructure Verification (5 minutes)
+### 主要目标
 
-**Purpose**: Confirm all AWS resources are healthy before running experiments
+- ✅ 执行 30 分钟 CPU 策略实验（第 2 步）
+- ✅ 执行 30 分钟请求率策略实验（第 3 步）
+- ✅ 聚合和比较结果（第 4 步）
+- ✅ 运行 Phase 6 分析以确定具有置信度得分的赢家
+- ✅ 生成全面的分析报告
 
-**Execution**: 2026-04-17 10:13:54 UTC
+### 成功标准
 
-**Process**:
-1. [x] Launch `01_verify_infrastructure.py`
-2. [x] Validate ALB health and connectivity
-3. [x] Verify ASG CPU configuration
-4. [x] Verify ASG Request-Rate configuration
-5. [x] Check EC2 instance states
-6. [x] Confirm Flask app /health endpoint responds
-
-**Validation Results**:
-- [x] ALB status: healthy ✓
-- [x] ASG CPU desired: 1, current: 1 ✓
-- [x] ASG Request-Rate desired: 2, current: 2 ✓
-- [x] All instances running ✓
-- [x] Flask app responds to health check ✓
+- ✅ 两种策略的成功率 > 90%
+- ✅ 收集实际 AWS CloudWatch 指标
+- ✅ 填充 12+ 个比较指标
+- ✅ 确定赢家，置信度得分 > 1%
+- ✅ 生成带有说明的分析报告
+- ✅ 所有输出文件有效 JSON
 
 ---
 
-### Step 2: CPU Strategy Experiment (30 minutes)
+## 详细执行计划
 
-**Duration**: 30 minutes  
-**Execution Time**: 2026-04-17 10:14:06 - 10:44:34 UTC
+### 第 1 步：基础设施验证（5 分钟）
 
-**Process**:
-1. [x] Launch `02_run_cpu_experiment.py`
-2. [x] Strategy: CPU Utilization Target = 50%
-3. [x] Run for 30 minutes with continuous load (10 req/s)
-4. [x] Collect CloudWatch metrics every 2 minutes
-5. [x] Record scaling events from AutoScaling API
-6. [x] Save results to `experiments/results/cpu_strategy_metrics.json`
+**目的**: 在运行实验之前确认所有 AWS 资源健康
 
-**Metrics Collected**:
+**执行**: 2026-04-17 10:13:54 UTC
 
-| Metric | Value | Status |
+**流程**:
+1. [x] 启动 `01_verify_infrastructure.py`
+2. [x] 验证 ALB 健康状况和连接性
+3. [x] 验证 ASG CPU 配置
+4. [x] 验证 ASG 请求率配置
+5. [x] 检查 EC2 实例状态
+6. [x] 确认 Flask 应用 /health 端点响应
+
+**验证结果**:
+- [x] ALB 状态：健康 ✓
+- [x] ASG CPU 期望值: 1，当前值: 1 ✓
+- [x] ASG 请求率期望值: 2，当前值: 2 ✓
+- [x] 所有实例运行中 ✓
+- [x] Flask 应用响应健康检查 ✓
+
+---
+
+### 第 2 步：CPU 策略实验（30 分钟）
+
+**时长**: 30 分钟  
+**执行时间**: 2026-04-17 10:14:06 - 10:44:34 UTC
+
+**流程**:
+1. [x] 启动 `02_run_cpu_experiment.py`
+2. [x] 策略：CPU 利用率目标 = 50%
+3. [x] 运行 30 分钟，持续负载（10 req/s）
+4. [x] 每 2 分钟收集一次 CloudWatch 指标
+5. [x] 从 AutoScaling API 记录扩展事件
+6. [x] 保存结果到 `experiments/results/cpu_strategy_metrics.json`
+
+**收集的指标**:
+
+| 指标 | 数值 | 状态 |
 |--------|-------|--------|
-| Total requests | 1,433 | ✓ |
-| Successful requests | 1,332 | ✓ |
-| Success rate | 92.95% | ✅ (>90%) |
-| Average response time | 970.64ms | ✓ |
-| P50 response time | 890.23ms | ✓ |
-| P95 response time | 1,175.74ms | ✓ |
-| P99 response time | 1,935.85ms | ✓ |
-| Min response time | 120.45ms | ✓ |
-| Max response time | 3,847.92ms | ✓ |
-| Maximum instances used | 2 | ✓ |
-| Average instances used | 1.21 | ✓ |
-| Scale-out events | 0 | ✓ |
-| Scale-in events | 1 | ✓ |
-| Average CPU utilization | 65.20% | ✓ |
+| 总请求数 | 1,433 | ✓ |
+| 成功请求数 | 1,332 | ✓ |
+| 成功率 | 92.95% | ✅ (>90%) |
+| 平均响应时间 | 970.64ms | ✓ |
+| P50 响应时间 | 890.23ms | ✓ |
+| P95 响应时间 | 1,175.74ms | ✓ |
+| P99 响应时间 | 1,935.85ms | ✓ |
+| 最小响应时间 | 120.45ms | ✓ |
+| 最大响应时间 | 3,847.92ms | ✓ |
+| 最大实例数 | 2 | ✓ |
+| 平均实例数 | 1.21 | ✓ |
+| 扩展事件 | 0 | ✓ |
+| 缩减事件 | 1 | ✓ |
+| 平均 CPU 利用率 | 65.20% | ✓ |
 
-**Output File**: `experiments/results/cpu_strategy_metrics.json` (24 KB)
+**输出文件**: `experiments/results/cpu_strategy_metrics.json` (24 KB)
 
-**Observations**:
-- CPU strategy scaled down once (scale-in event)
-- Maintained consistent response times
-- High CPU utilization (65.2% average) indicates conservative scaling
-- Good success rate despite high latency
+**观察**:
+- CPU 策略缩减一次（缩减事件）
+- 保持一致的响应时间
+- CPU 利用率高（平均 65.2%）表示保守扩展
+- 高延迟情况下的良好成功率
 
 ---
 
-### Step 3: Request-Rate Strategy Experiment (30 minutes)
+### 第 3 步：请求率策略实验（30 分钟）
 
-**Duration**: 30 minutes  
-**Execution Time**: 2026-04-17 10:44:53 - 11:15:04 UTC
+**时长**: 30 分钟  
+**执行时间**: 2026-04-17 10:44:53 - 11:15:04 UTC
 
-**Process**:
-1. [x] Launch `03_run_request_rate_experiment.py`
-2. [x] Strategy: Request Rate Target = 10 requests/second per instance
-3. [x] Run for 30 minutes with continuous load
-4. [x] Collect CloudWatch metrics every 2 minutes
-5. [x] Record scaling events from AutoScaling API
-6. [x] Save results to `experiments/results/request_rate_experiment_metrics.json`
+**流程**:
+1. [x] 启动 `03_run_request_rate_experiment.py`
+2. [x] 策略：请求率目标 = 10 requests/second per instance
+3. [x] 运行 30 分钟，持续负载
+4. [x] 每 2 分钟收集一次 CloudWatch 指标
+5. [x] 从 AutoScaling API 记录扩展事件
+6. [x] 保存结果到 `experiments/results/request_rate_experiment_metrics.json`
 
-**Metrics Collected**:
+**收集的指标**:
 
-| Metric | Value | Status |
+| 指标 | 数值 | 状态 |
 |--------|-------|--------|
-| Total requests | 1,485 | ✓ |
-| Successful requests | 1,392 | ✓ |
-| Success rate | 93.74% | ✅ (>90%) |
-| Average response time | 959.93ms | ✓ |
-| P50 response time | 920.15ms | ✓ |
-| P95 response time | 1,026.34ms | ✓ |
-| P99 response time | 1,691.85ms | ✓ |
-| Min response time | 145.32ms | ✓ |
-| Max response time | 3,234.21ms | ✓ |
-| Maximum instances used | 2 | ✓ |
-| Average instances used | 2.0 | ✓ |
-| Scale-out events | 0 | ✓ |
-| Scale-in events | 0 | ✓ |
-| Average CPU utilization | 19.92% | ✓ |
+| 总请求数 | 1,485 | ✓ |
+| 成功请求数 | 1,392 | ✓ |
+| 成功率 | 93.74% | ✅ (>90%) |
+| 平均响应时间 | 959.93ms | ✓ |
+| P50 响应时间 | 920.15ms | ✓ |
+| P95 响应时间 | 1,026.34ms | ✓ |
+| P99 响应时间 | 1,691.85ms | ✓ |
+| 最小响应时间 | 145.32ms | ✓ |
+| 最大响应时间 | 3,234.21ms | ✓ |
+| 最大实例数 | 2 | ✓ |
+| 平均实例数 | 2.0 | ✓ |
+| 扩展事件 | 0 | ✓ |
+| 缩减事件 | 0 | ✓ |
+| 平均 CPU 利用率 | 19.92% | ✓ |
 
-**Output File**: `experiments/results/request_rate_experiment_metrics.json` (25 KB)
+**输出文件**: `experiments/results/request_rate_experiment_metrics.json` (25 KB)
 
-**Observations**:
-- Request-Rate strategy more stable (no scaling events)
-- Maintains consistent 2 instances throughout
-- Much lower CPU utilization (19.92% average)
-- Higher success rate (93.74% vs 92.95%)
-- Better response time (959.93ms vs 970.64ms)
+**观察**:
+- 请求率策略更稳定（无扩展事件）
+- 全程保持稳定的 2 个实例
+- CPU 利用率大幅降低（平均 19.92%）
+- 成功率更高（93.74% vs 92.95%）
+- 响应时间更好（959.93ms vs 970.64ms）
 
 ---
 
-### Step 4: Results Aggregation & Comparison (10 minutes)
+### 第 4 步：结果聚合和比较（10 分钟）
 
-**Duration**: ~5 minutes  
-**Execution Time**: 2026-04-17 11:15:10 - 11:15:15 UTC
+**时长**: ~5 分钟  
+**执行时间**: 2026-04-17 11:15:10 - 11:15:15 UTC
 
-**Process**:
-1. [x] Launch `04_aggregate_results.py`
-2. [x] Read both experiment output files
-3. [x] Calculate 8+ key comparison metrics
-4. [x] Generate comparison report in JSON format
-5. [x] Export metrics to CSV format
+**流程**:
+1. [x] 启动 `04_aggregate_results.py`
+2. [x] 读取两个实验输出文件
+3. [x] 计算 8+ 个关键对比指标
+4. [x] 生成 JSON 格式的对比报告
+5. [x] 导出指标到 CSV 格式
 
-**Comparison Metrics**:
+**对比指标**:
 
-| Metric | CPU Strategy | Request-Rate | Winner | Improvement |
+| 指标 | CPU 策略 | 请求率 | 赢家 | 改进 |
 |--------|--------------|--------------|--------|-------------|
-| Success Rate | 92.95% | 93.74% | Request-Rate | +0.79% |
-| Avg Response Time | 970.64ms | 959.93ms | Request-Rate | -10.71ms (-1.1%) |
-| P95 Response Time | 1,175.74ms | 1,026.34ms | Request-Rate | -149.4ms (-12.7%) |
-| P99 Response Time | 1,935.85ms | 1,691.85ms | Request-Rate | -244ms (-12.6%) |
-| Avg CPU Utilization | 65.20% | 19.92% | Request-Rate | -45.28pp (-69.4%) |
-| Cost per Request | $5.02 | $4.85 | Request-Rate | -$0.17 (-3.6%) |
-| Max Instances | 2 | 2 | Tied | 0% |
-| Scaling Events | 1 | 0 | Request-Rate | -1 event |
+| 成功率 | 92.95% | 93.74% | 请求率 | +0.79% |
+| 平均响应时间 | 970.64ms | 959.93ms | 请求率 | -10.71ms (-1.1%) |
+| P95 响应时间 | 1,175.74ms | 1,026.34ms | 请求率 | -149.4ms (-12.7%) |
+| P99 响应时间 | 1,935.85ms | 1,691.85ms | 请求率 | -244ms (-12.6%) |
+| 平均 CPU 利用率 | 65.20% | 19.92% | 请求率 | -45.28pp (-69.4%) |
+| 每个请求成本 | $5.02 | $4.85 | 请求率 | -$0.17 (-3.6%) |
+| 最大实例数 | 2 | 2 | 并列 | 0% |
+| 扩展事件 | 1 | 0 | 请求率 | -1 个事件 |
 
-**Output Files**:
+**输出文件**:
 - `experiments/results/comparison_report.json` (1.5 KB)
 - `experiments/results/metrics_comparison.csv` (388 bytes)
 
 ---
 
-## Phase 6: Analysis & Winner Determination
+## Phase 6: 分析和赢家确定
 
-### Step 5: Automated Analysis (2 minutes)
+### 第 5 步：自动化分析（2 分钟）
 
-**Duration**: ~1 minute  
-**Execution Time**: 2026-04-17 11:15:36 UTC
+**时长**: ~1 分钟  
+**执行时间**: 2026-04-17 11:15:36 UTC
 
-**Process**:
-1. [x] Launch `06_analyze_results.py`
-2. [x] Read both experiment metric files
-3. [x] Calculate cost factors (instances × 3600 sec/hour)
-4. [x] Calculate latency scores (weighted percentiles)
-5. [x] Apply composite scoring algorithm
-6. [x] Determine winner with confidence score
-7. [x] Generate analysis report with rationale
+**流程**:
+1. [x] 启动 `06_analyze_results.py`
+2. [x] 读取两个实验指标文件
+3. [x] 计算成本因素（实例数 × 3600 秒/小时）
+4. [x] 计算延迟得分（加权百分位）
+5. [x] 应用复合评分算法
+6. [x] 确定具有置信度得分的赢家
+7. [x] 生成带有说明的分析报告
 
-### Analysis Calculations
+### 分析计算
 
-**Cost Factor Calculation**:
+**成本因素计算**:
 ```
-cost_factor = max_instances × 3600 seconds/hour
-CPU cost_factor = 2 × 3600 = $7200
-Request-Rate cost_factor = 2 × 3600 = $7200
+成本因素 = 最大实例数 × 3600 秒/小时
+CPU 成本因素 = 2 × 3600 = $7200
+请求率成本因素 = 2 × 3600 = $7200
 
-cost_per_request = cost_factor / total_requests
-CPU cost_per_request = $7200 / 1433 = $5.02/request
-Request-Rate cost_per_request = $7200 / 1485 = $4.85/request
-```
-
-**Latency Score Calculation** (weighted):
-```
-latency_score = (avg_response × 0.4) + (p95_response × 0.4) + (p99_response × 0.2)
-
-CPU latency_score = (970.64 × 0.4) + (1175.74 × 0.4) + (1935.85 × 0.2)
-                  = 388.26 + 470.30 + 387.17 = 1245.73
-
-Request-Rate latency_score = (959.93 × 0.4) + (1026.34 × 0.4) + (1691.85 × 0.2)
-                            = 383.97 + 410.54 + 338.37 = 1132.88
+每个请求成本 = 成本因素 / 总请求数
+CPU 每个请求成本 = $7200 / 1433 = $5.02/request
+请求率每个请求成本 = $7200 / 1485 = $4.85/request
 ```
 
-**Composite Scoring Algorithm**:
+**延迟得分计算**（加权）:
 ```
-# Normalize metrics (lower is better for both)
-latency_normalized = 1 - (cpu_latency / (cpu_latency + req_latency + 0.001))
-cost_normalized = 1 - (cpu_cost / (cpu_cost + req_cost + 1))
+延迟得分 = (平均响应 × 0.4) + (P95响应 × 0.4) + (P99响应 × 0.2)
 
-# Weighted combination (50/50 latency and cost)
-cpu_score = latency_normalized × 50 + cost_normalized × 50
-req_score = 100 - cpu_score
+CPU 延迟得分 = (970.64 × 0.4) + (1175.74 × 0.4) + (1935.85 × 0.2)
+                 = 388.26 + 470.30 + 387.17 = 1245.73
 
-# Calculation
-latency_norm = 1 - (1245.73 / (1245.73 + 1132.88 + 0.001)) = 0.4757
-cost_norm = 1 - (7200 / (7200 + 7200 + 1)) = 0.5000
-
-cpu_score = (0.4757 × 50) + (0.5000 × 50) = 48.785%
-req_score = 100 - 48.785 = 51.215%
-confidence = 51.215 - 48.785 = 2.43%
+请求率延迟得分 = (959.93 × 0.4) + (1026.34 × 0.4) + (1691.85 × 0.2)
+                    = 383.97 + 410.54 + 338.37 = 1132.88
 ```
 
-### Analysis Results
+**复合评分算法**:
+```
+# 规范化指标（两者越低越好）
+延迟规范化 = 1 - (cpu_延迟 / (cpu_延迟 + req_延迟 + 0.001))
+成本规范化 = 1 - (cpu_成本 / (cpu_成本 + req_成本 + 1))
 
-**Winner**: Request-Rate Strategy
-**Confidence Score**: 2.37%
-**Rationale**: "Request-rate strategy achieved better response time (960ms vs 971ms)"
+# 加权组合（50/50 延迟和成本）
+cpu_得分 = 延迟规范化 × 50 + 成本规范化 × 50
+req_得分 = 100 - cpu_得分
 
-**Key Metrics**:
-- **Cost Factor**: $7200/hour (both strategies: 2 instances)
-- **CPU Strategy Cost per Request**: $5.02
-- **Request-Rate Cost per Request**: $4.85
-- **Latency Score (CPU)**: 1245.72
-- **Latency Score (Request-Rate)**: 1132.88
-- **Success Rate (CPU)**: 92.95%
-- **Success Rate (Request-Rate)**: 93.74%
+# 计算
+延迟规范 = 1 - (1245.73 / (1245.73 + 1132.88 + 0.001)) = 0.4757
+成本规范 = 1 - (7200 / (7200 + 7200 + 1)) = 0.5000
 
-**Output File**: `experiments/results/analysis_report.json` (1.7 KB)
+cpu_得分 = (0.4757 × 50) + (0.5000 × 50) = 48.785%
+req_得分 = 100 - 48.785 = 51.215%
+置信度 = 51.215 - 48.785 = 2.43%
+```
+
+### 分析结果
+
+**赢家**: 请求率策略
+**置信度得分**: 2.37%
+**说明**: "请求率策略实现了更好的响应时间（960ms vs 971ms）"
+
+**关键指标**:
+- **成本因素**: $7200/小时（两种策略：2 个实例）
+- **CPU 策略每个请求成本**: $5.02
+- **请求率每个请求成本**: $4.85
+- **延迟得分（CPU）**: 1245.72
+- **延迟得分（请求率）**: 1132.88
+- **成功率（CPU）**: 92.95%
+- **成功率（请求率）**: 93.74%
+
+**输出文件**: `experiments/results/analysis_report.json` (1.7 KB)
 
 ---
 
-## Summary: Key Findings
+## 总结：关键发现
 
-### Performance Advantage: Request-Rate Strategy ✅
+### 性能优势：请求率策略 ✅
 
-**Latency**:
-- **P95 Latency**: 1,026ms vs 1,176ms (**12.7% faster**, 149ms improvement)
-- **P99 Latency**: 1,692ms vs 1,936ms (**12.6% faster**, 244ms improvement)
-- **Average Response**: 960ms vs 971ms (**1.1% faster**, 11ms improvement)
-- **Consistency**: Lower maximum latency (3,234ms vs 3,848ms)
+**延迟**:
+- **P95 延迟**: 1,026ms vs 1,176ms (**快 12.7%**, 节省 149ms)
+- **P99 延迟**: 1,692ms vs 1,936ms (**快 12.6%**, 节省 244ms)
+- **平均响应**: 960ms vs 971ms (**快 1.1%**, 节省 11ms)
+- **一致性**: 最大延迟更低（3,234ms vs 3,848ms）
 
-**Reliability**:
-- **Success Rate**: 93.74% vs 92.95% (**0.79% higher**)
-- **Total Requests**: 1,485 vs 1,433 (**3.6% more requests**)
+**可靠性**:
+- **成功率**: 93.74% vs 92.95% (**高 0.79%**)
+- **总请求数**: 1,485 vs 1,433 (**多 3.6% 的请求**)
 
-### Resource Efficiency: Request-Rate Strategy ✅
+### 资源效率：请求率策略 ✅
 
-**CPU Utilization**:
-- **Average CPU**: 19.92% vs 65.20% (**69.4% lower**)
-- Indicates much more efficient resource utilization
+**CPU 利用率**:
+- **平均 CPU**: 19.92% vs 65.20% (**低 69.4%**)
+- 表示更高效的资源利用率
 
-**Scaling Stability**:
-- **Scaling Events**: 0 vs 1 (Request-Rate has **no thrashing**)
-- **Instance Utilization**: Consistent 2.0 vs variable 1.21 average
-- **Predictability**: No scaling-in/out events = more stable capacity
+**扩展稳定性**:
+- **扩展事件**: 0 vs 1（请求率**无抖动**）
+- **实例利用率**: 一致 2.0 vs 变量 1.21 平均值
+- **可预测性**: 无扩展/缩减事件 = 更稳定的容量
 
-### Cost Analysis: Request-Rate Strategy ✅
+### 成本分析：请求率策略 ✅
 
-**Per-Request Cost**:
-- **Cost per Request**: $4.85 vs $5.02 (**3.6% lower**)
-- **Potential Annual Savings**: ~$170,000 on 10M requests
+**单个请求成本**:
+- **每个请求成本**: $4.85 vs $5.02 (**低 3.6%**)
+- **潜在年度节省**: 在 1000 万个请求上节省约 $170,000
 
-**Operational Costs**:
-- Fewer scaling events = less operational complexity
-- Better resource utilization = potential energy efficiency
-- More predictable scaling = easier capacity planning
+**运营成本**:
+- 更少的扩展事件 = 更少的运营复杂性
+- 更好的资源利用率 = 潜在的能源效率
+- 更可预测的扩展 = 更容易的容量规划
 
 ---
 
-## Data Integrity & Validation
+## 数据完整性和验证
 
-### Real AWS Data Confirmed ✅
+### 实际 AWS 数据已确认 ✅
 
-- **Timestamps**: 2026-04-17 10:13:54 - 11:16:00 UTC (valid execution window)
-- **CloudWatch Metrics**: All metrics populated from CloudWatch API (no synthetic data)
-- **Scaling Events**: Captured from AutoScaling API
-- **CPU Metrics**: From EC2 CloudWatch monitoring
-- **Response Times**: From ALB request logs and client-side timing
+- **时间戳**: 2026-04-17 10:13:54 - 11:16:00 UTC（有效执行窗口）
+- **CloudWatch 指标**: 所有指标均来自 CloudWatch API（无合成数据）
+- **扩展事件**: 从 AutoScaling API 捕获
+- **CPU 指标**: 来自 EC2 CloudWatch 监控
+- **响应时间**: 来自 ALB 请求日志和客户端计时
 
-### Success Criteria Met ✅
+### 成功标准已满足 ✅
 
-| Criterion | Target | CPU | Request-Rate | Status |
+| 标准 | 目标 | CPU | 请求率 | 状态 |
 |-----------|--------|-----|--------------|--------|
-| Success Rate | >90% | 92.95% | 93.74% | ✅ PASS |
-| Real AWS Data | Required | ✓ | ✓ | ✅ PASS |
-| Metrics Count | 8+ | 12+ | 12+ | ✅ PASS |
-| Analysis Metrics | 4+ | Cost, Latency, Success, CPU | Cost, Latency, Success, CPU | ✅ PASS |
-| Winner Determined | Required | N/A | N/A | ✅ PASS |
-| Confidence Score | >1% | N/A | 2.37% | ✅ PASS |
-| Output Files | Valid JSON | ✓ | ✓ | ✅ PASS |
+| 成功率 | >90% | 92.95% | 93.74% | ✅ 通过 |
+| 实际 AWS 数据 | 必需 | ✓ | ✓ | ✅ 通过 |
+| 指标计数 | 8+ | 12+ | 12+ | ✅ 通过 |
+| 分析指标 | 4+ | 成本、延迟、成功率、CPU | 成本、延迟、成功率、CPU | ✅ 通过 |
+| 确定赢家 | 必需 | N/A | N/A | ✅ 通过 |
+| 置信度得分 | >1% | N/A | 2.37% | ✅ 通过 |
+| 输出文件 | 有效 JSON | ✓ | ✓ | ✅ 通过 |
 
 ---
 
-## Output Files Generated
+## 生成的输出文件
 
-### Phase 4-5 Outputs
+### Phase 4-5 输出
 
 1. **cpu_strategy_metrics.json** (24 KB)
-   - Complete metrics from CPU strategy experiment
-   - Load summary, scaling timeline, CloudWatch data
+   - 来自 CPU 策略实验的完整指标
+   - 负载摘要、扩展时间表、CloudWatch 数据
 
 2. **request_rate_experiment_metrics.json** (25 KB)
-   - Complete metrics from Request-Rate strategy experiment
-   - Load summary, scaling timeline, CloudWatch data
+   - 来自请求率策略实验的完整指标
+   - 负载摘要、扩展时间表、CloudWatch 数据
 
 3. **comparison_report.json** (1.5 KB)
-   - Basic comparison between both strategies
-   - Winner indication at this level
+   - 两种策略之间的基本对比
+   - 此级别的赢家指示
 
 4. **metrics_comparison.csv** (388 bytes)
-   - Tabular format for spreadsheet analysis
-   - Key metrics in CSV format
+   - 电子表格分析的表格格式
+   - CSV 格式的关键指标
 
-### Phase 6 Output
+### Phase 6 输出
 
 5. **analysis_report.json** (1.7 KB)
-   - Comprehensive analysis with multi-factor scoring
-   - Winner determination with confidence score
-   - Detailed rationale for winner selection
-   - All calculated metrics (cost, latency, success rate)
+   - 包含多因素评分的全面分析
+   - 具有置信度得分的赢家确定
+   - 赢家选择的详细说明
+   - 所有计算指标（成本、延迟、成功率）
 
 ---
 
-## Execution Timeline
+## 执行时间表
 
-**Total Execution Time**: ~75 minutes (65 min experiments + 10 min analysis)
+**总执行时间**: ~75 分钟（65 分钟实验 + 10 分钟分析）
 
-| Step | Component | Duration | Start | End | Status |
+| 步骤 | 组件 | 时长 | 开始 | 结束 | 状态 |
 |------|-----------|----------|-------|-----|--------|
-| 1 | Infrastructure Verification | 5 min | 10:13:54 | 10:18:54 | ✅ |
-| 2 | CPU Strategy Experiment | 30 min | 10:14:06 | 10:44:34 | ✅ |
-| 3 | Request-Rate Experiment | 30 min | 10:44:53 | 11:15:04 | ✅ |
-| 4 | Aggregation & Comparison | 10 min | 11:15:10 | 11:15:15 | ✅ |
-| 5 | Phase 6 Analysis | 2 min | 11:15:36 | 11:15:46 | ✅ |
-| **TOTAL** | **Phase 4-6** | **~75 min** | **10:13:54** | **11:16:00** | **✅** |
+| 1 | 基础设施验证 | 5 分钟 | 10:13:54 | 10:18:54 | ✅ |
+| 2 | CPU 策略实验 | 30 分钟 | 10:14:06 | 10:44:34 | ✅ |
+| 3 | 请求率实验 | 30 分钟 | 10:44:53 | 11:15:04 | ✅ |
+| 4 | 聚合和比较 | 10 分钟 | 11:15:10 | 11:15:15 | ✅ |
+| 5 | Phase 6 分析 | 2 分钟 | 11:15:36 | 11:15:46 | ✅ |
+| **总计** | **Phase 4-6** | **~75 分钟** | **10:13:54** | **11:16:00** | **✅** |
 
 ---
 
-## Recommendations
+## 建议
 
-### For Production Deployment
+### 用于生产部署
 
-1. **Primary Recommendation**: Deploy **Request-Rate Strategy**
-   - Superior latency performance (12.7% better P95)
-   - Lower cost per request (3.6% savings)
-   - More stable scaling (no thrashing)
-   - Better resource efficiency (69% lower CPU)
+1. **主要建议**: 部署 **请求率策略**
+   - 优越的延迟性能（P95 快 12.7%）
+   - 更低的单个请求成本（节省 3.6%）
+   - 更稳定的扩展（无抖动）
+   - 更好的资源效率（CPU 低 69%）
 
-2. **Key Benefits**:
-   - Annual savings: ~$170,000 on 10M requests
-   - Better user experience (faster response times)
-   - More predictable scaling behavior
-   - Reduced operational complexity
+2. **关键好处**:
+   - 年度节省：在 1000 万个请求上节省约 $170,000
+   - 更好的用户体验（更快的响应时间）
+   - 更可预测的扩展行为
+   - 降低的运营复杂性
 
-3. **Implementation Notes**:
-   - Configure request rate target at 10 req/s per instance
-   - Maintain 2-5 instance range for flexibility
-   - Monitor CloudWatch metrics during transition
-   - Plan gradual rollout to production
-
----
-
-## Lessons Learned
-
-1. **CPU Utilization as Metric**: Conservative scaling approach, may over-provision instances
-2. **Request Rate as Metric**: More responsive, better aligns with actual load
-3. **Scaling Stability**: Fewer events = more predictable costs
-4. **Latency Percentiles**: P95/P99 more important than average for user experience
+3. **实现注意事项**:
+   - 将请求率目标配置为每个实例 10 req/s
+   - 保持 2-5 个实例范围以提高灵活性
+   - 过渡期间监控 CloudWatch 指标
+   - 计划逐步推出到生产环境
 
 ---
 
-## Integration with Phase 7
+## 经验教训
 
-Phase 6 analysis is complete and provides all necessary data for Phase 7 (Report Writing & Visualization):
-
-**Data Ready for Phase 7**:
-- ✅ Winner: Request-Rate Strategy
-- ✅ Confidence: 2.37%
-- ✅ Performance metrics (latency, success rate, CPU utilization)
-- ✅ Cost analysis ($4.85 vs $5.02 per request)
-- ✅ Scaling behavior (0 scale events for Request-Rate)
-- ✅ Visualization data (all comparison metrics)
-
-**Phase 7 Tasks**:
-1. Write academic report (≤9 pages)
-2. Create visualizations (latency, cost, efficiency comparison)
-3. Generate demo video (≤10 minutes)
-4. Submit before April 24, 2026, 23:59 HKT
+1. **CPU 利用率作为指标**: 保守的扩展方法，可能导致实例过度供应
+2. **请求率作为指标**: 响应更快，更好地与实际负载对齐
+3. **扩展稳定性**: 更少的事件 = 更可预测的成本
+4. **延迟百分位**: P95/P99 对用户体验比平均值更重要
 
 ---
 
-## Validation Checklist
+## 与 Phase 7 的集成
 
-- [x] Phase 4-5 experiments executed successfully
-- [x] All output files created and valid
-- [x] Phase 6 analysis completed
-- [x] Winner determined with confidence score
-- [x] Rationale generated based on data
-- [x] All success criteria met
-- [x] Real AWS data collected
-- [x] Cross-platform compatibility verified
-- [x] Documentation complete
+Phase 6 分析已完成，提供了 Phase 7（报告撰写和可视化）所需的所有数据：
+
+**为 Phase 7 准备的数据**:
+- ✅ 赢家：请求率策略
+- ✅ 置信度：2.37%
+- ✅ 性能指标（延迟、成功率、CPU 利用率）
+- ✅ 成本分析（每个请求 $4.85 vs $5.02）
+- ✅ 扩展行为（请求率 0 个扩展事件）
+- ✅ 可视化数据（所有对比指标）
+
+**Phase 7 任务**:
+1. 撰写学术报告（≤9 页）
+2. 创建可视化（延迟、成本、效率对比）
+3. 生成演示视频（≤10 分钟）
+4. 在 2026 年 4 月 24 日 23:59 HKT 前提交
 
 ---
 
-**Phase 4-6 Status**: ✅ **COMPLETE**  
-**Date Completed**: 2026-04-17 11:16:00 UTC  
-**Plan Version**: 2.0 (Merged Phase 4-5 + Phase 6)  
-**Author**: Sisyphus Agent  
-**Project**: autoscaling-strategy-compare
+## 验证清单
+
+- [x] Phase 4-5 实验执行成功
+- [x] 创建了所有输出文件且有效
+- [x] Phase 6 分析已完成
+- [x] 已确定赢家，置信度得分已计算
+- [x] 基于数据生成的说明
+- [x] 满足所有成功标准
+- [x] 收集了实际 AWS 数据
+- [x] 已验证跨平台兼容性
+- [x] 文档已完成
+
+---
+
+**Phase 4-6 状态**: ✅ **完成**  
+**完成日期**: 2026-04-17 11:16:00 UTC  
+**计划版本**: 2.0（合并 Phase 4-5 + Phase 6）  
+**作者**: Sisyphus 代理  
+**项目**: autoscaling-strategy-compare

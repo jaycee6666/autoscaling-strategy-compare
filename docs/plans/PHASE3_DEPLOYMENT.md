@@ -1,63 +1,63 @@
-# Phase 3: Deployment to AWS Implementation Plan
+# Phase 3: AWS 部署实现计划
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **对于 Claude**: 必需的子技能: 使用 superpowers:executing-plans 逐任务实现本计划。
 
-**Goal:** Deploy AWS infrastructure, Flask test application, and load generation tools to AWS, with end-to-end verification.
+**目标**: 将 AWS 基础设施、Flask 测试应用和负载生成工具部署到 AWS，进行端到端验证。
 
-**Architecture:**
-- Deploy Phase 2a AWS infrastructure (VPC, ALB, ASG, EC2 instances)
-- Deploy Flask test application to EC2 instances via user data / manual deployment
-- Deploy load generator script to a control instance or local machine with AWS credentials
-- Verify end-to-end connectivity: local → ALB → EC2 → CloudWatch
+**架构**:
+- 部署 Phase 2a AWS 基础设施 (VPC、ALB、ASG、EC2 实例)
+- 通过用户数据/手动部署将 Flask 测试应用部署到 EC2 实例
+- 将负载生成器脚本部署到控制实例或具有 AWS 凭证的本地计算机
+- 验证端到端连接: 本地 → ALB → EC2 → CloudWatch
 
-**Tech Stack:**
-- AWS boto3, CloudFormation-equivalent (infrastructure-as-code)
-- EC2 user data scripts for Flask app deployment
-- Docker containers for Flask app (optional but recommended)
-- CloudWatch monitoring and alarms
+**技术栈**:
+- AWS boto3, CloudFormation 等效 (基础设施即代码)
+- EC2 用户数据脚本用于 Flask 应用部署
+- Docker 容器用于 Flask 应用 (可选但推荐)
+- CloudWatch 监控和告警
 
-**Timeline:** ~6-8 hours
-- Infrastructure deployment: 30 min
-- Application deployment: 1-2 hours
-- Load generator verification: 1 hour
-- End-to-end testing: 1-2 hours
-- Buffer for troubleshooting: 1-2 hours
+**时间表**: ~6-8 小时
+- 基础设施部署: 30 分钟
+- 应用部署: 1-2 小时
+- 负载生成器验证: 1 小时
+- 端到端测试: 1-2 小时
+- 故障排查缓冲: 1-2 小时
 
 ---
 
-## Task 1: Deploy AWS Infrastructure with Verification
+## 任务 1: 部署 AWS 基础设施并验证
 
-**Files:**
-- Use: `scripts/deploy_all.py` (from Phase 1)
-- Verify: `scripts/verify_infrastructure.py` (from Phase 1)
-- Output: `infrastructure/` directory with JSON configs
-- New: `docs/PHASE3_DEPLOYMENT_LOG.md` (document deployment)
+**文件**:
+- 使用: `scripts/deploy_all.py` (来自 Phase 1)
+- 验证: `scripts/verify_infrastructure.py` (来自 Phase 1)
+- 输出: `infrastructure/` 目录包含 JSON 配置
+- 新增: `docs/PHASE3_DEPLOYMENT_LOG.md` (部署文档)
 
-**Objective:** Deploy complete AWS infrastructure stack and verify all components are healthy.
+**目标**: 部署完整的 AWS 基础设施堆栈并验证所有组件健康。
 
-### Step 1: Pre-deployment checklist
+### 步骤 1: 部署前检查清单
 
-Verify prerequisites before deployment:
+在部署前验证前置要求：
 
 ```bash
-# 1. Check AWS credentials are configured
+# 1. 检查 AWS 凭证已配置
 aws sts get-caller-identity
 
-# 2. Verify AWS region
-echo $AWS_DEFAULT_REGION  # Should be us-east-1
+# 2. 验证 AWS 区域
+echo $AWS_DEFAULT_REGION  # 应该是 us-east-1
 
-# 3. Check for existing infrastructure (optional cleanup)
+# 3. 检查现有基础设施 (可选清理)
 aws ec2 describe-instances --filters "Name=tag:Project,Values=autoscaling-experiment" --query 'Reservations[].Instances[].InstanceId'
 ```
 
-### Step 2: Deploy infrastructure
+### 步骤 2: 部署基础设施
 
 ```bash
 cd C:\project\CS5296\project3\autoscaling-strategy-compare
 python scripts/deploy_all.py
 ```
 
-**Expected output:**
+**预期输出**:
 ```
 Creating VPC...
 Creating subnets...
@@ -69,7 +69,7 @@ Creating Auto Scaling Groups...
 Deployment completed successfully!
 ```
 
-**Artifacts created:**
+**创建的产物**:
 - `infrastructure/network-config.json`
 - `infrastructure/iam-config.json`
 - `infrastructure/security-groups-config.json`
@@ -78,120 +78,120 @@ Deployment completed successfully!
 - `infrastructure/asg-config.json`
 - `infrastructure/deployment-log.json`
 
-### Step 3: Verify infrastructure health
+### 步骤 3: 验证基础设施健康
 
 ```bash
 python scripts/verify_infrastructure.py
 ```
 
-**Expected output:**
+**预期输出**:
 ```
-✅ VPC exists and is healthy
-✅ Subnets created (2 public, 2 private)
-✅ Security groups configured
-✅ IAM role created with policies
-✅ Launch templates created (CPU and request-rate)
-✅ ALB is active and listening on port 80
-✅ Target groups created and registered
-✅ ASG-CPU: 2/2 instances healthy
-✅ ASG-Request: 2/2 instances healthy
-✅ CloudWatch metrics flowing
-Verification: PASS (All checks passed)
+✅ VPC 存在且健康
+✅ 子网已创建 (2 个公有, 2 个私有)
+✅ 安全组已配置
+✅ IAM 角色已创建且具有策略
+✅ 启动模板已创建 (CPU 和请求率)
+✅ ALB 活跃且监听端口 80
+✅ 目标组已创建并已注册
+✅ ASG-CPU: 2/2 个实例健康
+✅ ASG-Request: 2/2 个实例健康
+✅ CloudWatch 指标流动中
+验证: 通过 (所有检查通过)
 ```
 
-**If any checks fail:**
-1. Review the specific failure message
-2. Check AWS Console for the component status
-3. Diagnose the issue (common: security group rules, IAM permissions)
-4. Fix and re-run verification
+**如果任何检查失败**:
+1. 查看特定的失败消息
+2. 在 AWS 控制台检查组件状态
+3. 诊断问题 (常见: 安全组规则、IAM 权限)
+4. 修复并重新运行验证
 
-### Step 4: Extract ALB DNS and document
+### 步骤 4: 提取 ALB DNS 并记录
 
-Extract ALB DNS name from config:
+从配置中提取 ALB DNS 名称：
 
 ```bash
-# Extract ALB DNS
+# 提取 ALB DNS
 ALB_DNS=$(python -c "import json; print(json.load(open('infrastructure/alb-config.json'))['alb_dns_name'])")
 echo "ALB DNS: $ALB_DNS"
 
-# Test ALB accessibility
+# 测试 ALB 可访问性
 curl http://$ALB_DNS/health
-# Should return HTTP 200 with health status
+# 应该返回 HTTP 200 且带有健康状态
 ```
 
-**Document in PHASE3_DEPLOYMENT_LOG.md:**
+**在 PHASE3_DEPLOYMENT_LOG.md 中记录**:
 ```markdown
-# Phase 3 Deployment Log
+# Phase 3 部署日志
 
-## Infrastructure Deployment
+## 基础设施部署
 
-**Date**: [Today's date]
-**Deployment Time**: [Duration]
-**Status**: ✅ SUCCESS
+**日期**: [今天日期]
+**部署时间**: [耗时]
+**状态**: ✅ 成功
 
-### Deployed Components
+### 已部署的组件
 
 - VPC: experiment-vpc (10.0.0.0/16)
-- Public Subnets: 10.0.1.0/24, 10.0.2.0/24
-- Private Subnets: 10.0.11.0/24, 10.0.12.0/24
-- ALB DNS: <YOUR_ALB_DNS>
-- ASG-CPU: experiment-asg-cpu (desired: 2, min: 1, max: 5)
-- ASG-Request: experiment-asg-request (desired: 2, min: 1, max: 5)
+- 公有子网: 10.0.1.0/24, 10.0.2.0/24
+- 私有子网: 10.0.11.0/24, 10.0.12.0/24
+- ALB DNS: <您的_ALB_DNS>
+- ASG-CPU: experiment-asg-cpu (期望: 2, 最小: 1, 最大: 5)
+- ASG-Request: experiment-asg-request (期望: 2, 最小: 1, 最大: 5)
 
-### Verification Results
+### 验证结果
 
-All 12 verification checks passed ✅
-ALB is accessible: http://<ALB_DNS>/health
+所有 12 项验证检查已通过 ✅
+ALB 可访问: http://<ALB_DNS>/health
 ```
 
-### Step 5: Commit
+### 步骤 5: 提交
 
 ```bash
 git add infrastructure/ docs/PHASE3_DEPLOYMENT_LOG.md
-git commit -m "docs: log Phase 3 infrastructure deployment
+git commit -m "docs: 记录 Phase 3 基础设施部署
 
-- Deployed complete AWS infrastructure (VPC, ALB, ASG)
-- All verification checks passed
-- ALB accessible and instances healthy"
+- 部署完整的 AWS 基础设施 (VPC、ALB、ASG)
+- 所有验证检查通过
+- ALB 可访问且实例健康"
 ```
 
 ---
 
-## Task 2: Deploy Flask Test Application to EC2
+## 任务 2: 将 Flask 测试应用部署到 EC2
 
-**Files:**
-- Deploy: `apps/test_app/app.py`
-- Deploy: `apps/test_app/Dockerfile`
-- New: `deployment/deploy_app.sh` (deployment script)
-- New: `deployment/app-user-data.sh` (EC2 user data)
+**文件**:
+- 部署: `apps/test_app/app.py`
+- 部署: `apps/test_app/Dockerfile`
+- 新增: `deployment/deploy_app.sh` (部署脚本)
+- 新增: `deployment/app-user-data.sh` (EC2 用户数据)
 
-**Objective:** Deploy Flask application to EC2 instances so they respond to ALB health checks and load test requests.
+**目标**: 将 Flask 应用部署到 EC2 实例，使其响应 ALB 健康检查和负载测试请求。
 
-### Step 1: Create EC2 user data script
+### 步骤 1: 创建 EC2 用户数据脚本
 
-Create `deployment/app-user-data.sh`:
+创建 `deployment/app-user-data.sh`:
 
 ```bash
 #!/bin/bash
 set -e
 
-# Update system
+# 更新系统
 yum update -y
 yum install -y python3 python3-pip git
 
-# Install dependencies
+# 安装依赖
 pip3 install flask boto3
 
-# Create app directory
+# 创建应用目录
 mkdir -p /opt/test_app
 cd /opt/test_app
 
-# Clone or copy app code (using inline for simplicity)
+# 克隆或复制应用代码 (为简单起见使用内联)
 cat > app.py << 'APPEOF'
-[PASTE FULL app.py CONTENT HERE]
+[粘贴完整 app.py 内容]
 APPEOF
 
-# Create systemd service
+# 创建 systemd 服务
 cat > /etc/systemd/system/test-app.service << 'SERVICEEOF'
 [Unit]
 Description=Test Autoscaling Application
@@ -209,21 +209,21 @@ RestartSec=10
 WantedBy=multi-user.target
 SERVICEEOF
 
-# Start service
+# 启动服务
 systemctl daemon-reload
 systemctl enable test-app
 systemctl start test-app
 
-# Verify app is running
+# 验证应用正在运行
 sleep 5
-curl http://localhost:8080/health || echo "App not ready yet"
+curl http://localhost:8080/health || echo "应用尚未准备好"
 ```
 
-### Step 2: Update launch templates to include user data
+### 步骤 2: 更新启动模板以包含用户数据
 
-**Option A: Manual (if not already in Phase 1):**
+**选项 A: 手动 (如果在 Phase 1 中尚未完成)**:
 
-Update `setup_instances.py` to include user data in launch templates:
+更新 `setup_instances.py` 以在启动模板中包含用户数据：
 
 ```python
 user_data = """#!/bin/bash
@@ -231,7 +231,7 @@ yum update -y
 yum install -y python3 python3-pip
 pip3 install flask boto3
 mkdir -p /opt/test_app
-# ... [rest of user data above]
+# ... [上述用户数据的其余部分]
 """
 
 response = ec2_client.create_launch_template(
@@ -240,59 +240,59 @@ response = ec2_client.create_launch_template(
         'ImageId': ami_id,
         'InstanceType': 't3.micro',
         'UserData': base64.b64encode(user_data.encode()).decode(),
-        # ... other config
+        # ... 其他配置
     }
 )
 ```
 
-### Step 3: Terminate old instances and create new ones with user data
+### 步骤 3: 终止旧实例并使用用户数据创建新实例
 
 ```bash
-# Get ALB DNS
+# 获取 ALB DNS
 ALB_DNS=$(python -c "import json; print(json.load(open('infrastructure/alb-config.json'))['alb_dns_name'])")
 
-# Update ASG to apply new launch template (if modified)
-# AWS will gradually replace instances with new ones
+# 更新 ASG 以应用新的启动模板 (如果已修改)
+# AWS 将逐步用新实例替换旧实例
 
-# Wait for instances to be healthy
-echo "Waiting for instances to be healthy..."
+# 等待实例健康
+echo "等待实例健康..."
 for i in {1..30}; do
-  HEALTHY=$(aws autoscaling describe-auto_scaling_groups \
+  HEALTHY=$(aws autoscaling describe-auto-scaling-groups \
     --auto-scaling-group-names experiment-asg-cpu \
     --query 'AutoScalingGroups[0].Instances[?HealthStatus==`Healthy`]' \
     --output text | wc -w)
   
   if [ "$HEALTHY" -ge 2 ]; then
-    echo "✅ Instances are healthy"
+    echo "✅ 实例已健康"
     break
   fi
-  echo "Waiting... ($i/30)"
+  echo "等待中... ($i/30)"
   sleep 10
 done
 ```
 
-### Step 4: Verify application is responding
+### 步骤 4: 验证应用正在响应
 
 ```bash
-# Test health endpoint
+# 测试健康端点
 curl http://$ALB_DNS/health
-# Expected: {"status": "healthy", "timestamp": "...", "version": "1.0"}
+# 预期: {"status": "healthy", "timestamp": "...", "version": "1.0"}
 
-# Test data endpoint
+# 测试数据端点
 curl http://$ALB_DNS/data?size=10
-# Expected: {"data": "...", "size_kb": 10, "timestamp": "..."}
+# 预期: {"data": "...", "size_kb": 10, "timestamp": "..."}
 
-# Test metrics endpoint
+# 测试指标端点
 curl http://$ALB_DNS/metrics
-# Expected: {"total_requests": N, "elapsed_seconds": X, ...}
+# 预期: {"total_requests": N, "elapsed_seconds": X, ...}
 ```
 
-### Step 5: Create deployment verification script
+### 步骤 5: 创建部署验证脚本
 
-Create `deployment/verify_app_deployment.py`:
+创建 `deployment/verify_app_deployment.py`:
 
 ```python
-"""Verify Flask application deployment to AWS."""
+"""验证 Flask 应用到 AWS 的部署。"""
 
 import requests
 import json
@@ -300,32 +300,32 @@ import sys
 from pathlib import Path
 
 def verify_app_deployment(alb_dns):
-    """Verify Flask app is accessible and responding correctly."""
+    """验证 Flask 应用可访问且响应正确。"""
     
     tests_passed = 0
     tests_total = 0
     
     endpoints = [
         {
-            'name': 'Health Check',
+            'name': '健康检查',
             'method': 'GET',
             'endpoint': '/health',
             'expected_keys': ['status', 'timestamp']
         },
         {
-            'name': 'Data Endpoint',
+            'name': '数据端点',
             'method': 'GET',
             'endpoint': '/data?size=10',
             'expected_keys': ['data', 'size_kb']
         },
         {
-            'name': 'Metrics Endpoint',
+            'name': '指标端点',
             'method': 'GET',
             'endpoint': '/metrics',
             'expected_keys': ['total_requests', 'request_rate_per_second']
         },
         {
-            'name': 'CPU Intensive (POST)',
+            'name': 'CPU 密集型 (POST)',
             'method': 'POST',
             'endpoint': '/cpu-intensive',
             'data': {'duration': 1},
@@ -349,125 +349,125 @@ def verify_app_deployment(alb_dns):
             
             data = response.json()
             
-            # Check required keys
+            # 检查必需的键
             missing_keys = [k for k in test['expected_keys'] if k not in data]
             if missing_keys:
-                print(f"❌ {test['name']}: Missing keys {missing_keys}")
+                print(f"❌ {test['name']}: 缺少键 {missing_keys}")
                 continue
             
-            print(f"✅ {test['name']}: PASS")
+            print(f"✅ {test['name']}: 通过")
             tests_passed += 1
             
         except Exception as e:
             print(f"❌ {test['name']}: {str(e)}")
     
-    print(f"\nResults: {tests_passed}/{tests_total} tests passed")
+    print(f"\n结果: {tests_passed}/{tests_total} 个测试通过")
     return tests_passed == tests_total
 
 if __name__ == '__main__':
-    # Get ALB DNS from config
+    # 从配置获取 ALB DNS
     config_path = Path('infrastructure/alb-config.json')
     if not config_path.exists():
-        print("❌ infrastructure/alb-config.json not found")
+        print("❌ infrastructure/alb-config.json 未找到")
         sys.exit(1)
     
     with open(config_path) as f:
         config = json.load(f)
     
     alb_dns = config['alb_dns_name']
-    print(f"Verifying deployment to ALB: {alb_dns}\n")
+    print(f"验证部署到 ALB: {alb_dns}\n")
     
     success = verify_app_deployment(alb_dns)
     sys.exit(0 if success else 1)
 ```
 
-### Step 6: Run verification
+### 步骤 6: 运行验证
 
 ```bash
 python deployment/verify_app_deployment.py
 ```
 
-**Expected output:**
+**预期输出**:
 ```
-Verifying deployment to ALB: experiment-alb-xxx.us-east-1.elb.amazonaws.com
+验证部署到 ALB: experiment-alb-xxx.us-east-1.elb.amazonaws.com
 
-✅ Health Check: PASS
-✅ Data Endpoint: PASS
-✅ Metrics Endpoint: PASS
-✅ CPU Intensive (POST): PASS
+✅ 健康检查: 通过
+✅ 数据端点: 通过
+✅ 指标端点: 通过
+✅ CPU 密集型 (POST): 通过
 
-Results: 4/4 tests passed
+结果: 4/4 个测试通过
 ```
 
-### Step 7: Commit
+### 步骤 7: 提交
 
 ```bash
 git add deployment/deploy_app.sh deployment/app-user-data.sh deployment/verify_app_deployment.py
-git commit -m "feat: add Flask application deployment scripts
+git commit -m "feat: 添加 Flask 应用部署脚本
 
-- Create EC2 user data script for app deployment
-- Add application verification script
-- Document deployment process"
+- 创建 EC2 用户数据脚本用于应用部署
+- 添加应用验证脚本
+- 记录部署流程"
 ```
 
 ---
 
-## Task 3: Verify Load Generator Can Connect
+## 任务 3: 验证负载生成器可连接
 
-**Files:**
-- Use: `scripts/load_generator.py` (from Phase 2b)
-- Use: `scripts/metrics_collector.py` (from Phase 2b)
-- New: `deployment/test_load_generator.py` (quick verification)
+**文件**:
+- 使用: `scripts/load_generator.py` (来自 Phase 2b)
+- 使用: `scripts/metrics_collector.py` (来自 Phase 2b)
+- 新增: `deployment/test_load_generator.py` (快速验证)
 
-**Objective:** Verify load generator can connect to ALB and generate traffic successfully.
+**目标**: 验证负载生成器可连接到 ALB 并成功生成流量。
 
-### Step 1: Create quick test script
+### 步骤 1: 创建快速测试脚本
 
-Create `deployment/test_load_generator.py`:
+创建 `deployment/test_load_generator.py`:
 
 ```python
-"""Quick test of load generator against deployed ALB."""
+"""针对已部署 ALB 的负载生成器快速测试。"""
 
 import json
 from pathlib import Path
 import sys
 
-# Add scripts to path
+# 将脚本添加到路径
 sys.path.insert(0, 'scripts')
 
 from load_generator import LoadGenerator
 
 def test_load_generator():
-    """Run short load test against ALB."""
+    """针对 ALB 运行简短负载测试。"""
     
-    # Get ALB DNS
+    # 获取 ALB DNS
     config_path = Path('infrastructure/alb-config.json')
     with open(config_path) as f:
         config = json.load(f)
     
     alb_dns = f"http://{config['alb_dns_name']}"
     
-    print(f"Testing load generator against: {alb_dns}\n")
+    print(f"针对以下目标测试负载生成器: {alb_dns}\n")
     
-    # Create load generator with minimal load
+    # 使用最小负载创建负载生成器
     gen = LoadGenerator(
         target_url=alb_dns,
-        request_rate=5,  # 5 requests per second
-        duration_seconds=10,  # 10 second test
+        request_rate=5,  # 每秒 5 个请求
+        duration_seconds=10,  # 10 秒测试
         pattern='constant',
         endpoint='/health'
     )
     
-    print("Running 10-second load test (5 req/s)...")
+    print("运行 10 秒负载测试 (5 req/s)...")
     stats = gen.generate_load()
     
-    print(f"\n✅ Test completed!")
-    print(f"Total requests: {stats['total_requests']}")
-    print(f"Successful: {stats['successful_requests']}")
-    print(f"Failed: {stats['failed_requests']}")
-    print(f"Success rate: {stats['successful_requests']/stats['total_requests']*100:.1f}%")
-    print(f"Avg response time: {stats['average_response_time']:.3f}s")
-    print(f"P95 response time: {stats['p95_response_time']:.3f}s")
+    print(f"\n✅ 测试完成!")
+    print(f"总请求数: {stats['total_requests']}")
+    print(f"成功: {stats['successful_requests']}")
+    print(f"失败: {stats['failed_requests']}")
+    print(f"成功率: {stats['successful_requests']/stats['total_requests']*100:.1f}%")
+    print(f"平均响应时间: {stats['average_response_time']:.3f}s")
+    print(f"P95 响应时间: {stats['p95_response_time']:.3f}s")
     
     return stats['successful_requests'] > 0
 
@@ -476,246 +476,246 @@ if __name__ == '__main__':
         success = test_load_generator()
         sys.exit(0 if success else 1)
     except Exception as e:
-        print(f"❌ Test failed: {e}")
+        print(f"❌ 测试失败: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
 ```
 
-### Step 2: Run test
+### 步骤 2: 运行测试
 
 ```bash
 python deployment/test_load_generator.py
 ```
 
-**Expected output:**
+**预期输出**:
 ```
-Testing load generator against: http://experiment-alb-xxx.us-east-1.elb.amazonaws.com
+针对以下目标测试负载生成器: http://experiment-alb-xxx.us-east-1.elb.amazonaws.com
 
-Running 10-second load test (5 req/s)...
+运行 10 秒负载测试 (5 req/s)...
 
-✅ Test completed!
-Total requests: 50
-Successful: 48
-Failed: 2
-Success rate: 96.0%
-Avg response time: 0.045s
-P95 response time: 0.089s
+✅ 测试完成!
+总请求数: 50
+成功: 48
+失败: 2
+成功率: 96.0%
+平均响应时间: 0.045s
+P95 响应时间: 0.089s
 ```
 
-### Step 3: Troubleshooting if test fails
+### 步骤 3: 如果测试失败的故障排查
 
-**If all requests fail:**
-1. Check ALB is accessible: `curl http://$ALB_DNS/health`
-2. Check security group allows inbound on port 80
-3. Check EC2 instances are running and healthy in ASG
+**如果所有请求都失败**:
+1. 检查 ALB 是否可访问: `curl http://$ALB_DNS/health`
+2. 检查安全组是否允许端口 80 入站
+3. 检查 EC2 实例是否正在运行且 ASG 中健康
 
-**If response times are slow:**
-1. May indicate instances are still starting up
-2. Wait 2-3 minutes and retry
+**如果响应时间缓慢**:
+1. 可能表示实例仍在启动
+2. 等待 2-3 分钟后重试
 
-**If some requests fail:**
-1. This is normal during initial deployment
-2. Acceptable if success rate > 90%
+**如果某些请求失败**:
+1. 这在初始部署期间是正常的
+2. 如果成功率 > 90% 则可接受
 
-### Step 4: Commit
+### 步骤 4: 提交
 
 ```bash
 git add deployment/test_load_generator.py
-git commit -m "test: add load generator verification script
+git commit -m "test: 添加负载生成器验证脚本
 
-- Quick test of load generator against deployed ALB
-- Verify connectivity and basic performance metrics"
+- 针对已部署 ALB 的负载生成器快速测试
+- 验证连接和基本性能指标"
 ```
 
 ---
 
-## Task 4: Document Deployment and Create Deployment Guide
+## 任务 4: 记录部署并创建部署指南
 
-**Files:**
-- Create: `docs/PHASE3_DEPLOYMENT_GUIDE.md`
-- Update: `docs/PHASE3_DEPLOYMENT_LOG.md` (from Task 1)
+**文件**:
+- 创建: `docs/PHASE3_DEPLOYMENT_GUIDE.md`
+- 更新: `docs/PHASE3_DEPLOYMENT_LOG.md` (来自任务 1)
 
-**Objective:** Document the complete deployment process for reproducibility.
+**目标**: 记录完整部署流程以便重现。
 
-### Step 1: Create deployment guide
+### 步骤 1: 创建部署指南
 
-Create `docs/PHASE3_DEPLOYMENT_GUIDE.md`:
+创建 `docs/PHASE3_DEPLOYMENT_GUIDE.md`:
 
 ```markdown
-# Phase 3: AWS Deployment Guide
+# Phase 3: AWS 部署指南
 
-## Overview
+## 概述
 
-This guide covers deploying the autoscaling comparison infrastructure and applications to AWS.
+本指南覆盖将自动扩缩容对比基础设施和应用部署到 AWS。
 
-## Prerequisites
+## 前置要求
 
-1. **AWS Account** with credentials configured locally
-2. **boto3** installed: `pip install boto3`
+1. **AWS 账户** 且本地配置了凭证
+2. **boto3** 已安装: `pip install boto3`
 3. **Python 3.8+**
-4. **curl** for testing (or requests library)
+4. **curl** 用于测试 (或 requests 库)
 
-## Deployment Steps
+## 部署步骤
 
-### 1. Deploy Infrastructure (30 min)
+### 1. 部署基础设施 (30 分钟)
 
 ```bash
-# Verify AWS credentials
+# 验证 AWS 凭证
 aws sts get-caller-identity
 
-# Deploy all infrastructure
+# 部署所有基础设施
 python scripts/deploy_all.py
 
-# Verify deployment
+# 验证部署
 python scripts/verify_infrastructure.py
 ```
 
-### 2. Deploy Flask Application (20-30 min)
+### 2. 部署 Flask 应用 (20-30 分钟)
 
-The Flask app is deployed via EC2 user data scripts.
+Flask 应用通过 EC2 用户数据脚本部署。
 
-**Option A: Automatic (via user data)**
+**选项 A: 自动 (通过用户数据)**
 
-If launch templates include user data, instances will automatically start the Flask app.
+如果启动模板包含用户数据，实例将自动启动 Flask 应用。
 
-**Option B: Manual**
+**选项 B: 手动**
 
-SSH into each instance and:
+SSH 进入每个实例并：
 ```bash
 yum update -y
 yum install -y python3 python3-pip
 pip3 install flask boto3
-# Copy app.py to /opt/test_app/
+# 将 app.py 复制到 /opt/test_app/
 python3 /opt/test_app/app.py
 ```
 
-### 3. Verify Deployment (15 min)
+### 3. 验证部署 (15 分钟)
 
 ```bash
-# Extract ALB DNS
+# 提取 ALB DNS
 ALB_DNS=$(python -c "import json; print(json.load(open('infrastructure/alb-config.json'))['alb_dns_name'])")
 
-# Test endpoints
+# 测试端点
 curl http://$ALB_DNS/health
 curl http://$ALB_DNS/data?size=10
 curl http://$ALB_DNS/metrics
 
-# Run verification script
+# 运行验证脚本
 python deployment/verify_app_deployment.py
 
-# Test load generator
+# 测试负载生成器
 python deployment/test_load_generator.py
 ```
 
-## Troubleshooting
+## 故障排查
 
-### ALB not accessible
-- Check security group allows port 80 inbound
-- Verify ALB is in "active" state
-- Wait 2-3 minutes after deployment
+### ALB 无法访问
+- 检查安全组是否允许端口 80 入站
+- 验证 ALB 处于 "活跃" 状态
+- 部署后等待 2-3 分钟
 
-### Instances not healthy
-- Check CloudWatch logs for errors
-- Verify IAM role has required permissions
-- Check instance security group allows egress to CloudWatch
+### 实例不健康
+- 检查 CloudWatch 日志中的错误
+- 验证 IAM 角色具有必需的权限
+- 检查实例安全组是否允许 CloudWatch 出站
 
-### Load test fails
-- Verify app is responding to health checks
-- Check ALB target group health status
-- Wait for instances to warm up (2-3 minutes)
+### 负载测试失败
+- 验证应用响应健康检查
+- 检查 ALB 目标组健康状态
+- 等待实例预热 (2-3 分钟)
 
-## Cost Management
+## 成本管理
 
-**Important:** This infrastructure incurs AWS charges!
+**重要**: 此基础设施会产生 AWS 费用!
 
-To avoid unexpected costs:
-1. **Keep resources running for testing only**
-2. **Delete resources after experiments** using:
+为避免意外费用：
+1. **仅在测试时保持资源运行**
+2. **实验后删除资源** 使用：
    ```bash
-   # Delete ASG (removes EC2 instances)
+   # 删除 ASG (移除 EC2 实例)
    aws autoscaling delete-auto-scaling-group --auto-scaling-group-name experiment-asg-cpu --force-delete
    
-   # Delete ALB
+   # 删除 ALB
    aws elbv2 delete-load-balancer --load-balancer-arn <ALB_ARN>
    
-   # Delete VPC (removes all associated resources)
+   # 删除 VPC (移除所有相关资源)
    aws ec2 delete-vpc --vpc-id <VPC_ID>
    ```
 
-## Next Steps
+## 后续步骤
 
-Once deployment is verified:
-1. Run Phase 4-5 experiments
-2. Collect metrics from CloudWatch
-3. Analyze results and generate report
+部署验证后：
+1. 运行 Phase 4-5 实验
+2. 从 CloudWatch 收集指标
+3. 分析结果并生成报告
 ```
 
-### Step 2: Update deployment log
+### 步骤 2: 更新部署日志
 
-Append to `docs/PHASE3_DEPLOYMENT_LOG.md`:
+追加到 `docs/PHASE3_DEPLOYMENT_LOG.md`:
 
 ```markdown
-## Application Deployment
+## 应用部署
 
-**Date**: [Today's date]
-**Status**: ✅ SUCCESS
+**日期**: [今天日期]
+**状态**: ✅ 成功
 
-### Flask Application
+### Flask 应用
 
-- Deployed to all ASG instances via user data
-- Health check endpoint responding
-- Metrics endpoint accessible
+- 通过用户数据部署到所有 ASG 实例
+- 健康检查端点响应中
+- 指标端点可访问
 
-### Verification Results
+### 验证结果
 
-- Health Check: ✅ PASS
-- Data Endpoint: ✅ PASS  
-- Metrics Endpoint: ✅ PASS
-- CPU Intensive: ✅ PASS
-- Load Generator Test: ✅ PASS (96% success rate)
+- 健康检查: ✅ 通过
+- 数据端点: ✅ 通过  
+- 指标端点: ✅ 通过
+- CPU 密集型: ✅ 通过
+- 负载生成器测试: ✅ 通过 (96% 成功率)
 
-## Costs
+## 成本
 
-- Estimated monthly cost: $3-5 USD (t3.micro instances + ALB)
-- Current deployment: Active
-- Expected duration: Through April 24, 2026
+- 估计月成本: $3-5 USD (t3.micro 实例 + ALB)
+- 当前部署: 活跃
+- 预期持续时间: 至 2026 年 4 月 24 日
 ```
 
-### Step 3: Commit
+### 步骤 3: 提交
 
 ```bash
 git add docs/PHASE3_DEPLOYMENT_GUIDE.md docs/PHASE3_DEPLOYMENT_LOG.md
-git commit -m "docs: add Phase 3 deployment guide and logs
+git commit -m "docs: 添加 Phase 3 部署指南和日志
 
-- Complete deployment instructions
-- Troubleshooting guide
-- Cost management notes
-- Deployment verification results"
+- 完整部署说明
+- 故障排查指南
+- 成本管理说明
+- 部署验证结果"
 ```
 
 ---
 
-## Summary
+## 总结
 
-**Phase 3 Implementation Plan Complete**
+**Phase 3 实现计划完成**
 
-| Task | Component | Est. Time |
+| 任务 | 组件 | 估计时间 |
 |------|-----------|-----------|
-| 1 | Infrastructure Deployment | 1-1.5h |
-| 2 | Flask App Deployment | 1-1.5h |
-| 3 | Load Generator Verification | 0.5h |
-| 4 | Documentation | 0.5h |
-| **Total** | **All deployment tasks** | **4-5h** |
+| 1 | 基础设施部署 | 1-1.5h |
+| 2 | Flask 应用部署 | 1-1.5h |
+| 3 | 负载生成器验证 | 0.5h |
+| 4 | 文档编写 | 0.5h |
+| **总计** | **所有部署任务** | **4-5h** |
 
-**Success Criteria:**
-- ✅ All infrastructure components deployed and healthy
-- ✅ Flask app responding to health checks
-- ✅ ALB accessible from local machine
-- ✅ Load generator can send traffic successfully
-- ✅ Deployment fully documented
+**成功标准**:
+- ✅ 所有基础设施组件已部署且健康
+- ✅ Flask 应用响应健康检查
+- ✅ ALB 从本地计算机可访问
+- ✅ 负载生成器可成功发送流量
+- ✅ 部署已完全记录
 
-**After Phase 3 is complete:**
-- Ready to start Phase 4-5: Run experiments
-- Ready to collect metrics from CloudWatch
-- Ready to analyze results
+**Phase 3 完成后**:
+- 准备开始 Phase 4-5: 运行实验
+- 准备从 CloudWatch 收集指标
+- 准备分析结果
