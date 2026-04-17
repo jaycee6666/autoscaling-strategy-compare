@@ -351,6 +351,117 @@ git log --oneline -10
 
 ---
 
+## 🔧 虚拟环境故障排除
+
+### 问题 1: `python: command not found`
+
+**症状:**
+```
+python: command not found
+```
+
+**解决方案:**
+- Windows: 确保 Python 已安装并加入 PATH
+- macOS: 使用 `python3` 或通过 Homebrew 安装: `brew install python3`
+- Linux: 使用系统包管理器: `sudo apt-get install python3`
+
+### 问题 2: 激活虚拟环境失败
+
+**症状 (macOS/Linux):**
+```
+bash: ./venv/bin/activate: Permission denied
+```
+
+**解决方案:**
+```bash
+chmod +x venv/bin/activate
+source venv/bin/activate
+```
+
+**症状 (Windows PowerShell):**
+```
+PowerShell cannot be loaded because running scripts is disabled on this system.
+```
+
+**解决方案:**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+venv\Scripts\Activate.ps1
+```
+
+### 问题 3: 模块导入错误
+
+**症状:**
+```
+ModuleNotFoundError: No module named 'boto3'
+```
+
+**原因:** 
+- 未在虚拟环境中激活
+- 依赖未安装
+
+**解决方案:**
+```bash
+# 检查是否激活虚拟环境
+which python          # macOS/Linux - 应该显示 venv 路径
+where python          # Windows - 应该显示 venv 路径
+
+# 如果未激活，先激活
+source venv/bin/activate              # macOS/Linux
+venv\Scripts\activate.bat             # Windows
+
+# 安装依赖
+pip install -r requirements.txt
+```
+
+### 问题 4: `setup.py` 执行失败
+
+**症状:**
+```
+python setup.py
+error: ...
+```
+
+**解决方案:**
+
+1. **检查错误信息** - 看是否指出具体问题
+2. **手动设置虚拟环境:**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate              # macOS/Linux
+   venv\Scripts\activate.bat             # Windows
+   pip install -r requirements.txt
+   ```
+3. **查看** `docs/VIRTUAL_ENVIRONMENT.md` 获得详细帮助
+
+### 问题 5: AWS CLI 找不到
+
+**症状:**
+```
+aws: command not found
+```
+
+**解决方案:**
+- AWS CLI 是系统级的，不是在虚拟环境中安装
+- 检查是否安装: `aws --version`
+- 如果未安装，参考官方文档: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+**虚拟环境中仍然可以使用系统 AWS CLI!**
+
+---
+
+## 📚 更多虚拟环境帮助
+
+**完整虚拟环境文档**: 查看 `docs/VIRTUAL_ENVIRONMENT.md`
+
+包括:
+- ✅ 详细的设置步骤
+- ✅ 所有平台激活命令
+- ✅ 常见问题解答 (FAQ)
+- ✅ 高级配置
+
+---
+
 ## 📞 获得帮助
 
 1. **本地问题**: 查看 `logs/` 目录

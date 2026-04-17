@@ -1,0 +1,47 @@
+{
+  "Python": {
+    "status": true,
+    "info": "Python 3.9.12"
+  },
+  "Command: aws": {
+    "status": true,
+    "info": "C:\\software\\anacoda3\\Scripts\\aws"
+  },
+  "Command: git": {
+    "status": true,
+    "info": "C:\\software\\Git\\mingw64\\bin\\git.exe"
+  },
+  "AWS CLI": {
+    "status": true,
+    "info": "aws-cli/2.34.30 Python/3.14.4 Windows/11 exe/AMD64"
+  },
+  "AWS Credentials": {
+    "status": true,
+    "info": "Credentials file found at C:\\Users\\HUAWEI\\.aws\\credentials"
+  },
+  "AWS Region": {
+    "status": true,
+    "info": "Config file found at C:\\Users\\HUAWEI\\.aws\\config"
+  },
+  "Python Packages": {
+    "status": false,
+    "details": {
+      "installed": {
+        "boto3": "[OK]",
+        "requests": "[OK]"
+      },
+      "missing": {
+        "python_dotenv": "[ERROR]",
+        "pyyaml": "[ERROR]"
+      }
+    }
+  },
+  "Directories": {
+    "status": true,
+    "missing": []
+  },
+  "Write Permissions": {
+    "status": true,
+    "info": "Write permissions OK"
+  }
+}

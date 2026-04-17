@@ -122,9 +122,9 @@ class EnvironmentChecker:
             try:
                 # Try to import the package
                 __import__(package)
-                installed[package] = "✓"
+                installed[package] = "[OK]"
             except ImportError:
-                missing[package] = "✗"
+                missing[package] = "[ERROR]"
 
         return len(missing) == 0, {"installed": installed, "missing": missing}
 
@@ -156,43 +156,43 @@ class EnvironmentChecker:
         print("=" * 60 + "\n")
 
         # Python
-        print("📦 PYTHON ENVIRONMENT")
+        print("[PKG] PYTHON ENVIRONMENT")
         print("-" * 60)
         status, info = self.check_python_version()
         self.results["Python"] = {"status": status, "info": info}
-        print(f"  Python Version: {'✓' if status else '✗'} {info}")
+        print(f"  Python Version: {'[OK]' if status else '[ERROR]'} {info}")
 
         # Required Commands
-        print("\n🔧 REQUIRED COMMANDS")
+        print("\n[SETUP] REQUIRED COMMANDS")
         print("-" * 60)
         commands = ["aws", "git"]
         for cmd in commands:
             status, info = self.check_command_exists(cmd)
             self.results[f"Command: {cmd}"] = {"status": status, "info": info}
-            print(f"  {cmd:15} {'✓' if status else '✗'} {info}")
+            print(f"  {cmd:15} {'[OK]' if status else '[ERROR]'} {info}")
 
         # AWS Configuration
-        print("\n☁️  AWS CONFIGURATION")
+        print("\n[...]  AWS CONFIGURATION")
         print("-" * 60)
 
         status, info = self.check_aws_cli()
         self.results["AWS CLI"] = {"status": status, "info": info}
-        print(f"  AWS CLI:       {'✓' if status else '✗'} {info}")
+        print(f"  AWS CLI:       {'[OK]' if status else '[ERROR]'} {info}")
         if not status:
             self.critical_failures.append("AWS CLI not found")
 
         status, info = self.check_aws_credentials()
         self.results["AWS Credentials"] = {"status": status, "info": info}
-        print(f"  Credentials:   {'✓' if status else '✗'} {info}")
+        print(f"  Credentials:   {'[OK]' if status else '[ERROR]'} {info}")
         if not status:
             self.critical_failures.append("AWS credentials not configured")
 
         status, info = self.check_aws_config()
         self.results["AWS Region"] = {"status": status, "info": info}
-        print(f"  Region Config: {'✓' if status else '✗'} {info}")
+        print(f"  Region Config: {'[OK]' if status else '[ERROR]'} {info}")
 
         # Python Packages
-        print("\n📚 PYTHON PACKAGES")
+        print("\n[...] PYTHON PACKAGES")
         print("-" * 60)
         required_packages = ["boto3", "python_dotenv", "pyyaml", "requests"]
         status, packages_info = self.check_pip_packages(required_packages)
@@ -205,23 +205,23 @@ class EnvironmentChecker:
             print(f"  {pkg:20} {result} MISSING (install: pip install {pkg})")
 
         # Directory Structure
-        print("\n📁 DIRECTORY STRUCTURE")
+        print("\n[...] DIRECTORY STRUCTURE")
         print("-" * 60)
         status, missing = self.check_directory_structure()
         self.results["Directories"] = {"status": status, "missing": missing}
         if status:
-            print(f"  All required directories: ✓ Found")
+            print(f"  All required directories: [OK] Found")
         else:
-            print(f"  Missing directories: ✗")
+            print(f"  Missing directories: [ERROR]")
             for d in missing:
                 print(f"    - {d}")
 
         # File Permissions
-        print("\n🔐 FILE PERMISSIONS")
+        print("\n[...] FILE PERMISSIONS")
         print("-" * 60)
         status, info = self.check_write_permissions()
         self.results["Write Permissions"] = {"status": status, "info": info}
-        print(f"  Current directory: {'✓' if status else '✗'} {info}")
+        print(f"  Current directory: {'[OK]' if status else '[ERROR]'} {info}")
 
         # Summary
         print("\n" + "=" * 60)
@@ -234,14 +234,14 @@ class EnvironmentChecker:
         print(f"\nPassed: {passed_checks}/{total_checks}")
 
         if self.critical_failures:
-            print(f"\n⚠️  CRITICAL FAILURES:")
+            print(f"\n[WARN]  CRITICAL FAILURES:")
             for failure in self.critical_failures:
                 print(f"  - {failure}")
-            print("\n❌ ENVIRONMENT CHECK FAILED")
+            print("\n[...] ENVIRONMENT CHECK FAILED")
             print("Please fix the critical issues above before proceeding.\n")
             return False
         else:
-            print("\n✅ ENVIRONMENT CHECK PASSED")
+            print("\n[...] ENVIRONMENT CHECK PASSED")
             print("You can proceed with project setup!\n")
             return True
 
@@ -255,7 +255,7 @@ def main():
     results_file = Path("config/check_environment_results.json")
     results_file.parent.mkdir(parents=True, exist_ok=True)
     results_file.write_text(json.dumps(checker.results, indent=2, default=str))
-    print(f"📋 Results saved to: {results_file}\n")
+    print(f"[...] Results saved to: {results_file}\n")
 
     sys.exit(0 if success else 1)
 

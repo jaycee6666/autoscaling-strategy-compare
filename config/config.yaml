@@ -1,0 +1,83 @@
+# Project Configuration
+project:
+  name: autoscaling-strategy-compare
+  description: Comparative Analysis of Autoscaling Strategies
+  team:
+    - WU Wanpeng
+    - CHEN Sijie
+  deadline: 2026-04-24
+
+# Infrastructure Configuration
+infrastructure:
+  vpc:
+    cidr: "10.0.0.0/16"
+    name: "autoscaling-vpc"
+  
+  subnets:
+    - name: "public-subnet-1"
+      cidr: "10.0.1.0/24"
+      az: "us-east-1a"
+    - name: "public-subnet-2"
+      cidr: "10.0.2.0/24"
+      az: "us-east-1b"
+  
+  security_groups:
+    - name: "alb-sg"
+      description: "Security group for ALB"
+      ingress_rules:
+        - protocol: tcp
+          from_port: 80
+          to_port: 80
+          cidr: "0.0.0.0/0"
+        - protocol: tcp
+          from_port: 443
+          to_port: 443
+          cidr: "0.0.0.0/0"
+    
+    - name: "app-sg"
+      description: "Security group for application"
+      ingress_rules:
+        - protocol: tcp
+          from_port: 5000
+          to_port: 5000
+          source_group: "alb-sg"
+
+# Application Configuration
+application:
+  name: flask-autoscaling-app
+  port: 5000
+  workers: 4
+
+# Experiment Configuration
+experiments:
+  scenario_a:
+    name: "Resource-Based CPU Utilization"
+    duration: 600
+    load_pattern: "gradual_increase"
+  
+  scenario_b:
+    name: "Workload-Based Request Rate"
+    duration: 600
+    load_pattern: "spike_pattern"
+
+# Monitoring Configuration
+monitoring:
+  cloudwatch:
+    enabled: true
+    metrics_collection_interval: 60
+  
+  custom_metrics:
+    - name: "RequestCount"
+      unit: "Count"
+    - name: "ResponseTime"
+      unit: "Milliseconds"
+    - name: "CPUUtilization"
+      unit: "Percent"
+
+# Data Collection Configuration
+data:
+  output_dir: "data"
+  experiment_results_dir: "data/experiments"
+  metrics_dir: "data/metrics"
+  analysis_dir: "data/analysis"
+  retention_days: 30

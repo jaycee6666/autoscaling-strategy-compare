@@ -42,11 +42,75 @@ Week 10:    最终检查 & 提交
 
 ---
 
-## Phase 0: 跨平台环境检查与初始化 (必做)
+## Phase 0: 跨平台环境检查与初始化 (必做) ⭐
 
-### 0.1 环境检查脚本
+**现在已经完全自动化！**只需一个命令启动整个项目。
 
-**所有平台使用相同的Python脚本（推荐）**
+### 0.0 快速启动（推荐）
+
+所有平台使用相同的命令：
+
+```bash
+python setup.py
+```
+
+**会自动执行以下所有步骤:**
+- ✅ 创建 Python 虚拟环境（隔离的Python环境）
+- ✅ 安装项目依赖包（boto3, AWS CLI集成等）
+- ✅ 验证系统环境（Python版本、AWS CLI、Git等）
+- ✅ 初始化项目配置文件
+- ✅ 检查AWS凭证
+- ✅ 显示激活说明
+
+**就这样!** 环境已准备好，跳到 Phase 1
+
+**了解更多**: 详见 `docs/VIRTUAL_ENVIRONMENT.md` 和 `docs/GETTING_STARTED.md`
+
+---
+
+### 0.1 虚拟环境设置（自动创建）
+
+`setup.py` 会为你创建虚拟环境，但你需要了解它是什么：
+
+#### 什么是虚拟环境？
+- 隔离的 Python 环境，与系统 Python 完全分离
+- 项目特定的依赖包不会影响其他项目
+- 每个团队成员有自己的环境副本
+- 跨平台一致性（Windows/macOS/Linux 行为完全相同）
+
+#### 虚拟环境位置
+```
+autoscaling-strategy-compare/
+├── venv/                    # 虚拟环境目录（已在 .gitignore 中）
+│   ├── bin/                 # macOS/Linux 可执行文件
+│   │   ├── python
+│   │   ├── pip
+│   │   ├── activate         # 激活脚本
+│   │   └── ...
+│   ├── Scripts/             # Windows 可执行文件
+│   │   ├── python.exe
+│   │   ├── pip.exe
+│   │   ├── activate.bat
+│   │   └── ...
+│   ├── lib/                 # Python 包安装目录
+│   └── pyvenv.cfg
+├── setup.py                 # 自动创建虚拟环境的脚本
+├── requirements.txt         # 项目依赖列表
+└── ...
+```
+
+#### 依赖包（安装在虚拟环境中）
+```txt
+boto3>=1.18.0               # AWS SDK for Python
+botocore>=1.21.0            # boto3 依赖
+python-dotenv>=0.19.0       # 环境变量管理
+pyyaml>=5.4                 # YAML 文件解析
+requests>=2.26.0            # HTTP 请求库
+```
+
+---
+
+### 0.2 环境检查脚本
 
 ```python
 # scripts/check_environment.py
@@ -194,7 +258,7 @@ if __name__ == '__main__':
     sys.exit(0 if success else 1)
 ```
 
-### 0.2 项目初始化脚本
+### 0.3 项目初始化脚本
 
 ```python
 # scripts/init_project.py
@@ -462,7 +526,7 @@ if __name__ == '__main__':
     initializer.run_init()
 ```
 
-### 0.3 一键部署脚本（跨平台）
+### 0.4 一键部署脚本（跨平台）
 
 ```python
 # scripts/deploy_infrastructure.py

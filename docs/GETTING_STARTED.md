@@ -2,6 +2,25 @@
 
 This guide will walk you through the initial setup of the autoscaling project.
 
+## Quick Start (5 Minutes)
+
+### One Command Setup
+```bash
+python setup.py
+```
+
+This single command will:
+- ✅ Create a Python virtual environment (isolated, cross-platform)
+- ✅ Install all dependencies (boto3, AWS CLI integration, utilities)
+- ✅ Verify your system configuration
+- ✅ Initialize project directories and configuration
+- ✅ Check AWS credentials
+- ✅ Display next steps
+
+**That's it!** Your environment is ready. Skip to [Step 5](#step-5-activate-virtual-environment) below.
+
+---
+
 ## Prerequisites
 
 Before starting, ensure you have:
@@ -10,9 +29,73 @@ Before starting, ensure you have:
 - AWS account with IAM access
 - Git installed (for version control)
 
-## Step 1: Verify Environment
+**For detailed setup of each tool, see [CROSSPLATFORM_GUIDE.md](CROSSPLATFORM_GUIDE.md)**
 
-Run the environment check script to verify all dependencies:
+---
+
+## Detailed Setup Steps
+
+### Step 1: Automatic Setup (Recommended) ⭐
+
+The simplest way - this creates and configures everything:
+
+```bash
+# Windows, macOS, or Linux - same command
+python setup.py
+```
+
+**What happens:**
+1. Creates Python virtual environment in `venv/` directory
+2. Activates it automatically
+3. Installs dependencies from `requirements.txt`
+4. Runs environment verification
+5. Initializes project configuration
+6. Shows activation instructions for next time
+
+**Skip to Step 5 below** - your environment is now ready!
+
+---
+
+### Step 2: Manual Setup (If Automatic Setup Fails)
+
+If `python setup.py` has issues, follow these manual steps:
+
+#### 2a: Create Virtual Environment
+
+```bash
+# Windows, macOS, or Linux - same command
+python -m venv venv
+```
+
+#### 2b: Activate Virtual Environment
+
+**Windows (Command Prompt):**
+```batch
+venv\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+```powershell
+venv\Scripts\Activate.ps1
+```
+
+**macOS / Linux:**
+```bash
+source venv/bin/activate
+```
+
+**Verify activation** - your prompt should show `(venv)` prefix:
+```
+(venv) user@machine:project$
+```
+
+#### 2c: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+#### 2d: Verify Environment
 
 ```bash
 python scripts/check_environment.py
@@ -28,20 +111,9 @@ This will check:
 - ✓ Directory structure
 - ✓ Write permissions
 
-## Step 2: Install Python Dependencies
+---
 
-Install required Python packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-Or install manually:
-```bash
-pip install boto3 python-dotenv pyyaml requests
-```
-
-## Step 3: Configure AWS Credentials
+### Step 3: Configure AWS Credentials
 
 ### Option A: Using Environment Variables (Recommended for CI/CD)
 
@@ -96,7 +168,9 @@ AWS_DEFAULT_REGION=us-east-1
 
 ⚠️ **Important**: Never commit `.env` to Git (it's in .gitignore)
 
-## Step 4: Initialize Project Structure
+---
+
+### Step 4: Initialize Project Structure
 
 Run the initialization script:
 
@@ -110,7 +184,39 @@ This will:
 - ✓ Initialize configuration manager
 - ✓ Display configuration summary
 
-## Step 5: Verify AWS Credentials
+**Note**: If you ran `python setup.py`, this was already done automatically.
+
+---
+
+### Step 5: Activate Virtual Environment (For Future Sessions)
+
+Once the virtual environment is created (first time), you need to **activate it each time** you work on the project:
+
+**Windows (Command Prompt):**
+```batch
+venv\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+```powershell
+venv\Scripts\Activate.ps1
+```
+
+**macOS / Linux:**
+```bash
+source venv/bin/activate
+```
+
+**Verify** - you should see `(venv)` prefix in your prompt:
+```
+(venv) user@machine:autoscaling-strategy-compare$
+```
+
+👉 **See [VIRTUAL_ENVIRONMENT.md](VIRTUAL_ENVIRONMENT.md)** for complete virtual environment documentation including troubleshooting.
+
+---
+
+### Step 6: Verify AWS Credentials
 
 Test your AWS credentials:
 
@@ -120,7 +226,7 @@ aws ec2 describe-regions --output table
 
 You should see a list of AWS regions. If this fails, your credentials are not configured correctly.
 
-## Step 6: Run Initial Checks
+## Step 7: Run Initial Checks
 
 ```bash
 # 1. Check environment again
@@ -161,9 +267,18 @@ python scripts/aws_utils.py
 **Issue**: `ModuleNotFoundError: No module named 'boto3'`
 
 **Solution**:
+- Verify you're in the virtual environment: `which python` (macOS/Linux) or `where python` (Windows) - should show path to `venv/`
+- If not activated, activate it: `source venv/bin/activate` (macOS/Linux) or `venv\Scripts\activate.bat` (Windows)
 - Install missing package: `pip install boto3`
 - Or install all requirements: `pip install -r requirements.txt`
-- Make sure you're using the correct Python interpreter: `python -m pip install boto3`
+- See [VIRTUAL_ENVIRONMENT.md](VIRTUAL_ENVIRONMENT.md) for more details
+
+### Virtual environment errors
+**Issue**: `Permission denied`, `ModuleNotFoundError`, or activation fails
+
+**Solution**:
+- See [VIRTUAL_ENVIRONMENT.md](VIRTUAL_ENVIRONMENT.md) Troubleshooting section
+- Includes detailed solutions for all common virtual environment issues
 
 ### Permission denied errors
 **Issue**: `Permission denied: 'config/.env'`
@@ -198,15 +313,26 @@ Once setup is complete:
 
 1. **Read Documentation**
    - Start with: `docs/QUICK_REFERENCE.md`
+   - Virtual Environment: `docs/VIRTUAL_ENVIRONMENT.md` (especially if you're new to venv)
    - Full guide: `docs/PROJECT_EXECUTION_PLAN.md`
    - Troubleshooting: `docs/CROSSPLATFORM_GUIDE.md`
 
-2. **Deploy Infrastructure**
+2. **Daily Workflow**
+   ```bash
+   # Each time you work on the project:
+   source venv/bin/activate              # macOS/Linux
+   venv\Scripts\activate.bat             # Windows
+   
+   # When done working:
+   deactivate                             # All platforms
+   ```
+
+3. **Deploy Infrastructure**
    ```bash
    python scripts/deploy_all.py
    ```
 
-3. **Start Development**
+4. **Start Development**
    - Refer to `docs/PROJECT_EXECUTION_PLAN.md` Phase 4
 
 ## Common Commands

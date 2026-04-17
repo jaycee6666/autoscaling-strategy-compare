@@ -46,7 +46,7 @@ METRIC_COLLECTION_INTERVAL=60
 
     if not env_template.exists():
         env_template.write_text(template_content)
-        print(f"✓ Created {env_template}")
+        print(f"[OK] Created {env_template}")
     else:
         print(f"ℹ️  {env_template} already exists")
 
@@ -143,7 +143,7 @@ data:
 
     if not config_file.exists():
         config_file.write_text(yaml_content)
-        print(f"✓ Created {config_file}")
+        print(f"[OK] Created {config_file}")
     else:
         print(f"ℹ️  {config_file} already exists")
 
@@ -155,7 +155,7 @@ def create_data_directories():
     for directory in data_dirs:
         path = Path(directory)
         path.mkdir(parents=True, exist_ok=True)
-        print(f"✓ Created {directory}")
+        print(f"[OK] Created {directory}")
 
 
 def setup_gitkeep():
@@ -166,7 +166,7 @@ def setup_gitkeep():
         gitkeep = Path(directory) / ".gitkeep"
         gitkeep.parent.mkdir(parents=True, exist_ok=True)
         gitkeep.touch()
-        print(f"✓ Created {gitkeep}")
+        print(f"[OK] Created {gitkeep}")
 
 
 def initialize_project():
@@ -175,11 +175,11 @@ def initialize_project():
     print("PROJECT INITIALIZATION")
     print("=" * 60 + "\n")
 
-    print("📋 Setting up configuration...")
+    print("[NOTE] Setting up configuration...")
     create_env_template()
     create_yaml_config()
 
-    print("\n📁 Creating data directories...")
+    print("\n[DIR] Creating data directories...")
     create_data_directories()
     setup_gitkeep()
 
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     try:
         initialize_project()
     except Exception as e:
-        print(f"\n✗ Initialization failed: {e}")
+        print(f"\n[ERROR] Initialization failed: {e}")
         import traceback
 
         traceback.print_exc()
