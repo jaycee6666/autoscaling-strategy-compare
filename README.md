@@ -13,7 +13,15 @@
 
 **Before running experiments, complete these one-time setup steps:**
 
-### Step 1: Activate Virtual Environment
+### Step 1: Create Virtual Environment
+```bash
+# Windows, Mac/Linux
+python -m venv venv
+```
+
+This creates a Python virtual environment to isolate project dependencies.
+
+### Step 2: Activate Virtual Environment
 ```bash
 # Windows
 venv\Scripts\activate.bat
@@ -22,7 +30,9 @@ venv\Scripts\activate.bat
 source venv/bin/activate
 ```
 
-### Step 2: Run Setup Script
+Your terminal prompt should show `(venv)` prefix when activated.
+
+### Step 3: Run Setup Script
 ```bash
 # One-command environment initialization
 python scripts/setup.py
@@ -34,7 +44,7 @@ This script will:
 - Verify infrastructure connectivity
 - Set up experiment directories
 
-### Step 3: Verify Infrastructure
+### Step 4: Verify Infrastructure
 ```bash
 # Confirm ALB and ASG are healthy
 python experiments/01_verify_infrastructure.py
@@ -42,7 +52,7 @@ python experiments/01_verify_infrastructure.py
 
 **Expected output**: JSON report confirming ALB and both ASGs are operational
 
-### Step 4: Troubleshooting
+### Step 5: Troubleshooting
 
 If you encounter issues during setup:
 - **Windows path errors**: Use forward slashes in commands or check `.github/CROSSPLATFORM_GUIDE.md`
