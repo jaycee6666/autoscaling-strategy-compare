@@ -1,152 +1,152 @@
-# Phase 4-6: Experiments & Analysis - Complete Guide
+# Phase 4-6: 实验和分析 - 完整指南
 
-**End-to-end guide for running autoscaling strategy comparison experiments and performing comprehensive analysis**
+**运行自动扩缩容策略对比实验和执行全面分析的端到端指南**
 
-Last Updated: April 18, 2026  
-Total Duration: ~85 minutes (5 min setup + 30 min CPU test + 30 min request-rate test + 10 min aggregation + 10 min analysis)
-
----
-
-## 📋 Table of Contents
-
-1. [Overview](#overview)
-2. [Quick Start (One-Command Execution)](#quick-start-one-command-execution)
-3. [Pre-Requisites Checklist](#pre-requisites-checklist)
-4. [Infrastructure Overview](#infrastructure-overview)
-5. [Phase 4-5: Experiment Execution](#phase-45-experiment-execution)
-6. [Phase 6: Analysis & Winner Determination](#phase-6-analysis--winner-determination)
-7. [Understanding Results](#understanding-results)
-8. [Troubleshooting](#troubleshooting)
-9. [Post-Analysis Verification](#post-analysis-verification)
-10. [Next Steps (Phase 7)](#next-steps-phase-7)
+最后更新: 2026年4月18日  
+总时长: ~85 分钟 (5分钟设置 + 30分钟CPU测试 + 30分钟请求率测试 + 10分钟聚合 + 10分钟分析)
 
 ---
 
-## Overview
+## 📋 目录
 
-Phase 4-6 is the experimental validation and analysis phase of the autoscaling strategy comparison project. It encompasses:
-
-- **Phase 4-5**: Execution of two 30-minute experiments comparing CPU-based vs Request-rate-based autoscaling strategies
-- **Phase 6**: Sophisticated multi-factor analysis to determine the optimal strategy with confidence scoring
-
-**What You'll Get**:
-- Real AWS CloudWatch metrics for both strategies
-- Detailed performance comparison (latency, cost, efficiency)
-- Data-driven winner determination with confidence score
-- Analysis report ready for academic reporting and visualization
+1. [概述](#概述)
+2. [快速开始 (一条命令执行)](#快速开始)
+3. [前置要求检查清单](#前置要求检查清单)
+4. [基础设施概述](#基础设施概述)
+5. [Phase 4-5: 实验执行](#phase-45-实验执行)
+6. [Phase 6: 分析和获胜者确定](#phase-6-分析和获胜者确定)
+7. [理解结果](#理解结果)
+8. [故障排查](#故障排查)
+9. [分析后验证](#分析后验证)
+10. [后续步骤 (Phase 7)](#后续步骤-phase-7)
 
 ---
 
-## Quick Start (One-Command Execution)
+## 概述
 
-### ⚡ Run Everything in One Command
+Phase 4-6 是自动扩缩容策略对比项目的实验验证和分析阶段。它包括：
 
-The easiest way to execute Phases 4-6 is using the orchestration script:
+- **Phase 4-5**: 执行两个30分钟的实验，对比基于CPU与基于请求率的自动扩缩容策略
+- **Phase 6**: 复杂的多因素分析以确定最优策略并计算置信度
+
+**您将获得**:
+- 两种策略的真实 AWS CloudWatch 指标
+- 详细的性能对比 (延迟、成本、效率)
+- 带置信度得分的数据驱动获胜者确定
+- 可用于学术报告和可视化的分析报告
+
+---
+
+## 快速开始 (一条命令执行)
+
+### ⚡ 用一条命令运行所有内容
+
+执行 Phase 4-6 最简单的方法是使用编排脚本：
 
 ```bash
-# From project root
+# 从项目根目录
 python scripts/run_all_experiments.py
 
-# Total time: ~85 minutes
-# Automatically runs: Steps 1-4 (Phase 4-5) + Phase 6 analysis
-# Output: All metrics files + analysis report
+# 总时长: ~85 分钟
+# 自动运行: 步骤 1-4 (Phase 4-5) + Phase 6 分析
+# 输出: 所有指标文件 + 分析报告
 ```
 
-**This command**:
-1. ✅ Verifies infrastructure
-2. ✅ Runs CPU strategy experiment (30 min)
-3. ✅ Runs Request-Rate strategy experiment (30 min)
-4. ✅ Aggregates results
-5. ✅ Performs Phase 6 analysis
-6. ✅ Generates analysis_report.json with winner determination
+**此命令**:
+1. ✅ 验证基础设施
+2. ✅ 运行 CPU 策略实验 (30 分钟)
+3. ✅ 运行请求率策略实验 (30 分钟)
+4. ✅ 聚合结果
+5. ✅ 执行 Phase 6 分析
+6. ✅ 生成包含获胜者确定的 analysis_report.json
 
-**Optional flags**:
+**可选标志**:
 ```bash
-python scripts/run_all_experiments.py --skip-verification    # Skip output verification
-python scripts/run_all_experiments.py --skip-phase-6         # Skip analysis, just run experiments
+python scripts/run_all_experiments.py --skip-verification    # 跳过输出验证
+python scripts/run_all_experiments.py --skip-phase-6         # 跳过分析，仅运行实验
 ```
 
 ---
 
-## Pre-Requisites Checklist
+## 前置要求检查清单
 
-Before starting experiments, verify all prerequisites are met:
+在开始实验前，验证所有前置要求都满足：
 
-### System Requirements
-- [ ] Python 3.8+ installed (`python --version`)
-- [ ] AWS credentials configured (`aws sts get-caller-identity` returns your account)
-- [ ] Internet connection (required for AWS API calls)
-- [ ] Terminal/Command Prompt access
+### 系统要求
+- [ ] Python 3.8+ 已安装 (`python --version`)
+- [ ] AWS 凭证已配置 (`aws sts get-caller-identity` 返回您的账户)
+- [ ] 互联网连接 (AWS API 调用需要)
+- [ ] 终端/命令提示符访问
 
-### AWS Infrastructure Requirements
-- [ ] Application Load Balancer (ALB) is **running** and **healthy**
-- [ ] ALB DNS name is accessible via HTTP
-- [ ] Auto Scaling Group for CPU strategy (`asg-cpu`) exists with 1-5 instance capacity
-- [ ] Auto Scaling Group for request-rate strategy (`asg-request`) exists with 1-5 instance capacity
-- [ ] EC2 instances in both ASGs are **healthy** and running the Flask application
-- [ ] Security groups allow inbound traffic on port 80 (HTTP)
+### AWS 基础设施要求
+- [ ] 应用负载均衡器 (ALB) **运行中**且**健康**
+- [ ] ALB DNS 名称可通过 HTTP 访问
+- [ ] CPU 策略的自动扩展组 (`asg-cpu`) 存在且容量为 1-5 个实例
+- [ ] 请求率策略的自动扩展组 (`asg-request`) 存在且容量为 1-5 个实例
+- [ ] 两个 ASG 中的 EC2 实例**健康**且运行 Flask 应用
+- [ ] 安全组允许端口 80 (HTTP) 的入站流量
 
-### Python Dependencies
-- [ ] All dependencies installed: `pip install -r requirements.txt`
-- [ ] Key packages: `boto3`, `requests`, `pandas`, `numpy`
+### Python 依赖
+- [ ] 所有依赖都已安装: `pip install -r requirements.txt`
+- [ ] 关键包: `boto3`, `requests`, `pandas`, `numpy`
 
-### ALB DNS Configuration
+### ALB DNS 配置
 
-Before proceeding, **identify your ALB DNS name**:
+在继续之前，**识别您的 ALB DNS 名称**：
 
 ```bash
-# Get your ALB DNS from infrastructure config
+# 从基础设施配置获取 ALB DNS
 cat infrastructure/alb-config.json | grep -i "dns"
 
-# Or test directly:
+# 或直接测试:
 curl -v http://experiment-alb-1466294824.us-east-1.elb.amazonaws.com/health
 ```
 
-Expected response: `{"status": "healthy"}` with HTTP 200
+预期响应: `{"status": "healthy"}`，HTTP 200
 
 ---
 
-## 🏗️ Infrastructure Overview
+## 🏗️ 基础设施概述
 
-### Two Autoscaling Strategies Being Tested
+### 两种被测试的自动扩缩容策略
 
-#### Strategy 1: CPU-Based Autoscaling (`asg-cpu`)
-- **Metric**: Target 50% CPU utilization across instances
-- **Scale-out trigger**: When average CPU > 50%
-- **Scale-in trigger**: When average CPU < 20%
-- **Min instances**: 1 | **Desired**: 1 | **Max**: 5
-- **Expected behavior**: Slower to respond, may overshoot target
+#### 策略 1: 基于 CPU 的自动扩缩容 (`asg-cpu`)
+- **指标**: 跨实例目标 50% CPU 利用率
+- **扩出触发**: 平均 CPU > 50%
+- **扩入触发**: 平均 CPU < 20%
+- **最小实例**: 1 | **期望**: 1 | **最大**: 5
+- **预期行为**: 响应较慢，可能超出目标
 
-#### Strategy 2: Request-Rate-Based Autoscaling (`asg-request`)
-- **Metric**: Target 10 requests/second per instance
-- **Scale-out trigger**: When request rate > 10 req/s per instance
-- **Scale-in trigger**: When request rate < 5 req/s per instance
-- **Min instances**: 1 | **Desired**: 2 | **Max**: 5
-- **Expected behavior**: Faster to respond, more precise scaling
+#### 策略 2: 基于请求率的自动扩缩容 (`asg-request`)
+- **指标**: 每个实例目标 10 请求/秒
+- **扩出触发**: 请求率 > 每个实例 10 req/s
+- **扩入触发**: 请求率 < 每个实例 5 req/s
+- **最小实例**: 1 | **期望**: 2 | **最大**: 5
+- **预期行为**: 响应更快，扩展更精确
 
-### Load Configuration
-- **Constant load**: 10 requests/second (fixed rate)
-- **Duration per experiment**: 30 minutes (1800 seconds)
-- **Request type**: HTTP POST to `/request` endpoint
-- **Response time target**: < 1 second per request
+### 负载配置
+- **恒定负载**: 10 请求/秒 (固定速率)
+- **每次实验时长**: 30 分钟 (1800 秒)
+- **请求类型**: HTTP POST 到 `/request` 端点
+- **响应时间目标**: < 1 秒每个请求
 
 ---
 
-## Phase 4-5: Experiment Execution
+## Phase 4-5: 实验执行
 
-### ⏱️ Timeline Breakdown
+### ⏱️ 时间表分解
 
 ```
-Phase 4-5 Total: ~75 minutes
+Phase 4-5 总计: ~75 分钟
 
-├─ Step 1: Infrastructure Verification (5 min)
-│  └─ Command: python experiments/01_verify_infrastructure.py
-│     Validates: ALB health, ASG status, instance count
+├─ 步骤 1: 基础设施验证 (5 分钟)
+│  └─ 命令: python experiments/01_verify_infrastructure.py
+│     验证: ALB 健康、ASG 状态、实例计数
 │
-├─ Step 2: CPU Strategy Experiment (30 min)
-│  └─ Command: python experiments/02_run_cpu_experiment.py
-│     Output: cpu_strategy_metrics.json (~18,000 requests)
-│     Monitors: CPU util, request rate, scaling events
+├─ 步骤 2: CPU 策略实验 (30 分钟)
+│  └─ 命令: python experiments/02_run_cpu_experiment.py
+│     输出: cpu_strategy_metrics.json (~18,000 个请求)
+│     监控: CPU 利用率、请求率、扩展事件
 │
 ├─ Step 3: Request-Rate Strategy Experiment (30 min)
 │  └─ Command: python experiments/03_run_request_rate_experiment.py
