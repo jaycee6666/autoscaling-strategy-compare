@@ -181,7 +181,7 @@ app/
 ### First Week
 
 1. **docs/plans/PROJECT_EXECUTION_PLAN.md** (60 min) - Full plan
-2. **docs/guides/PHASE4_5_EXECUTION_GUIDE.md** (5 min) - Command reference
+2. **docs/guides/PHASE4_6_EXECUTION_GUIDE.md** (5 min) - Command reference
 3. **Create Phase 1 infrastructure scripts** - Using aws_utils.py as guide
 
 ### Reference as Needed
@@ -210,7 +210,7 @@ app/
 ### For Developers
 
 ```bash
-1. Daily: Check docs/guides/PHASE4_5_EXECUTION_GUIDE.md
+1. Daily: Check docs/guides/PHASE4_6_EXECUTION_GUIDE.md
 2. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md phases
 3. Reference: scripts/aws_utils.py for AWS operations
 4. When stuck: .github/CROSSPLATFORM_GUIDE.md

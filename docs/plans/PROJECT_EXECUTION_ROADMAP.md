@@ -149,7 +149,7 @@ autoscaling-strategy-compare/
 │   │   ├── 04_aggregate_results.py           ✅ 结果聚合
 │   │   └── results/                          ⏳ 待生成 (JSON + CSV)
 │   └── docs/
-│       └── PHASE4_5_EXECUTION_GUIDE.md       ✅ 详细指南 (22 KB)
+│       └── PHASE4_6_EXECUTION_GUIDE.md       ✅ 详细指南 (22 KB)
 │
 ├── Phase 6-7 (待开始 ⏳)
 │   ├── analysis/
@@ -168,7 +168,7 @@ autoscaling-strategy-compare/
 └── docs/
     ├── PROJECT_EXECUTION_PLAN.md (原始)
     ├── PROJECT_EXECUTION_ROADMAP.md (本文件 - 修订版)
-    ├── guides/PHASE4_5_EXECUTION_GUIDE.md
+    ├── guides/PHASE4_6_EXECUTION_GUIDE.md
     └── ...
 ```
 
@@ -212,7 +212,7 @@ python experiments/04_aggregate_results.py
 
 **总时长**: ~75 分钟
 
-**详细说明**: 见 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 第 "Detailed Step-by-Step Execution" 部分
+**详细说明**: 见 `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` 第 "Detailed Step-by-Step Execution" 部分
 
 ### Phase 6-7: 数据分析 & 报告 (用户数据生成后)
 
@@ -294,12 +294,12 @@ python experiments/04_aggregate_results.py
 ## 📞 立即行动
 
 **现在需要做什么**:
-1. 按 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 的步骤执行实验 (75 分钟)
+1. 按 `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` 的步骤执行实验 (75 分钟)
 2. 完成后，实验脚本会自动生成 JSON + CSV 报告
 3. 提交结果，我开始 Phase 6 数据分析
 
 **有问题？**:
-- 看 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 中的 "Troubleshooting" 部分
+- 看 `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` 中的 "Troubleshooting" 部分
 - 所有步骤都有详细说明和预期输出
 - 实验框架是稳健的（已在本地验证 ✅）  
 
