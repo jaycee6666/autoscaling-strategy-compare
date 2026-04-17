@@ -2,9 +2,6 @@
 
 **Project**: Comparative Analysis of Autoscaling Strategies: CPU Utilization vs. Request Rate
 
-**Team**: CHEN Sijie (jaycee6666)  
-**Deadline**: April 24, 2026, 23:59 HKT  
-**Course**: CS5296 Cloud Computing  
 **Status**: Phase 4-6 Complete ✅ | Phase 7 (Report & Demo) - Next
 
 ---
@@ -12,6 +9,26 @@
 ## 🔧 Prerequisites & Setup
 
 **Before running experiments, complete these one-time setup steps:**
+
+### Initial Setup (First Run - Complete Setup)
+
+Follow this workflow for initial project setup:
+
+```
+1. setup.py                 # 首先运行我! 自动化一切
+   ↓
+2. check_environment.py     # 验证环境
+   ↓
+3. init_project.py          # 初始化项目
+   ↓
+4. [手动] 编辑 config/.env
+   ↓
+5. check_environment.py     # 验证配置
+   ↓
+6. aws_utils.py             # 测试 AWS 连接
+```
+
+**Detailed Steps:**
 
 ### Step 1: Create Virtual Environment
 ```bash
@@ -61,6 +78,22 @@ If you encounter issues during setup:
 - **Virtual environment issues**: See `.github/CROSSPLATFORM_GUIDE.md` for platform-specific solutions
 
 For detailed cross-platform troubleshooting, see **`.github/CROSSPLATFORM_GUIDE.md`**
+
+---
+
+### Daily Development Workflow
+
+Once setup is complete, follow this workflow for daily development:
+
+```
+1. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
+   ↓
+2. Run appropriate scripts in scripts/
+   ↓
+3. Reference: docs/plans/PROJECT_EXECUTION_PLAN.md for context
+   ↓
+4. Troubleshoot: If needed, refer to .github/CROSSPLATFORM_GUIDE.md
+```
 
 ---
 

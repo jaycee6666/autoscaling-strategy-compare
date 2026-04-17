@@ -446,75 +446,75 @@ for file in ['experiments/results/cpu_strategy_metrics.json',
 "
 ```
 
-#### Step 2: Run Analysis
+#### 步骤 2: 运行分析
 
 ```bash
 python experiments/06_analyze_results.py
 ```
 
-**Expected Console Output**:
+**预期控制台输出**:
 ```
-Phase 6: Analyzing experiment results...
-Loading CPU strategy results from experiments/results/cpu_strategy_metrics.json...
-  Strategy: CPU Utilization Target
-  Requests: 1433, Success Rate: 92.95%
-  Avg Response: 970.64ms, P95: 1175.74ms, P99: 1935.85ms
+Phase 6: 分析实验结果...
+从 experiments/results/cpu_strategy_metrics.json 加载 CPU 策略结果...
+  策略: CPU 利用率目标
+  请求: 1433, 成功率: 92.95%
+  平均响应: 970.64ms, P95: 1175.74ms, P99: 1935.85ms
 
-Loading Request-Rate strategy results...
-  Strategy: Request Rate Target
-  Requests: 1485, Success Rate: 93.74%
-  Avg Response: 959.93ms, P95: 1026.34ms, P99: 1691.85ms
+加载请求率策略结果...
+  策略: 请求率目标
+  请求: 1485, 成功率: 93.74%
+  平均响应: 959.93ms, P95: 1026.34ms, P99: 1691.85ms
 
-Calculating comparative metrics...
-  CPU Strategy latency score: 1245.73
-  Request-Rate Strategy latency score: 1132.88
+计算比较指标...
+  CPU 策略延迟得分: 1245.73
+  请求率策略延迟得分: 1132.88
 
-Winner determined: Request-Rate Strategy
-Confidence: 2.43%
-Rationale: Request-rate strategy achieved better response time (960ms vs 971ms)
+已确定获胜者: 请求率策略
+置信度: 2.43%
+理由: 请求率策略实现了更好的响应时间 (960ms vs 971ms)
 
-Analysis report written to experiments/results/analysis_report.json (1.7 KB)
-✓ Phase 6 analysis complete in 0.12 seconds
+分析报告已写入 experiments/results/analysis_report.json (1.7 KB)
+✓ Phase 6 分析在 0.12 秒内完成
 ```
 
-#### Step 3: Verify Output
+#### 步骤 3: 验证输出
 
 ```bash
-# Verify output file exists
+# 验证输出文件存在
 ls -lh experiments/results/analysis_report.json
 
-# View analysis summary
+# 查看分析摘要
 python -c "
 import json
 with open('experiments/results/analysis_report.json') as f:
     report = json.load(f)
-    print('Analysis Report Summary:')
-    print(f\"  Winner: {report['winner']['strategy']}\")
-    print(f\"  Confidence: {report['winner']['confidence_pct']:.2f}%\")
-    print(f\"  Rationale: {report['winner']['rationale']}\")
+    print('分析报告摘要:')
+    print(f\"  获胜者: {report['winner']['strategy']}\")
+    print(f\"  置信度: {report['winner']['confidence_pct']:.2f}%\")
+    print(f\"  理由: {report['winner']['rationale']}\")
 "
 ```
 
 ---
 
-## Understanding Results
+## 理解结果
 
-### Output Files Summary
+### 输出文件摘要
 
-After Phase 4-6 completion, you'll have:
+完成 Phase 4-6 后，您将获得：
 
 ```
 experiments/results/
-├── cpu_strategy_metrics.json              # Phase 4-5 output: CPU experiment metrics
-├── request_rate_experiment_metrics.json   # Phase 4-5 output: Request-Rate experiment metrics
-├── comparison_report.json                 # Phase 4-5 output: Basic comparison
-├── metrics_comparison.csv                 # Phase 4-5 output: Comparison in CSV format
-└── analysis_report.json                   # Phase 6 output: Comprehensive analysis with winner
+├── cpu_strategy_metrics.json              # Phase 4-5 输出: CPU 实验指标
+├── request_rate_experiment_metrics.json   # Phase 4-5 输出: 请求率实验指标
+├── comparison_report.json                 # Phase 4-5 输出: 基本对比
+├── metrics_comparison.csv                 # Phase 4-5 输出: CSV 格式对比
+└── analysis_report.json                   # Phase 6 输出: 包含获胜者的全面分析
 ```
 
-### Analysis Report Structure
+### 分析报告结构
 
-The generated `analysis_report.json` contains:
+生成的 `analysis_report.json` 包含：
 
 ```json
 {
@@ -568,104 +568,104 @@ The generated `analysis_report.json` contains:
 }
 ```
 
-### Performance Comparison Summary
+### 性能对比摘要
 
-| Aspect | CPU Strategy | Request-Rate | Winner |
+| 方面 | CPU 策略 | 请求率策略 | 获胜者 |
 |--------|--------------|--------------|--------|
-| **Latency Score** (lower is better) | 1,245.73 | 1,132.88 | Request-Rate (9.1% better) |
-| **Cost/Request** (lower is better) | $5.02 | $4.85 | Request-Rate (3.6% lower) |
-| **Success Rate** (higher is better) | 92.95% | 93.74% | Request-Rate (0.79% higher) |
-| **P95 Latency** (lower is better) | 1,175.74ms | 1,026.34ms | Request-Rate (12.7% better) |
-| **CPU Efficiency** (lower is better) | 65.2% avg | 19.9% avg | Request-Rate (69% lower) |
-| **Scaling Stability** (fewer events) | 1 scale-in | 0 events | Request-Rate (more stable) |
+| **延迟得分** (越低越好) | 1,245.73 | 1,132.88 | 请求率策略 (高 9.1%) |
+| **成本/请求** (越低越好) | $5.02 | $4.85 | 请求率策略 (低 3.6%) |
+| **成功率** (越高越好) | 92.95% | 93.74% | 请求率策略 (高 0.79%) |
+| **P95 延迟** (越低越好) | 1,175.74ms | 1,026.34ms | 请求率策略 (低 12.7%) |
+| **CPU 效率** (越低越好) | 平均 65.2% | 平均 19.9% | 请求率策略 (低 69%) |
+| **扩展稳定性** (越少事件越好) | 1 次扩入 | 0 次事件 | 请求率策略 (更稳定) |
 
 ---
 
-## Troubleshooting
+## 故障排查
 
-### Phase 4-5 Issues
+### Phase 4-5 问题
 
-#### Problem 1: "Connection refused" to ALB
+#### 问题 1: "ALB 连接被拒绝"
 
-**Symptom**: `requests.exceptions.ConnectionError: Connection refused`
+**症状**: `requests.exceptions.ConnectionError: Connection refused`
 
-**Causes & Solutions**:
-1. ALB is down: `curl -v http://<ALB_DNS>/health`
-2. Wrong ALB DNS: Check `infrastructure/alb-config.json`
-3. Security group blocks traffic: Verify port 80 is open
+**原因及解决方案**:
+1. ALB 已关闭: `curl -v http://<ALB_DNS>/health`
+2. ALB DNS 错误: 检查 `infrastructure/alb-config.json`
+3. 安全组阻止流量: 验证端口 80 是否开放
 
-**Recovery**: Fix the issue and restart experiment from STEP 1
+**恢复**: 修复问题后从步骤 1 重新启动实验
 
-#### Problem 2: "No module named 'boto3'"
+#### 问题 2: "没有找到模块 'boto3'"
 
-**Solution**:
+**解决方案**:
 ```bash
 pip install -r requirements.txt
 ```
 
-#### Problem 3: "InvalidClientTokenId" AWS error
+#### 问题 3: "InvalidClientTokenId" AWS 错误
 
-**Causes**: AWS credentials expired or invalid
+**原因**: AWS 凭证已过期或无效
 
-**Solution**:
+**解决方案**:
 ```bash
-aws sts get-caller-identity  # Verify credentials work
-aws configure                # Reconfigure if needed
+aws sts get-caller-identity  # 验证凭证是否有效
+aws configure                # 如果需要重新配置
 ```
 
-#### Problem 4: Experiment stops after 5 minutes
+#### 问题 4: 实验 5 分钟后停止
 
-**Causes**: Internet connection dropped, ALB unhealthy, or EC2 instances crashed
+**原因**: 网络连接中断、ALB 不健康或 EC2 实例崩溃
 
-**Recovery**:
-1. Check ALB: `curl http://<ALB_DNS>/health`
-2. Check instances in AWS Console
-3. **Results are INVALID** - do not continue
+**恢复**:
+1. 检查 ALB: `curl http://<ALB_DNS>/health`
+2. 在 AWS 控制台检查实例
+3. **结果无效** - 不要继续
 
-### Phase 6 Issues
+### Phase 6 问题
 
-#### Issue: "Input files not found"
+#### 问题: "找不到输入文件"
 
-**Solution**:
+**解决方案**:
 ```bash
-# Verify Phase 4-5 completed successfully
+# 验证 Phase 4-5 成功完成
 python scripts/run_all_experiments.py
 
-# Check that output files exist
+# 检查输出文件是否存在
 ls -la experiments/results/*_metrics.json
 ```
 
-#### Issue: "Invalid JSON in input file"
+#### 问题: "输入文件中的 JSON 无效"
 
-**Solution**:
+**解决方案**:
 ```bash
-# Validate JSON syntax
+# 验证 JSON 语法
 python -m json.tool experiments/results/cpu_strategy_metrics.json > /dev/null
 
-# If validation fails, re-run Phase 4-5
+# 如果验证失败，重新运行 Phase 4-5
 python scripts/run_all_experiments.py --skip-phase-1-3
 ```
 
-#### Issue: Winner confidence is very low (<1%)
+#### 问题: 获胜者置信度非常低 (<1%)
 
-**Problem**: The two strategies have nearly identical performance
+**问题**: 两种策略的性能几乎相同
 
-**Action**:
-- Review detailed metrics to understand tradeoffs
-- Consider running longer experiments for clearer separation
-- Use the detailed comparison table to evaluate which strategy better matches your use case
+**操作**:
+- 查看详细指标以理解权衡
+- 考虑运行更长的实验以获得更清晰的区分
+- 使用详细对比表评估哪种策略更符合您的用例
 
 ---
 
-## Post-Analysis Verification
+## 分析后验证
 
-### Verify All Output Files Exist
+### 验证所有输出文件存在
 
 ```bash
-# Should all exist after Phase 4-6 completes
+# Phase 4-6 完成后应该全部存在
 ls -lh experiments/results/
 
-# Expected files:
+# 预期文件:
 # - cpu_strategy_metrics.json (15-20 KB)
 # - request_rate_experiment_metrics.json (15-20 KB)
 # - comparison_report.json (1-2 KB)
@@ -673,10 +673,10 @@ ls -lh experiments/results/
 # - analysis_report.json (1-2 KB)
 ```
 
-### Verify File Contents Are Valid JSON
+### 验证文件内容是有效的 JSON
 
 ```bash
-# Verify JSON is valid
+# 验证 JSON 有效
 python -c "
 import json
 files = [
@@ -686,98 +686,98 @@ files = [
 ]
 for f in files:
     json.load(open(f))
-    print(f'✅ {f}: Valid JSON')
+    print(f'✅ {f}: 有效的 JSON')
 "
 ```
 
-### Review Analysis Report
+### 查看分析报告
 
 ```bash
 python -c "
 import json
 with open('experiments/results/analysis_report.json') as f:
     report = json.load(f)
-    print('=== Phase 4-6 Analysis Results ===')
-    print(f'Winner: {report[\"winner\"][\"strategy\"]}')
-    print(f'Confidence: {report[\"winner\"][\"confidence_pct\"]:.2f}%')
-    print(f'Rationale: {report[\"winner\"][\"rationale\"]}')
+    print('=== Phase 4-6 分析结果 ===')
+    print(f'获胜者: {report[\"winner\"][\"strategy\"]}')
+    print(f'置信度: {report[\"winner\"][\"confidence_pct\"]:.2f}%')
+    print(f'理由: {report[\"winner\"][\"rationale\"]}')
     print()
-    print('CPU Strategy:')
+    print('CPU 策略:')
     cpu = report['metrics']['cpu_strategy']
-    print(f'  - Cost/Request: \${cpu[\"cost_per_request\"]:.2f}')
-    print(f'  - Latency Score: {cpu[\"latency_score\"]:.0f}')
+    print(f'  - 成本/请求: \${cpu[\"cost_per_request\"]:.2f}')
+    print(f'  - 延迟得分: {cpu[\"latency_score\"]:.0f}')
     print()
-    print('Request-Rate Strategy:')
+    print('请求率策略:')
     req = report['metrics']['request_rate_strategy']
-    print(f'  - Cost/Request: \${req[\"cost_per_request\"]:.2f}')
-    print(f'  - Latency Score: {req[\"latency_score\"]:.0f}')
+    print(f'  - 成本/请求: \${req[\"cost_per_request\"]:.2f}')
+    print(f'  - 延迟得分: {req[\"latency_score\"]:.0f}')
 "
 ```
 
-### Verification Checklist
+### 验证检查清单
 
-After Phase 4-6 completion, verify:
+Phase 4-6 完成后，验证：
 
-- [x] All Phase 4-5 output files exist and are valid JSON
-- [x] Phase 6 analysis_report.json exists and is valid JSON
-- [x] Winner is clearly determined (either CPU or Request-Rate strategy)
-- [x] Confidence score is > 1%
-- [x] Rationale makes sense given the metrics
-- [x] All required metrics are present in output
-- [x] Execution completed successfully
+- [x] 所有 Phase 4-5 输出文件存在且是有效的 JSON
+- [x] Phase 6 analysis_report.json 存在且是有效的 JSON
+- [x] 已清楚确定获胜者 (CPU 或请求率策略)
+- [x] 置信度得分 > 1%
+- [x] 理由根据指标是合理的
+- [x] 所有必需的指标都出现在输出中
+- [x] 执行成功完成
 
 ---
 
-## Next Steps (Phase 7)
+## 后续步骤 (Phase 7)
 
-Once Phase 4-6 is complete:
+Phase 4-6 完成后：
 
-1. **Commit Results to Git**:
+1. **提交结果到 Git**:
 ```bash
 git add experiments/results/
 git commit -m "test: Phase 4-6 experimental results and analysis - CPU vs Request-rate strategy comparison"
 git push origin main
 ```
 
-2. **Begin Phase 7 - Report Writing & Visualization**:
-   - Document findings using analysis_report.json
-   - Generate visualization charts (response time, scaling timeline, cost)
-   - Write final report (≤9 pages)
-   - Create demonstration video (≤10 minutes)
+2. **开始 Phase 7 - 报告撰写及可视化**:
+    - 使用 analysis_report.json 记录发现
+    - 生成可视化图表 (响应时间、扩展时间线、成本)
+    - 撰写最终报告 (≤9 页)
+    - 创建演示视频 (≤10 分钟)
 
-3. **Key Results to Highlight**:
-   - Winner strategy and confidence score
-   - Performance improvements (latency, cost, stability)
-   - Why the winning strategy outperforms the other
-   - Operational benefits and recommendations
+3. **突出关键结果**:
+    - 获胜策略和置信度得分
+    - 性能改进 (延迟、成本、稳定性)
+    - 获胜策略为何优于其他策略
+    - 操作优势和建议
 
-4. **Submit to Blackboard** before April 24, 2026, 23:59 HKT
+4. **在 2026 年 4 月 24 日 23:59 HKT 前提交到 Blackboard**
 
 ---
 
-## Quick Reference Commands
+## 快速参考命令
 
 ```bash
-# ===== VERIFY SETUP =====
+# ===== 验证设置 =====
 python --version
 aws sts get-caller-identity
 curl http://experiment-alb-1466294824.us-east-1.elb.amazonaws.com/health
 
-# ===== RUN EVERYTHING (RECOMMENDED) =====
+# ===== 运行所有内容 (推荐) =====
 python scripts/run_all_experiments.py
 
-# ===== RUN STEP-BY-STEP =====
-python experiments/01_verify_infrastructure.py      # 5 min
-python experiments/02_run_cpu_experiment.py         # 30 min
-python experiments/03_run_request_rate_experiment.py # 30 min
-python experiments/04_aggregate_results.py          # 10 min
-python experiments/06_analyze_results.py            # 2 min
+# ===== 逐步运行 =====
+python experiments/01_verify_infrastructure.py      # 5 分钟
+python experiments/02_run_cpu_experiment.py         # 30 分钟
+python experiments/03_run_request_rate_experiment.py # 30 分钟
+python experiments/04_aggregate_results.py          # 10 分钟
+python experiments/06_analyze_results.py            # 2 分钟
 
-# ===== VERIFY RESULTS =====
+# ===== 验证结果 =====
 ls -lh experiments/results/
-python -c "import json; json.load(open('experiments/results/analysis_report.json')); print('✅ Valid')"
+python -c "import json; json.load(open('experiments/results/analysis_report.json')); print('✅ 有效')"
 
-# ===== COMMIT RESULTS =====
+# ===== 提交结果 =====
 git add experiments/results/
 git commit -m "test: Phase 4-6 results"
 git push origin main
@@ -785,9 +785,9 @@ git push origin main
 
 ---
 
-**Phase 4-6 Status**: ✅ **READY FOR EXECUTION**  
-**Total Duration**: ~85 minutes (can be automated with one command)  
-**Last Updated**: 2026-04-18  
-**Guide Version**: 2.0 (Merged Phase 4-5 + Phase 6)  
-**Author**: Sisyphus Agent  
-**Project**: autoscaling-strategy-compare
+**Phase 4-6 状态**: ✅ **准备好执行**  
+**总耗时**: ~85 分钟 (可通过一条命令自动化)  
+**最后更新**: 2026-04-18  
+**指南版本**: 2.0 (合并 Phase 4-5 + Phase 6)  
+**作者**: Sisyphus Agent  
+**项目**: autoscaling-strategy-compare
