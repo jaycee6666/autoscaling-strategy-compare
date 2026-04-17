@@ -96,6 +96,39 @@ autoscaling-strategy-compare/
 
 ---
 
+## 🧪 Phase 2b Application Development
+
+Phase 2b delivers the experiment application stack:
+
+- `scripts/load_generator.py`: HTTP load generation (`constant` / `ramp` / `wave`)
+- `scripts/metrics_collector.py`: CloudWatch/ASG metrics collection via boto3
+- `scripts/experiment_runner.py`: End-to-end experiment orchestration
+- `apps/test_app/app.py`: Flask test service for autoscaling behavior
+
+### Quick usage
+
+```python
+from scripts.experiment_runner import ExperimentRunner
+
+runner = ExperimentRunner(
+    experiment_name="cpu_test_1",
+    asg_name="experiment-asg-cpu",
+    alb_dns="http://<YOUR-ALB-DNS>",
+    request_rate=20,
+    duration_seconds=300,
+    load_pattern="ramp",
+)
+
+results = runner.run()
+print(results)
+```
+
+### Phase 2b docs
+
+- `docs/PHASE2B_IMPLEMENTATION_GUIDE.md`
+
+---
+
 ## 🔗 Resources
 
 - **AWS CLI Documentation**: https://docs.aws.amazon.com/cli/
