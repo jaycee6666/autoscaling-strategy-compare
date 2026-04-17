@@ -185,13 +185,13 @@ def main():
     print("  1. Activate virtual environment (see above)")
     print("  2. Edit config/.env with your AWS credentials")
     print("  3. Run: python scripts/check_environment.py")
-    print("  4. Read: docs/guides/PHASE4_5_QUICK_START.md")
+    print("  4. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md")
     print("  5. Deploy: python scripts/deploy_all.py")
     print("\n[INFO] Documentation:")
-    print("  - Quick Start: docs/guides/PHASE4_5_QUICK_START.md")
+    print("  - Quick Start: docs/guides/PHASE4_5_EXECUTION_GUIDE.md")
     print("  - Full Plan: docs/plans/PROJECT_EXECUTION_PLAN.md")
-    print("  - Reference: docs/guides/PHASE4_5_QUICK_START.md")
-    print("  - Virtual Env: docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md")
+    print("  - Reference: docs/guides/PHASE4_5_EXECUTION_GUIDE.md")
+    print("  - Troubleshooting: .github/CROSSPLATFORM_GUIDE.md")
     print("\n")
 
 

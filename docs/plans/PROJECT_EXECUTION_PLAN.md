@@ -72,7 +72,7 @@ python setup.py
 
 **就这样!** 环境已准备好，跳到 Phase 1
 
-**了解更多**: 详见 `docs/guides/PHASE4_5_QUICK_START.md` 或 `docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md`
+**了解更多**: 详见 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 或 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md`
 
 ---
 

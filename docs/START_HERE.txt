@@ -26,21 +26,21 @@ and Linux. All team members use identical commands regardless of OS.
      python setup.py
 
    3. Read Getting Started:
-      Open: docs/guides/PHASE4_5_QUICK_START.md
+      Open: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
 
 
 📚 DOCUMENTATION MAP
 
   ⭐ START HERE:
-     └─ docs/guides/PHASE4_5_QUICK_START.md (One-page quick reference)
+     └─ docs/guides/PHASE4_5_EXECUTION_GUIDE.md (One-page quick reference)
 
   For Daily Work:
-     ├─ docs/guides/PHASE4_5_QUICK_START.md (commands & quick reference)
+     ├─ docs/guides/PHASE4_5_EXECUTION_GUIDE.md (commands & quick reference)
      ├─ docs/plans/PROJECT_EXECUTION_PLAN.md (Phase 0-6 plan)
      └─ docs/references/FILE_INDEX.md (all project files explained)
 
   For Troubleshooting:
-     └─ docs/guides/CROSSPLATFORM_GUIDE.md (Windows/Mac/Linux setup)
+     └─ .github/CROSSPLATFORM_GUIDE.md (Windows/Mac/Linux setup)
 
    For Team Leads:
       └─ docs/references/ACCEPTANCE_CRITERIA.md (coordination & management)
@@ -101,7 +101,7 @@ and Linux. All team members use identical commands regardless of OS.
   □ Edited: config/.env
    □ Ran: python scripts/check_environment.py
    □ Result: ✅ ALL CHECKS PASSED
-   □ Read: docs/guides/PHASE4_5_QUICK_START.md
+   □ Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
 
 
 📋 EXECUTION PHASES (10 WEEKS)
@@ -123,11 +123,11 @@ and Linux. All team members use identical commands regardless of OS.
 
   Problem: "aws: command not found"
   Solution: Install AWS CLI v2
-  Help: See docs/guides/PHASE4_5_QUICK_START.md
+  Help: See docs/guides/PHASE4_5_EXECUTION_GUIDE.md
 
   Problem: "AWS credentials not found"
   Solution: Set environment variables or ~/.aws/credentials
-  Help: See docs/guides/PHASE4_5_QUICK_START.md
+  Help: See docs/guides/PHASE4_5_EXECUTION_GUIDE.md
 
 
 💡 KEY FEATURES
@@ -146,13 +146,13 @@ and Linux. All team members use identical commands regardless of OS.
   AWS CLI Docs:        https://docs.aws.amazon.com/cli/
   AWS Region List:     aws ec2 describe-regions --output table
   Project Docs:        See docs/plans/PROJECT_EXECUTION_PLAN.md
-  Troubleshooting:     See docs/guides/CROSSPLATFORM_GUIDE.md
+  Troubleshooting:     See .github/CROSSPLATFORM_GUIDE.md
 
 
 🎯 NEXT STEPS
 
   1. Complete quick start (above)
-  2. Read: docs/guides/PHASE4_5_QUICK_START.md
+  2. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
   3. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md
   4. Verify: python experiments/01_verify_infrastructure.py
   5. Execute: python run_all_experiments.py

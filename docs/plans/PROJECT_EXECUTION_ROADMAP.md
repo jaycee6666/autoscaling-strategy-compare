@@ -68,10 +68,9 @@ Week 2 (Apr 21-24):     Phase 2b + Phase 3-10 (最后冲刺)
 
 ### 下周 (Apr 22-24)
 - [x] **Phase 4-5: 实验框架就绪** ✅ 文档已生成
-   - ✅ 4 个实验脚本已创建: `01_verify_infrastructure.py`, `02_run_cpu_experiment.py`, `03_run_request_rate_experiment.py`, `04_aggregate_results.py`
-   - ✅ 详细执行指南已生成: `PHASE4_5_EXECUTION_GUIDE.md` (22 KB)
-   - ✅ 快速开始指南已生成: `PHASE4_5_QUICK_START.md` (5.6 KB)
-   - ⏳ **待用户执行**: 运行 4 个命令 (~75 分钟) 生成真实 AWS 数据
+    - ✅ 4 个实验脚本已创建: `01_verify_infrastructure.py`, `02_run_cpu_experiment.py`, `03_run_request_rate_experiment.py`, `04_aggregate_results.py`
+    - ✅ 详细执行指南已生成: `PHASE4_5_EXECUTION_GUIDE.md` (22 KB)
+    - ⏳ **待用户执行**: 运行 4 个命令 (~75 分钟) 生成真实 AWS 数据
    
    **用户需执行的命令**:
    ```bash
@@ -150,8 +149,7 @@ autoscaling-strategy-compare/
 │   │   ├── 04_aggregate_results.py           ✅ 结果聚合
 │   │   └── results/                          ⏳ 待生成 (JSON + CSV)
 │   └── docs/
-│       ├── PHASE4_5_EXECUTION_GUIDE.md       ✅ 详细指南 (22 KB)
-│       └── PHASE4_5_QUICK_START.md           ✅ 快速指南 (5.6 KB)
+│       └── PHASE4_5_EXECUTION_GUIDE.md       ✅ 详细指南 (22 KB)
 │
 ├── Phase 6-7 (待开始 ⏳)
 │   ├── analysis/
@@ -170,9 +168,7 @@ autoscaling-strategy-compare/
 └── docs/
     ├── PROJECT_EXECUTION_PLAN.md (原始)
     ├── PROJECT_EXECUTION_ROADMAP.md (本文件 - 修订版)
-    ├── guides/PHASE4_5_ENVIRONMENT_SETUP.md
-    ├── guides/PHASE4_5_QUICK_START.md
-    ├── guides/PHASE4_5_QUICK_START.md
+    ├── guides/PHASE4_5_EXECUTION_GUIDE.md
     └── ...
 ```
 
@@ -216,7 +212,7 @@ python experiments/04_aggregate_results.py
 
 **总时长**: ~75 分钟
 
-**详细说明**: 见 `docs/PHASE4_5_EXECUTION_GUIDE.md` 第 "Detailed Step-by-Step Execution" 部分
+**详细说明**: 见 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 第 "Detailed Step-by-Step Execution" 部分
 
 ### Phase 6-7: 数据分析 & 报告 (用户数据生成后)
 
@@ -298,13 +294,12 @@ python experiments/04_aggregate_results.py
 ## 📞 立即行动
 
 **现在需要做什么**:
-1. 读一下 `docs/PHASE4_5_QUICK_START.md` (5 分钟速览)
-2. 按 `PHASE4_5_EXECUTION_GUIDE.md` 的步骤执行实验 (75 分钟)
-3. 完成后，实验脚本会自动生成 JSON + CSV 报告
-4. 提交结果，我开始 Phase 6 数据分析
+1. 按 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 的步骤执行实验 (75 分钟)
+2. 完成后，实验脚本会自动生成 JSON + CSV 报告
+3. 提交结果，我开始 Phase 6 数据分析
 
 **有问题？**:
-- 看 `PHASE4_5_EXECUTION_GUIDE.md` 中的 "Troubleshooting" 部分
+- 看 `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` 中的 "Troubleshooting" 部分
 - 所有步骤都有详细说明和预期输出
 - 实验框架是稳健的（已在本地验证 ✅）  
 
@@ -338,9 +333,8 @@ python experiments/04_aggregate_results.py
 
 ## 🔥 Phase 4-5 文档更新 (April 17, 2026 - 17:15)
 
-✅ **新增文档** (已保存到 `docs/`):
-- `PHASE4_5_EXECUTION_GUIDE.md` (22 KB) - 完整分步指南
-- `PHASE4_5_QUICK_START.md` (5.6 KB) - 一页快速参考
+✅ **新增文档** (已保存到 `docs/guides/`):
+- `PHASE4_5_EXECUTION_GUIDE.md` (22 KB) - 完整分步指南 (已巩固为标准参考)
 
 ✅ **实验框架状态**:
 - 4 个实验脚本已完成并经过编译检查

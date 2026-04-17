@@ -13,7 +13,7 @@
 
 ### 🎯 Start Here (Choose One)
 - **`docs/guides/MASTER_EXECUTION_GUIDE.md`** - How to run all experiments (Steps 2-4)
-- **`docs/guides/PHASE4_5_QUICK_START.md`** - Quick start for Phase 4-5 experiments
+- **`docs/guides/PHASE4_5_EXECUTION_GUIDE.md`** - Detailed guide for Phase 4-5 experiments
 - **`docs/`** - Organized reference documentation by type (plans, guides, references)
 
 ### GitHub Setup
@@ -78,19 +78,17 @@ autoscaling-strategy-compare/
 │   │   ├── PHASE1_DEPLOYMENT_GUIDE.md
 │   │   ├── PHASE3_DEPLOYMENT_GUIDE.md
 │   │   ├── PHASE4_5_EXECUTION_GUIDE.md
-│   │   ├── PHASE4_5_QUICK_START.md
-│   │   ├── PHASE4_5_ENVIRONMENT_SETUP.md
 │   │   ├── FINAL_EXECUTION_GUIDE.md
-│   │   └── CROSSPLATFORM_GUIDE.md
-│   └── references/                     # Indexes, manifests, criteria
-│       ├── FILE_INDEX.md
-│       ├── MANIFEST.md
-│       └── ACCEPTANCE_CRITERIA.md
+│   │   └── references/                     # Indexes, manifests, criteria
+│   │       ├── FILE_INDEX.md
+│   │       ├── MANIFEST.md
+│   │       └── ACCEPTANCE_CRITERIA.md
 │
-├── .github/                            # 🐙 GitHub setup
+├── .github/                            # 🐙 GitHub setup & Cross-platform Guide
 │   ├── GITHUB_QUICK_SETUP.md           # GitHub repository config
 │   ├── HOW_TO_UPLOAD_TO_GITHUB.md      # Upload instructions
-│   └── READY_FOR_GITHUB.md             # Pre-push checklist
+│   ├── READY_FOR_GITHUB.md             # Pre-push checklist
+│   └── CROSSPLATFORM_GUIDE.md          # Windows/Mac/Linux compatibility guide
 │
 └── venv/                               # Python virtual environment
 ```
