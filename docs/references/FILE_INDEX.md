@@ -8,7 +8,7 @@ autoscaling-strategy-compare/
 │   └── CROSSPLATFORM_GUIDE.md           # Windows/Mac/Linux setup guide
 ├── docs/                              # Documentation (1500+ lines)
 │   ├── guides/
-│   │   ├── PHASE4_5_EXECUTION_GUIDE.md # ⭐ Phase 4-5 execution guide
+│   │   ├── PHASE4_6_EXECUTION_GUIDE.md # ⭐ Phase 4-6 execution guide
 │   │   ├── PHASE1_DEPLOYMENT_GUIDE.md  # Phase 1 deployment
 │   │   ├── PHASE3_DEPLOYMENT_GUIDE.md  # Phase 3 deployment
 │   │   └── ...
@@ -60,9 +60,9 @@ autoscaling-strategy-compare/
 
 | File | Size | Purpose | For Whom |
 |------|------|---------|----------|
-| **guides/PHASE4_5_EXECUTION_GUIDE.md** | 22KB | Complete Phase 4-5 execution guide | Everyone |
+| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | Complete Phase 4-6 execution guide | Everyone |
 | **plans/PROJECT_EXECUTION_PLAN.md** | 56KB | Complete 10-week plan with all phases | Technical leads, implementers |
-| **guides/PHASE4_5_EXECUTION_GUIDE.md** | 22KB | Phase 4-5 execution reference | Daily work |
+| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | Phase 4-6 execution reference | Daily work |
 | **.github/CROSSPLATFORM_GUIDE.md** | 11KB | Windows/Mac/Linux compatibility guide | Troubleshooting |
 | **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Course grading requirements | Quality assurance |
 | **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Grading checklist | QA/Grading |
@@ -145,7 +145,7 @@ autoscaling-strategy-compare/
 ### Daily Development
 
 ```
-1. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
+1. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
    ↓
 2. Run appropriate script from scripts/
    ↓
@@ -174,14 +174,14 @@ autoscaling-strategy-compare/
 
 ### New Team Member (First Day)
 ```
-1. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
+1. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
 2. Run: python scripts/setup.py
-3. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
+3. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
 ```
 
 ### Developer (Daily Work)
 ```
-1. Check: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
+1. Check: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
 2. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md
 3. Troubleshoot: .github/CROSSPLATFORM_GUIDE.md
 ```
@@ -221,10 +221,10 @@ autoscaling-strategy-compare/
 
 ## 📚 Reading Order (Recommended)
 
-1. **First Time**: `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` (15 min)
+1. **First Time**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (15 min)
 2. **Setup**: Run `python scripts/setup.py` (5 min)
 3. **Overview**: `README.md` (5 min)
-4. **Daily Ref**: `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` (ongoing)
+4. **Daily Ref**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (ongoing)
 5. **Deep Dive**: `docs/plans/PROJECT_EXECUTION_PLAN.md` (1 hour)
 6. **Troubleshooting**: `.github/CROSSPLATFORM_GUIDE.md` (as needed)
 7. **Team Lead**: `docs/references/ACCEPTANCE_CRITERIA.md` (if applicable)
@@ -263,9 +263,9 @@ aws_utils.py
 
 | Issue | File to Read |
 |-------|--------------|
-| Setup fails | docs/guides/PHASE4_5_EXECUTION_GUIDE.md |
+| Setup fails | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
 | Python errors | .github/CROSSPLATFORM_GUIDE.md |
-| AWS CLI issues | docs/guides/PHASE4_5_EXECUTION_GUIDE.md |
+| AWS CLI issues | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
 | Environment validation fails | check_environment.py output |
 | Team coordination | docs/references/ACCEPTANCE_CRITERIA.md |
 | Grading requirements | docs/references/ACCEPTANCE_CRITERIA.md |

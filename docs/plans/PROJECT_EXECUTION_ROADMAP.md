@@ -67,9 +67,9 @@ Week 2 (Apr 21-24):     Phase 2b + Phase 3-10 (最后冲刺)
   - 验证端到端流程
 
 ### 下周 (Apr 22-24)
-- [x] **Phase 4-5: 实验框架就绪** ✅ 文档已生成
+- [ ] **Phase 4-5: 实验框架就绪** ✅ 文档已生成
     - ✅ 4 个实验脚本已创建: `01_verify_infrastructure.py`, `02_run_cpu_experiment.py`, `03_run_request_rate_experiment.py`, `04_aggregate_results.py`
-    - ✅ 详细执行指南已生成: `PHASE4_5_EXECUTION_GUIDE.md` (22 KB)
+    - ✅ 详细执行指南已生成: `PHASE4_6_EXECUTION_GUIDE.md` (22 KB)
     - ⏳ **待用户执行**: 运行 4 个命令 (~75 分钟) 生成真实 AWS 数据
    
    **用户需执行的命令**:

@@ -63,13 +63,14 @@ This directory contains the complete execution plans for each phase of the autos
 ---
 
 ### Phase 4-5: Experimental Execution
-**File**: `PHASE4_5_EXECUTION_PLAN.md` (11 KB)  
+**File**: `PHASE4_6_EXECUTION_PLAN.md` (11 KB)  
 **Status**: ✅ COMPLETE
 
-**Overview**: Execution of the two core autoscaling strategy experiments:
+**Overview**: Execution of the two core autoscaling strategy experiments and Phase 6 analysis:
 1. **Step 2**: CPU Utilization Target strategy (30 minutes)
 2. **Step 3**: Request Rate Target strategy (30 minutes)
 3. **Step 4**: Results aggregation and comparison
+4. **Phase 6**: Automated analysis with winner determination
 
 **Key Metrics Collected**:
 - Success rates (CPU: 92.95%, Request-Rate: 93.74%)
@@ -95,10 +96,10 @@ This directory contains the complete execution plans for each phase of the autos
 ---
 
 ### Phase 6: Analysis & Winner Determination
-**File**: `PHASE6_ANALYSIS_PLAN.md` (15 KB)  
+**File**: `PHASE4_6_EXECUTION_PLAN.md` (11 KB)  
 **Status**: ✅ COMPLETE
 
-**Overview**: Automated analysis of experimental results using multi-factor scoring algorithm to determine optimal autoscaling strategy.
+**Overview**: Automated analysis of experimental results using multi-factor scoring algorithm to determine optimal autoscaling strategy (now merged with Phase 4-5).
 
 **Analysis Algorithm**:
 1. Parse experiment results from JSON files
@@ -185,8 +186,7 @@ experiments/results/
 docs/plans/
 ├── PHASE2B_APPLICATION_DEVELOPMENT.md      (54 KB) - ✅ Complete
 ├── PHASE3_DEPLOYMENT.md                    (19 KB) - ✅ Complete
-├── PHASE4_5_EXECUTION_PLAN.md              (11 KB) - ✅ Complete
-├── PHASE6_ANALYSIS_PLAN.md                 (15 KB) - ✅ Complete
+├── PHASE4_6_EXECUTION_PLAN.md              (11 KB) - ✅ Complete
 └── plans_index.md                          (this file)
 ```
 
@@ -324,8 +324,7 @@ To proceed with Phase 7 (Final Report & Demo):
 For questions about:
 - **Phase 2B**: See `PHASE2B_APPLICATION_DEVELOPMENT.md`
 - **Phase 3**: See `PHASE3_DEPLOYMENT.md`
-- **Phase 4-5**: See `PHASE4_5_EXECUTION_PLAN.md`
-- **Phase 6**: See `PHASE6_ANALYSIS_PLAN.md`
+- **Phase 4-6**: See `PHASE4_6_EXECUTION_PLAN.md`
 - **Phase 7**: See below
 
 ---
