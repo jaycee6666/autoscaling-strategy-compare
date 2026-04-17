@@ -1,0 +1,76 @@
+{
+  "timestamp_utc": "2026-04-17T09:22:42.436487+00:00",
+  "region": "us-east-1",
+  "config": {
+    "cpu_asg_name": "asg-cpu",
+    "request_asg_name": "asg-request",
+    "alb_dns": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com"
+  },
+  "checks": [
+    {
+      "name": "asg:asg-cpu",
+      "passed": true,
+      "details": {
+        "min_size": 1,
+        "max_size": 5,
+        "desired_capacity": 1,
+        "instance_count": 1,
+        "healthy_instance_count": 1
+      }
+    },
+    {
+      "name": "asg:asg-request",
+      "passed": true,
+      "details": {
+        "min_size": 1,
+        "max_size": 5,
+        "desired_capacity": 2,
+        "instance_count": 2,
+        "healthy_instance_count": 2
+      }
+    },
+    {
+      "name": "alb:state",
+      "passed": true,
+      "details": {
+        "state": "active",
+        "dns_name": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com"
+      }
+    },
+    {
+      "name": "target_group:arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2",
+      "passed": false,
+      "details": {
+        "target_count": 1,
+        "healthy_count": 0
+      }
+    },
+    {
+      "name": "target_group:arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002",
+      "passed": true,
+      "details": {
+        "target_count": 2,
+        "healthy_count": 2
+      }
+    },
+    {
+      "name": "endpoint:/health",
+      "passed": true,
+      "details": {
+        "url": "http://experiment-alb-1466294824.us-east-1.elb.amazonaws.com/health",
+        "status_code": 200,
+        "response": {
+          "status": "healthy",
+          "timestamp": "2026-04-17T09:22:42.210913",
+          "version": "1.0"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total_checks": 6,
+    "passed_checks": 5,
+    "failed_checks": 1,
+    "all_passed": false
+  }
+}

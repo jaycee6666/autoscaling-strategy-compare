@@ -26,7 +26,9 @@ from typing import Optional
 def log(msg: str) -> None:
     """Print timestamped log message."""
     ts = datetime.now(timezone.utc).isoformat()
-    print(f"[{ts}] {msg}", flush=True)
+    # Replace unicode characters for Windows console compatibility
+    msg_safe = msg.encode("utf-8", errors="replace").decode("utf-8")
+    print(f"[{ts}] {msg_safe}", flush=True)
 
 
 def run_step(step_num: int, script_name: str, description: str) -> bool:

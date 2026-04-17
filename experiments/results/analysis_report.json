@@ -1,0 +1,50 @@
+{
+  "timestamp_utc": "2026-04-17T11:15:36.629799+00:00",
+  "comparison": {
+    "cpu_strategy": {
+      "strategy": "CPU Utilization Target",
+      "total_requests": 1433,
+      "success_rate": 0.9295184926727146,
+      "avg_response_time_ms": 970.6417442942919,
+      "p95_response_time_ms": 1175.7360999999946,
+      "p99_response_time_ms": 1935.852699999998,
+      "max_instances": 2,
+      "avg_instances": 1.2083333333333333,
+      "scale_out_events": 0,
+      "scale_in_events": 1,
+      "avg_cpu_utilization": 0.6520388026107498
+    },
+    "request_rate_strategy": {
+      "strategy": "Request Rate Target",
+      "total_requests": 1485,
+      "success_rate": 0.9373737373737374,
+      "avg_response_time_ms": 959.9272008620709,
+      "p95_response_time_ms": 1026.3390000000072,
+      "p99_response_time_ms": 1691.8502999999987,
+      "max_instances": 2,
+      "avg_instances": 2,
+      "scale_out_events": 0,
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 0.19916741836750262
+    }
+  },
+  "metrics": {
+    "cpu_strategy": {
+      "cost_factor": 7200,
+      "cost_per_request": 5.024424284717377,
+      "latency_score": 1245.7216777177143,
+      "success_rate_pct": 92.95184926727146
+    },
+    "request_rate_strategy": {
+      "cost_factor": 7200,
+      "cost_per_request": 4.848484848484849,
+      "latency_score": 1132.876540344831,
+      "success_rate_pct": 93.73737373737374
+    }
+  },
+  "winner": {
+    "strategy": "Request-Rate Strategy",
+    "confidence_pct": 2.3685992891539343,
+    "rationale": "Request-rate strategy achieved better response time (960ms vs 971ms)"
+  }
+}
