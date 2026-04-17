@@ -75,12 +75,11 @@ Phase 8-10: 演示和提交    ⏳ TODO
 
 ## 📝 **文档清理记录**
 
-为了保持文档的整洁和相关性，已删除以下基础/冗余文档：
-- ❌ GITHUB_SETUP.md (基础GitHub指南 - 可在git中找到)
-- ❌ GETTING_STARTED.md (基础快速开始)
-- ❌ VIRTUAL_ENVIRONMENT.md (虚拟环境设置)
-- ❌ ADMIN_GUIDE.md (通用管理指南)
-- ❌ QUICK_REFERENCE.md (快速参考 - 与ROADMAP重复)
+为了保持文档的整洁和相关性，已将以下基础/冗余文档整合到现有指南中：
+- ❌ GETTING_STARTED.md → 参考 docs/guides/PHASE4_5_QUICK_START.md
+- ❌ VIRTUAL_ENVIRONMENT.md → 参考 docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md
+- ❌ ADMIN_GUIDE.md → 参考 docs/references/ACCEPTANCE_CRITERIA.md
+- ❌ QUICK_REFERENCE.md → 参考 docs/guides/PHASE4_5_QUICK_START.md
 - ❌ README_OPTIMIZATIONS.md (优化摘要 - 已过时)
 - ❌ OPTIMIZATION_SUMMARY.md (优化总结 - 已过时)
 

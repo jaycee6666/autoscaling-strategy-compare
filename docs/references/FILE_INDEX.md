@@ -5,15 +5,20 @@
 ```
 autoscaling-strategy-compare/
 ├── docs/                              # Documentation (1500+ lines)
-│   ├── GETTING_STARTED.md            # ⭐ START HERE - Setup guide
-│   ├── PROJECT_EXECUTION_PLAN.md     # Full 10-week execution plan
-│   ├── QUICK_REFERENCE.md            # Command cheat sheet
-│   ├── CROSSPLATFORM_GUIDE.md        # Windows/Mac/Linux guide
-│   ├── ADMIN_GUIDE.md                # Team coordination guide
-│   ├── ACCEPTANCE_CRITERIA.md        # Grading requirements
-│   ├── OPTIMIZATION_SUMMARY.md       # Before/after improvements
-│   └── README_OPTIMIZATIONS.md       # Optimization overview
-│
+│   ├── guides/
+│   │   ├── PHASE4_5_QUICK_START.md   # ⭐ START HERE - Setup guide
+│   │   ├── PHASE4_5_EXECUTION_GUIDE.md # Full execution guide
+│   │   ├── PHASE4_5_ENVIRONMENT_SETUP.md # Environment setup
+│   │   ├── CROSSPLATFORM_GUIDE.md    # Windows/Mac/Linux guide
+│   │   └── ...
+│   ├── plans/
+│   │   ├── PROJECT_EXECUTION_PLAN.md # Full 10-week execution plan
+│   │   └── ...
+│   ├── references/
+│   │   ├── ACCEPTANCE_CRITERIA.md    # Grading requirements
+│   │   ├── FILE_INDEX.md             # This file
+│   │   └── ...
+│   └── README.md
 ├── scripts/                           # Python automation (500+ lines)
 │   ├── check_environment.py          # ⭐ Environment validation
 │   ├── init_project.py               # ⭐ Project initialization
@@ -54,14 +59,14 @@ autoscaling-strategy-compare/
 
 | File | Size | Purpose | For Whom |
 |------|------|---------|----------|
-| **GETTING_STARTED.md** | 8KB | Step-by-step first-time setup | Everyone |
-| **PROJECT_EXECUTION_PLAN.md** | 56KB | Complete 10-week plan with all phases | Technical leads, implementers |
-| **QUICK_REFERENCE.md** | 7.5KB | Command cheat sheet and FAQ | Quick lookup |
-| **CROSSPLATFORM_GUIDE.md** | 8.3KB | Windows/Mac/Linux compatibility guide | Troubleshooting |
-| **ADMIN_GUIDE.md** | 9.7KB | Team coordination and management | Project managers |
-| **ACCEPTANCE_CRITERIA.md** | 9.6KB | Course grading requirements | Quality assurance |
-| **OPTIMIZATION_SUMMARY.md** | 7.1KB | Before/after comparison | Overview readers |
-| **README_OPTIMIZATIONS.md** | 6KB | Optimization overview | Quick context |
+| **guides/PHASE4_5_QUICK_START.md** | 8KB | Step-by-step first-time setup | Everyone |
+| **plans/PROJECT_EXECUTION_PLAN.md** | 56KB | Complete 10-week plan with all phases | Technical leads, implementers |
+| **guides/PHASE4_5_QUICK_START.md** | 7.5KB | Command cheat sheet and FAQ | Quick lookup |
+| **guides/CROSSPLATFORM_GUIDE.md** | 8.3KB | Windows/Mac/Linux compatibility guide | Troubleshooting |
+| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Course grading requirements | Quality assurance |
+| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Course grading requirements | Quality assurance |
+| **references/ACCEPTANCE_CRITERIA.md** | 7.1KB | Project overview | Overview readers |
+| **README.md** | 6KB | Project overview | Quick context |
 
 **Total Documentation**: 110+ KB, 5500+ lines
 
@@ -89,7 +94,7 @@ autoscaling-strategy-compare/
 | setup_alb.py | Load balancer configuration | 5 |
 | setup_asg.py | Auto Scaling Groups | 6 |
 | deploy_all.py | One-click deployment | 6 |
-| verify_deployment.py | Health checks and validation | 7 |
+| verify_infrastructure.py | Health checks and validation | 7 |
 | cleanup_infrastructure.py | Resource cleanup | 8 |
 
 ### Configuration (config/)
@@ -139,13 +144,13 @@ autoscaling-strategy-compare/
 ### Daily Development
 
 ```
-1. Read: docs/QUICK_REFERENCE.md
+1. Read: docs/guides/PHASE4_5_QUICK_START.md
    ↓
 2. Run appropriate script from scripts/
    ↓
-3. Refer to: docs/PROJECT_EXECUTION_PLAN.md for context
+3. Refer to: docs/plans/PROJECT_EXECUTION_PLAN.md for context
    ↓
-4. Troubleshoot: docs/CROSSPLATFORM_GUIDE.md if needed
+4. Troubleshoot: docs/guides/CROSSPLATFORM_GUIDE.md if needed
 ```
 
 ## 📊 File Statistics
@@ -168,28 +173,28 @@ autoscaling-strategy-compare/
 
 ### New Team Member (First Day)
 ```
-1. Read: docs/GETTING_STARTED.md
+1. Read: docs/guides/PHASE4_5_QUICK_START.md
 2. Run: python setup.py
-3. Read: docs/QUICK_REFERENCE.md
+3. Read: docs/guides/PHASE4_5_QUICK_START.md
 ```
 
 ### Developer (Daily Work)
 ```
-1. Check: docs/QUICK_REFERENCE.md
-2. Follow: docs/PROJECT_EXECUTION_PLAN.md
-3. Troubleshoot: docs/CROSSPLATFORM_GUIDE.md
+1. Check: docs/guides/PHASE4_5_QUICK_START.md
+2. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md
+3. Troubleshoot: docs/guides/CROSSPLATFORM_GUIDE.md
 ```
 
 ### Project Manager
 ```
-1. Read: docs/ADMIN_GUIDE.md
-2. Monitor: Phase progress in docs/PROJECT_EXECUTION_PLAN.md
+1. Read: docs/references/ACCEPTANCE_CRITERIA.md
+2. Monitor: Phase progress in docs/plans/PROJECT_EXECUTION_PLAN.md
 3. Use: ACCEPTANCE_CRITERIA.md for validation
 ```
 
 ### DevOps/Infrastructure
 ```
-1. Study: docs/PROJECT_EXECUTION_PLAN.md (Phase 1-3)
+1. Study: docs/plans/PROJECT_EXECUTION_PLAN.md (Phase 1-3)
 2. Use: scripts/aws_utils.py as reference
 3. Create: Phase 1-7 infrastructure scripts
 ```
@@ -215,13 +220,13 @@ autoscaling-strategy-compare/
 
 ## 📚 Reading Order (Recommended)
 
-1. **First Time**: `docs/GETTING_STARTED.md` (15 min)
+1. **First Time**: `docs/guides/PHASE4_5_QUICK_START.md` (15 min)
 2. **Setup**: Run `python setup.py` (5 min)
 3. **Overview**: `README.md` (5 min)
-4. **Daily Ref**: `docs/QUICK_REFERENCE.md` (ongoing)
-5. **Deep Dive**: `docs/PROJECT_EXECUTION_PLAN.md` (1 hour)
-6. **Troubleshooting**: `docs/CROSSPLATFORM_GUIDE.md` (as needed)
-7. **Team Lead**: `docs/ADMIN_GUIDE.md` (if applicable)
+4. **Daily Ref**: `docs/guides/PHASE4_5_QUICK_START.md` (ongoing)
+5. **Deep Dive**: `docs/plans/PROJECT_EXECUTION_PLAN.md` (1 hour)
+6. **Troubleshooting**: `docs/guides/CROSSPLATFORM_GUIDE.md` (as needed)
+7. **Team Lead**: `docs/references/ACCEPTANCE_CRITERIA.md` (if applicable)
 
 ## 🔗 File Dependencies
 
@@ -244,7 +249,7 @@ aws_utils.py
 
 ## 🎓 Learning Path
 
-1. **Understand**: Read PROJECT_EXECUTION_PLAN.md (all 10 phases)
+1. **Understand**: Read docs/plans/PROJECT_EXECUTION_PLAN.md (all 10 phases)
 2. **Setup**: Run setup.py on your machine
 3. **Test**: Run check_environment.py and aws_utils.py
 4. **Implement**: Create Phase 1-7 scripts following aws_utils.py pattern
@@ -257,12 +262,12 @@ aws_utils.py
 
 | Issue | File to Read |
 |-------|--------------|
-| Setup fails | GETTING_STARTED.md |
-| Python errors | CROSSPLATFORM_GUIDE.md |
-| AWS CLI issues | QUICK_REFERENCE.md |
+| Setup fails | docs/guides/PHASE4_5_QUICK_START.md |
+| Python errors | docs/guides/CROSSPLATFORM_GUIDE.md |
+| AWS CLI issues | docs/guides/PHASE4_5_QUICK_START.md |
 | Environment validation fails | check_environment.py output |
-| Team coordination | ADMIN_GUIDE.md |
-| Grading requirements | ACCEPTANCE_CRITERIA.md |
+| Team coordination | docs/references/ACCEPTANCE_CRITERIA.md |
+| Grading requirements | docs/references/ACCEPTANCE_CRITERIA.md |
 
 ---
 

@@ -14,20 +14,20 @@
 
 1. **START_HERE.txt** - Quick welcome and 3-step setup
 2. **README.md** - Project overview and quick reference
-3. **docs/GETTING_STARTED.md** - Detailed 10-minute setup guide
+3. **docs/guides/PHASE4_5_QUICK_START.md** - Detailed 10-minute setup guide
 
 ### 📚 Documentation (8 Files, 5,600+ Lines)
 
 | File | Purpose | Audience |
 |------|---------|----------|
-| PROJECT_EXECUTION_PLAN.md (2,099 lines) | Complete 10-week execution plan | Everyone |
-| ADMIN_GUIDE.md (470 lines) | Team coordination and management | Project managers |
-| CROSSPLATFORM_GUIDE.md (387 lines) | Windows/Mac/Linux compatibility | Troubleshooting |
-| QUICK_REFERENCE.md (353 lines) | Commands, FAQ, cheat sheet | Daily work |
-| ACCEPTANCE_CRITERIA.md (323 lines) | Grading requirements checklist | QA/Grading |
-| GETTING_STARTED.md (248 lines) | Step-by-step setup guide | New members |
-| OPTIMIZATION_SUMMARY.md (267 lines) | Before/after improvements | Context/overview |
-| README_OPTIMIZATIONS.md (279 lines) | Detailed optimizations | Reference |
+| docs/plans/PROJECT_EXECUTION_PLAN.md | Complete 10-week execution plan | Everyone |
+| docs/references/ACCEPTANCE_CRITERIA.md | Team coordination and management | Project managers |
+| docs/guides/CROSSPLATFORM_GUIDE.md | Windows/Mac/Linux compatibility | Troubleshooting |
+| docs/guides/PHASE4_5_QUICK_START.md | Commands, FAQ, cheat sheet | Daily work |
+| docs/references/ACCEPTANCE_CRITERIA.md | Grading requirements checklist | QA/Grading |
+| docs/guides/PHASE4_5_QUICK_START.md | Step-by-step setup guide | New members |
+| docs/references/ACCEPTANCE_CRITERIA.md | Before/after improvements | Context/overview |
+| README.md | Detailed optimizations | Reference |
 
 ### 💻 Python Scripts (4 Ready, 1,220 Lines)
 
@@ -82,7 +82,7 @@ python setup.py
 python scripts/check_environment.py
 
 # 5. Read documentation
-# Start with: docs/GETTING_STARTED.md
+# Start with: docs/guides/PHASE4_5_QUICK_START.md
 ```
 
 ---
@@ -155,7 +155,7 @@ scripts/
 ├── setup_alb.py               # Application load balancer
 ├── setup_asg.py               # Auto scaling groups
 ├── deploy_all.py              # Orchestrate deployment
-├── verify_deployment.py       # Health checks
+├── verify_infrastructure.py   # Health checks
 └── cleanup_infrastructure.py  # Resource cleanup
 ```
 
@@ -176,22 +176,22 @@ app/
 ### First Day
 
 1. **START_HERE.txt** (2 min) - Welcome and overview
-2. **docs/GETTING_STARTED.md** (8 min) - Setup instructions
+2. **docs/guides/PHASE4_5_QUICK_START.md** (8 min) - Setup instructions
 3. **Run setup.py** (5 min) - Automated setup
 4. **README.md** (5 min) - Project overview
 
 ### First Week
 
-1. **docs/PROJECT_EXECUTION_PLAN.md** (60 min) - Full plan
-2. **docs/QUICK_REFERENCE.md** (5 min) - Command reference
+1. **docs/plans/PROJECT_EXECUTION_PLAN.md** (60 min) - Full plan
+2. **docs/guides/PHASE4_5_QUICK_START.md** (5 min) - Command reference
 3. **Create Phase 1 infrastructure scripts** - Using aws_utils.py as guide
 
 ### Reference as Needed
 
-- **docs/CROSSPLATFORM_GUIDE.md** - When troubleshooting
-- **docs/ADMIN_GUIDE.md** - If managing the team
+- **docs/guides/CROSSPLATFORM_GUIDE.md** - When troubleshooting
+- **docs/references/ACCEPTANCE_CRITERIA.md** - If managing the team
 - **FILE_INDEX.md** - For file navigation
-- **docs/ACCEPTANCE_CRITERIA.md** - Before final submission
+- **docs/references/ACCEPTANCE_CRITERIA.md** - Before final submission
 
 ---
 
@@ -202,29 +202,29 @@ app/
 ```bash
 1. Clone/download the project
 2. Read: START_HERE.txt (2 min)
-3. Read: docs/GETTING_STARTED.md (8 min)
+3. Read: docs/guides/PHASE4_5_QUICK_START.md (8 min)
 4. Run: python setup.py (5 min)
 5. Edit: config/.env (2 min)
 6. Verify: python scripts/check_environment.py (1 min)
-7. Continue: docs/PROJECT_EXECUTION_PLAN.md
+7. Continue: docs/plans/PROJECT_EXECUTION_PLAN.md
 ```
 
 ### For Developers
 
 ```bash
-1. Daily: Check docs/QUICK_REFERENCE.md
-2. Follow: docs/PROJECT_EXECUTION_PLAN.md phases
+1. Daily: Check docs/guides/PHASE4_5_QUICK_START.md
+2. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md phases
 3. Reference: scripts/aws_utils.py for AWS operations
-4. When stuck: docs/CROSSPLATFORM_GUIDE.md
+4. When stuck: docs/guides/CROSSPLATFORM_GUIDE.md
 ```
 
 ### For Project Leads
 
 ```bash
-1. Read: docs/ADMIN_GUIDE.md
-2. Track: docs/PROJECT_EXECUTION_PLAN.md progress
+1. Read: docs/references/ACCEPTANCE_CRITERIA.md
+2. Track: docs/plans/PROJECT_EXECUTION_PLAN.md progress
 3. Assign: Phase 1-7 scripts to team members
-4. Verify: docs/ACCEPTANCE_CRITERIA.md before submission
+4. Verify: docs/references/ACCEPTANCE_CRITERIA.md before submission
 ```
 
 ---
@@ -255,11 +255,11 @@ aws_utils.py
 
 | Issue | Solution | File |
 |-------|----------|------|
-| Python not found | Use python3 or add to PATH | GETTING_STARTED.md |
-| AWS CLI not found | Install AWS CLI v2 | GETTING_STARTED.md |
-| AWS credentials error | Set environment variables | CROSSPLATFORM_GUIDE.md |
-| Import errors | pip install -r requirements.txt | GETTING_STARTED.md |
-| Platform-specific errors | Check CROSSPLATFORM_GUIDE.md | docs/ |
+| Python not found | Use python3 or add to PATH | docs/guides/PHASE4_5_QUICK_START.md |
+| AWS CLI not found | Install AWS CLI v2 | docs/guides/PHASE4_5_QUICK_START.md |
+| AWS credentials error | Set environment variables | docs/guides/CROSSPLATFORM_GUIDE.md |
+| Import errors | pip install -r requirements.txt | docs/guides/PHASE4_5_QUICK_START.md |
+| Platform-specific errors | Check docs/guides/CROSSPLATFORM_GUIDE.md | docs/ |
 
 ---
 
@@ -299,9 +299,9 @@ aws_utils.py
 
 ### Project Documentation
 
-- **Getting Started**: docs/GETTING_STARTED.md
-- **Full Plan**: docs/PROJECT_EXECUTION_PLAN.md
-- **Quick Ref**: docs/QUICK_REFERENCE.md
-- **Troubleshooting**: docs/CROSSPLATFORM_GUIDE.md
+- **Getting Started**: docs/guides/PHASE4_5_QUICK_START.md
+- **Full Plan**: docs/plans/PROJECT_EXECUTION_PLAN.md
+- **Quick Ref**: docs/guides/PHASE4_5_QUICK_START.md
+- **Troubleshooting**: docs/guides/CROSSPLATFORM_GUIDE.md
 
 ### Extern

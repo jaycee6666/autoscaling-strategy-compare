@@ -72,7 +72,7 @@ python setup.py
 
 **就这样!** 环境已准备好，跳到 Phase 1
 
-**了解更多**: 详见 `docs/VIRTUAL_ENVIRONMENT.md` 和 `docs/GETTING_STARTED.md`
+**了解更多**: 详见 `docs/guides/PHASE4_5_QUICK_START.md` 或 `docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md`
 
 ---
 
@@ -477,7 +477,7 @@ python scripts/init_project.py
 REM 跨平台脚本示例 - Windows版本
 REM 该脚本从Python脚本调用，保持一致性
 
-python scripts/deploy_infrastructure.py
+python scripts/deploy_all.py
 
 if %errorlevel% neq 0 (
     echo Error during deployment
@@ -495,7 +495,7 @@ echo Deployment successful
 # 跨平台脚本示例 - Linux/macOS版本
 # 该脚本从Python脚本调用，保持一致性
 
-python scripts/deploy_infrastructure.py
+python scripts/deploy_all.py
 
 if [ $? -ne 0 ]; then
     echo "Error during deployment"
@@ -537,7 +537,7 @@ if __name__ == '__main__':
 ### 0.4 一键部署脚本（跨平台）
 
 ```python
-# scripts/deploy_infrastructure.py
+# scripts/deploy_all.py
 """
 跨平台基础设施部署脚本
 自动检测平台并执行相应操作
@@ -604,7 +604,7 @@ class CrossPlatformDeployer:
             ("创建安全组", "python scripts/setup_security_groups.py"),
             ("设置IAM角色", "python scripts/setup_iam_role.py"),
             ("创建ALB", "python scripts/setup_alb.py"),
-            ("创建AMI", "python scripts/create_ami.py"),
+            ("创建AMI", "python scripts/setup_instances.py"),
             ("创建ASG", "python scripts/setup_asg.py"),
         ]
         
@@ -1277,7 +1277,7 @@ from scripts.setup_network import NetworkSetup
 from scripts.setup_security_groups import SecurityGroupSetup
 from scripts.setup_iam_role import IAMSetup
 from scripts.setup_alb import ALBSetup
-from scripts.create_ami import AMICreation
+from scripts.setup_instances import AMICreation
 from scripts.setup_asg import ASGSetup
 
 class InfrastructureDeployer:
@@ -1570,7 +1570,7 @@ python scripts/deploy_all.py
 ### 4.2 验证部署
 
 ```python
-# scripts/verify_deployment.py
+# scripts/verify_infrastructure.py
 """
 验证部署 - 跨平台
 """
@@ -2087,7 +2087,7 @@ aws ec2 describe-instances --filters "Name=tag:Project,Values=Autoscaling" --que
   - scripts/setup_security_groups.py    # 安全组
   - scripts/setup_iam_role.py           # IAM角色
   - scripts/setup_alb.py                # 负载均衡器
-  - scripts/create_ami.py               # AMI创建
+  - scripts/setup_instances.py               # AMI创建
   - scripts/setup_asg.py                # Auto Scaling
   - scripts/deploy_all.py               # 一键部署
 
@@ -2103,7 +2103,7 @@ aws ec2 describe-instances --filters "Name=tag:Project,Values=Autoscaling" --que
   - data-collection/analyze_results.py  # 数据分析
 
 ✓ 工具脚本:
-  - scripts/verify_deployment.py        # 验证部署
+  - scripts/verify_infrastructure.py        # 验证部署
   - scripts/cleanup_infrastructure.py   # 清理资源
   - scripts/cache_manager.py            # 缓存管理
   - scripts/secure_config.py            # 安全检查
@@ -2124,7 +2124,7 @@ Week 2-3: 继续并行
 
 Week 4: 同步并部署
 ├─ 所有人: 执行 python scripts/deploy_all.py
-└─ 一起验证: python scripts/verify_deployment.py
+└─ 一起验证: python scripts/verify_infrastructure.py
 
 Week 5-6: 并行实验
 ├─ Member A: Scenario A 实验

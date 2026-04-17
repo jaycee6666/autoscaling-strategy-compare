@@ -185,7 +185,7 @@ python data-collection/analyze_results.py
 ### Week 4 - 部署验证
 
 - [ ] **所有成员验证**
-  - [ ] 运行 `python scripts/verify_deployment.py`
+  - [ ] 运行 `python scripts/verify_infrastructure.py`
   - [ ] 所有资源都能访问
   - [ ] ALB端点可以curl测试
   - [ ] CloudWatch指标可见
@@ -430,9 +430,9 @@ error: ...
    python -m venv venv
    source venv/bin/activate              # macOS/Linux
    venv\Scripts\activate.bat             # Windows
-   pip install -r requirements.txt
-   ```
-3. **查看** `docs/VIRTUAL_ENVIRONMENT.md` 获得详细帮助
+    pip install -r requirements.txt
+    ```
+3. **查看** `docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md` 获得详细帮助
 
 ### 问题 5: AWS CLI 找不到
 
@@ -452,7 +452,7 @@ aws: command not found
 
 ## 📚 更多虚拟环境帮助
 
-**完整虚拟环境文档**: 查看 `docs/VIRTUAL_ENVIRONMENT.md`
+**完整虚拟环境文档**: 查看 `docs/guides/PHASE4_5_ENVIRONMENT_SETUP.md`
 
 包括:
 - ✅ 详细的设置步骤

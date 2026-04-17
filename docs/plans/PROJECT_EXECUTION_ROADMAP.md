@@ -170,9 +170,9 @@ autoscaling-strategy-compare/
 └── docs/
     ├── PROJECT_EXECUTION_PLAN.md (原始)
     ├── PROJECT_EXECUTION_ROADMAP.md (本文件 - 修订版)
-    ├── VIRTUAL_ENVIRONMENT.md
-    ├── GETTING_STARTED.md
-    ├── QUICK_REFERENCE.md
+    ├── guides/PHASE4_5_ENVIRONMENT_SETUP.md
+    ├── guides/PHASE4_5_QUICK_START.md
+    ├── guides/PHASE4_5_QUICK_START.md
     └── ...
 ```
 
