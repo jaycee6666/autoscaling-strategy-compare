@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-04-17T09:22:42.436487+00:00",
+  "timestamp_utc": "2026-04-17T17:52:33.076336+00:00",
   "region": "us-east-1",
   "config": {
     "cpu_asg_name": "asg-cpu",
@@ -47,10 +47,10 @@
     },
     {
       "name": "target_group:arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002",
-      "passed": true,
+      "passed": false,
       "details": {
         "target_count": 2,
-        "healthy_count": 2
+        "healthy_count": 0
       }
     },
     {
@@ -61,7 +61,7 @@
         "status_code": 200,
         "response": {
           "status": "healthy",
-          "timestamp": "2026-04-17T09:22:42.210913",
+          "timestamp": "2026-04-17T17:52:32.800559",
           "version": "1.0"
         }
       }
@@ -69,8 +69,8 @@
   ],
   "summary": {
     "total_checks": 6,
-    "passed_checks": 5,
-    "failed_checks": 1,
+    "passed_checks": 4,
+    "failed_checks": 2,
     "all_passed": false
   }
 }

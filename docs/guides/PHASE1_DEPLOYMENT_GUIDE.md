@@ -1,323 +1,323 @@
-# Phase 1: AWS Infrastructure Implementation Guide
+# Phase 1: AWS 基础设施实现指南
 
-## Overview
+## 概述
 
-This guide explains how to use the Phase 1 infrastructure deployment scripts to provision the complete AWS infrastructure for the autoscaling strategy comparison experiment.
+本指南说明如何使用 Phase 1 基础设施部署脚本为自动扩缩容策略对比实验配置完整的 AWS 基础设施。
 
-## Architecture
+## 架构
 
 ```
 VPC (10.0.0.0/16)
-├── Public Subnets (10.0.1.0/24, 10.0.2.0/24) - ALB
-├── Private Subnets (10.0.11.0/24, 10.0.12.0/24) - Instances
-├── Internet Gateway
-├── Security Groups (ALB, App)
-├── Application Load Balancer (experiment-alb)
-│   ├── Target Group: tg-cpu-asg
-│   └── Target Group: tg-request-asg
-├── Auto Scaling Group: asg-cpu
-│   └── Launch Template: app-cpu-lt
-└── Auto Scaling Group: asg-request
-    └── Launch Template: app-request-lt
+├── 公有子网 (10.0.1.0/24, 10.0.2.0/24) - ALB
+├── 私有子网 (10.0.11.0/24, 10.0.12.0/24) - 实例
+├── 互联网网关
+├── 安全组 (ALB, App)
+├── 应用负载均衡器 (experiment-alb)
+│   ├── 目标组: tg-cpu-asg
+│   └── 目标组: tg-request-asg
+├── 自动扩展组: asg-cpu
+│   └── 启动模板: app-cpu-lt
+└── 自动扩展组: asg-request
+    └── 启动模板: app-request-lt
 ```
 
-## Prerequisites
+## 前置要求
 
-1. **AWS Account** with credentials configured
+1. **AWS 账户**已配置凭证
    ```bash
    aws configure
-   # Enter your AWS Access Key ID, Secret Access Key, region (us-east-1)
+   # 输入 AWS 访问密钥 ID、秘密访问密钥、区域 (us-east-1)
    ```
 
-2. **Python 3.8+** with boto3 installed
+2. **Python 3.8+** 和 boto3
    ```bash
    python -m venv venv
    source venv/bin/activate  # Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-3. **AWS Permissions**: Your IAM user needs permissions for:
-   - EC2 (VPC, subnets, security groups, instances)
-   - IAM (roles, instance profiles)
-   - ELB (Application Load Balancer, target groups)
-   - Auto Scaling (Auto Scaling groups, policies)
-   - CloudWatch (monitoring)
+3. **AWS 权限**: 您的 IAM 用户需要以下权限：
+   - EC2 (VPC、子网、安全组、实例)
+   - IAM (角色、实例配置文件)
+   - ELB (应用负载均衡器、目标组)
+   - Auto Scaling (自动扩展组、策略)
+   - CloudWatch (监控)
 
-## Quick Start
+## 快速开始
 
-### Option 1: One-Click Deployment (Recommended)
+### 选项 1: 一键部署 (推荐)
 
-Deploy the entire infrastructure in one command:
+用一条命令部署整个基础设施：
 
 ```bash
 python scripts/deploy_all.py
 ```
 
-This will:
-1. Create VPC and networking
-2. Create IAM roles
-3. Create security groups
-4. Create launch templates
-5. Create ALB
-6. Create ASGs
-7. Verify everything is working
+这将执行以下操作：
+1. 创建 VPC 和网络
+2. 创建 IAM 角色
+3. 创建安全组
+4. 创建启动模板
+5. 创建 ALB
+6. 创建 ASG
+7. 验证一切正常工作
 
-**Expected time:** 5-10 minutes
+**预期耗时**: 5-10 分钟
 
-### Option 2: Step-by-Step Deployment
+### 选项 2: 逐步部署
 
-Run each script individually:
+逐个运行各个脚本：
 
 ```bash
-# 1. Network infrastructure (VPC, subnets, IGW)
+# 1. 网络基础设施 (VPC, 子网, IGW)
 python scripts/setup_network.py
-# Output: infrastructure/network-config.json
+# 输出: infrastructure/network-config.json
 
-# 2. IAM role and policies
+# 2. IAM 角色和策略
 python scripts/setup_iam_role.py
-# Output: infrastructure/iam-config.json
+# 输出: infrastructure/iam-config.json
 
-# 3. Security groups
+# 3. 安全组
 python scripts/setup_security_groups.py
-# Output: infrastructure/security-groups-config.json
+# 输出: infrastructure/security-groups-config.json
 
-# 4. Launch templates
+# 4. 启动模板
 python scripts/setup_instances.py
-# Output: infrastructure/launch-templates-config.json
+# 输出: infrastructure/launch-templates-config.json
 
-# 5. Application Load Balancer
+# 5. 应用负载均衡器
 python scripts/setup_alb.py
-# Output: infrastructure/alb-config.json
+# 输出: infrastructure/alb-config.json
 
-# 6. Auto Scaling Groups
+# 6. 自动扩展组
 python scripts/setup_asg.py
-# Output: infrastructure/asg-config.json
+# 输出: infrastructure/asg-config.json
 
-# 7. Verification
+# 7. 验证
 python scripts/verify_infrastructure.py
-# Output: infrastructure/verification-report.json
+# 输出: infrastructure/verification-report.json
 ```
 
-### Option 3: Verify Existing Infrastructure
+### 选项 3: 验证现有基础设施
 
-If you already have infrastructure deployed and just want to verify it:
+如果您已经部署了基础设施，只想验证它：
 
 ```bash
 python scripts/deploy_all.py --verify-only
 ```
 
-## Output Files
+## 输出文件
 
-All configuration files are saved to `infrastructure/` directory:
+所有配置文件保存到 `infrastructure/` 目录：
 
 ```
 infrastructure/
-├── network-config.json              # VPC, subnets, IGW IDs
-├── iam-config.json                  # IAM role and instance profile ARNs
-├── security-groups-config.json      # Security group IDs
-├── launch-templates-config.json     # Launch template IDs
-├── alb-config.json                  # Load balancer DNS and target group ARNs
-├── asg-config.json                  # Auto Scaling Group names
-├── verification-report.json         # Status of all components
-└── deployment-log.json              # Deployment execution log
+├── network-config.json              # VPC、子网、IGW ID
+├── iam-config.json                  # IAM 角色和实例配置文件 ARN
+├── security-groups-config.json      # 安全组 ID
+├── launch-templates-config.json     # 启动模板 ID
+├── alb-config.json                  # 负载均衡器 DNS 和目标组 ARN
+├── asg-config.json                  # 自动扩展组名称
+├── verification-report.json         # 所有组件状态
+└── deployment-log.json              # 部署执行日志
 ```
 
-Each file is JSON format for easy parsing by other scripts.
+每个文件都是 JSON 格式，便于其他脚本解析。
 
-## What Gets Created
+## 将创建的资源
 
-### Network (setup_network.py)
+### 网络 (setup_network.py)
 - **VPC**: 10.0.0.0/16
-- **Public Subnets**: 10.0.1.0/24 (us-east-1a), 10.0.2.0/24 (us-east-1b)
-- **Private Subnets**: 10.0.11.0/24 (us-east-1a), 10.0.12.0/24 (us-east-1b)
-- **Internet Gateway**: For public subnet routing
-- **Route Tables**: Public (to IGW) and private (isolated)
+- **公有子网**: 10.0.1.0/24 (us-east-1a), 10.0.2.0/24 (us-east-1b)
+- **私有子网**: 10.0.11.0/24 (us-east-1a), 10.0.12.0/24 (us-east-1b)
+- **互联网网关**: 用于公有子网路由
+- **路由表**: 公有 (到 IGW) 和私有 (隔离)
 
 ### IAM (setup_iam_role.py)
-- **Role**: `EC2RoleForExperiment`
-- **Policies**:
-  - CloudWatchAgentServerPolicy (send metrics)
-  - AmazonS3ReadOnlyAccess (read config)
-  - AmazonSSMManagedInstanceCore (remote access)
-  - CloudWatchMetrics (custom metrics)
-- **Instance Profile**: `EC2InstanceProfileForExperiment`
+- **角色**: `EC2RoleForExperiment`
+- **策略**:
+  - CloudWatchAgentServerPolicy (发送指标)
+  - AmazonS3ReadOnlyAccess (读取配置)
+  - AmazonSSMManagedInstanceCore (远程访问)
+  - CloudWatchMetrics (自定义指标)
+- **实例配置文件**: `EC2InstanceProfileForExperiment`
 
-### Security Groups (setup_security_groups.py)
-- **ALB Security Group** (alb-sg):
-  - Inbound: HTTP 80, HTTPS 443 from anywhere
-  - Outbound: Port 8080 to app-sg
+### 安全组 (setup_security_groups.py)
+- **ALB 安全组** (alb-sg):
+  - 入站: HTTP 80、HTTPS 443 来自任何地方
+  - 出站: 端口 8080 到 app-sg
   
-- **App Security Group** (app-sg):
-  - Inbound: Port 8080 from ALB, Port 22 (SSH) from anywhere
-  - Outbound: HTTP 80, HTTPS 443 to anywhere
+- **App 安全组** (app-sg):
+  - 入站: 来自 ALB 的端口 8080、来自任何地方的端口 22 (SSH)
+  - 出站: HTTP 80、HTTPS 443 到任何地方
 
-### Launch Templates (setup_instances.py)
-- **app-cpu-lt**: Runs CPU monitoring app
-  - Instance type: t3.micro (free tier)
-  - Publishes CPU and memory metrics to CloudWatch
+### 启动模板 (setup_instances.py)
+- **app-cpu-lt**: 运行 CPU 监控应用
+  - 实例类型: t3.micro (免费层)
+  - 向 CloudWatch 发布 CPU 和内存指标
   
-- **app-request-lt**: Runs request-rate monitoring app
-  - Instance type: t3.micro
-  - Publishes request rate metrics to CloudWatch
+- **app-request-lt**: 运行请求率监控应用
+  - 实例类型: t3.micro
+  - 向 CloudWatch 发布请求率指标
 
-### Load Balancer (setup_alb.py)
-- **Application Load Balancer**: `experiment-alb`
-  - Deployed in public subnets
-  - Listens on HTTP port 80
+### 负载均衡器 (setup_alb.py)
+- **应用负载均衡器**: `experiment-alb`
+  - 部署在公有子网中
+  - 在 HTTP 端口 80 上监听
   
-- **Target Groups**:
-  - `tg-cpu-asg`: For CPU strategy experiments
-  - `tg-request-asg`: For request-rate strategy experiments
-  - Health checks: GET /health on port 8080
+- **目标组**:
+  - `tg-cpu-asg`: 用于 CPU 策略实验
+  - `tg-request-asg`: 用于请求率策略实验
+  - 健康检查: 在端口 8080 上获取 /health
 
-### Auto Scaling Groups (setup_asg.py)
+### 自动扩展组 (setup_asg.py)
 - **asg-cpu**:
-  - Min: 1, Max: 5, Desired: 2 instances
-  - Uses app-cpu-lt launch template
-  - Scaling policy: Target CPU 50%
-  - Cooldown: 60s scale-out, 300s scale-in
+  - 最小: 1, 最大: 5, 期望: 2 实例
+  - 使用 app-cpu-lt 启动模板
+  - 扩展策略: 目标 CPU 50%
+  - 冷却时间: 60秒 扩出，300秒 扩入
 
 - **asg-request**:
-  - Min: 1, Max: 5, Desired: 2 instances
-  - Uses app-request-lt launch template
-  - Scaling policy: Target request rate 10 req/s per instance
-  - Cooldown: 60s scale-out, 300s scale-in
+  - 最小: 1, 最大: 5, 期望: 2 实例
+  - 使用 app-request-lt 启动模板
+  - 扩展策略: 目标请求率每个实例 10 req/s
+  - 冷却时间: 60秒 扩出，300秒 扩入
 
-## Accessing Your Application
+## 访问您的应用
 
-After deployment completes, your application is accessible at:
+部署完成后，您的应用可在以下地址访问：
 
 ```
 http://<ALB-DNS-Name>
 ```
 
-The DNS name is printed at the end of `setup_alb.py` and saved in `infrastructure/alb-config.json`.
+DNS 名称在 `setup_alb.py` 的末尾打印出来并保存在 `infrastructure/alb-config.json` 中。
 
-**Example**: `http://experiment-alb-123456.us-east-1.elb.amazonaws.com`
+**示例**: `http://experiment-alb-123456.us-east-1.elb.amazonaws.com`
 
-**Note**: Allow 1-2 minutes for instances to launch and health checks to pass.
+**注意**: 允许 1-2 分钟让实例启动并通过健康检查。
 
-## Verification
+## 验证
 
-To check the status of all components:
+要检查所有组件的状态：
 
 ```bash
 python scripts/verify_infrastructure.py
 ```
 
-This will:
-- ✓ Verify VPC and subnets exist
-- ✓ Check security groups are configured
-- ✓ Verify ALB is active and DNS is available
-- ✓ Check target groups have healthy instances
-- ✓ Verify Auto Scaling Groups are running
-- ✓ List all instances by state
-- ✓ Generate verification report (verification-report.json)
+这将：
+- ✓ 验证 VPC 和子网存在
+- ✓ 检查安全组配置
+- ✓ 验证 ALB 活跃且 DNS 可用
+- ✓ 检查目标组有健康的实例
+- ✓ 验证自动扩展组运行中
+- ✓ 按状态列出所有实例
+- ✓ 生成验证报告 (verification-report.json)
 
-## Troubleshooting
+## 故障排查
 
-### Instances not launching
-- Check IAM role is correctly attached
-- Verify security group rules allow outbound traffic
-- Check EC2 console for instance launch errors
-- Review CloudWatch logs for user data script errors
+### 实例未启动
+- 检查 IAM 角色是否正确附加
+- 验证安全组规则允许出站流量
+- 检查 EC2 控制台查看实例启动错误
+- 查看 CloudWatch 日志了解用户数据脚本错误
 
-### ALB showing unhealthy targets
-- Wait 2-3 minutes for instances to boot
-- Check application is listening on port 8080
-- Verify /health endpoint returns HTTP 200
-- Check security group allows 8080 from ALB
+### ALB 显示不健康的目标
+- 等待 2-3 分钟让实例启动
+- 检查应用是否在端口 8080 上监听
+- 验证 /health 端点返回 HTTP 200
+- 检查安全组允许来自 ALB 的 8080
 
-### Can't connect to application
-- Verify ALB has a public IP
-- Check security group allows inbound 80 from 0.0.0.0/0
-- Ensure instances are in running state
-- Check ALB target group health
+### 无法连接到应用
+- 验证 ALB 有公有 IP
+- 检查安全组允许来自 0.0.0.0/0 的入站 80
+- 确保实例处于运行状态
+- 检查 ALB 目标组健康状况
 
-### Scaling not happening
-- Verify CloudWatch custom metrics are being published
-- Check Auto Scaling policies exist
-- Review CloudWatch logs in the application
+### 扩展不发生
+- 验证 CloudWatch 自定义指标正在发布
+- 检查自动扩展策略存在
+- 查看应用中的 CloudWatch 日志
 
-## Cleanup
+## 清理
 
-To delete all AWS resources:
+要删除所有 AWS 资源：
 
 ```bash
-python scripts/cleanup_infrastructure.py  # Coming in Phase 1b
+python scripts/cleanup_infrastructure.py  # Phase 1b 中即将推出
 ```
 
-Or manually through AWS Console:
-1. Delete Auto Scaling Groups
-2. Delete Load Balancer
-3. Delete Launch Templates
-4. Delete Security Groups
-5. Delete VPC (deletes subnets and IGW automatically)
-6. Delete IAM Role
+或通过 AWS 控制台手动删除：
+1. 删除自动扩展组
+2. 删除负载均衡器
+3. 删除启动模板
+4. 删除安全组
+5. 删除 VPC (自动删除子网和 IGW)
+6. 删除 IAM 角色
 
-## Cost Considerations
+## 成本考虑
 
-**Estimate for 1 week of experimentation:**
-- **t3.micro instances**: ~$1-2 (free tier eligible)
+**为期 1 周实验的估计成本:**
+- **t3.micro 实例**: ~$1-2 (符合免费层)
 - **ALB**: ~$15-20
-- **Data transfer**: $0-1
-- **Total**: ~$15-25
+- **数据传输**: $0-1
+- **总计**: ~$15-25
 
-**Cost-saving tips:**
-- Delete infrastructure when not experimenting
-- Use smallest instance type (t3.micro)
-- Monitor CloudWatch billing alerts
+**成本节省技巧:**
+- 未进行实验时删除基础设施
+- 使用最小实例类型 (t3.micro)
+- 监控 CloudWatch 计费警报
 
-## Next Steps
+## 后续步骤
 
-After Phase 1 deployment:
-1. **Phase 2**: Deploy load generation tool
-2. **Phase 3**: Run autoscaling experiments
-3. **Phase 4**: Collect and analyze metrics
-4. **Phase 5**: Generate report
+在 Phase 1 部署后：
+1. **Phase 2**: 部署负载生成工具
+2. **Phase 3**: 运行自动扩展实验
+3. **Phase 4**: 收集和分析指标
+4. **Phase 5**: 生成报告
 
-## Support
+## 支持
 
-For issues:
-1. Check logs: `infrastructure/deployment-log.json`
-2. Review verification report: `infrastructure/verification-report.json`
-3. Check AWS CloudTrail for API errors
-4. Run `python scripts/verify_infrastructure.py --verbose`
+如有问题：
+1. 检查日志: `infrastructure/deployment-log.json`
+2. 查看验证报告: `infrastructure/verification-report.json`
+3. 检查 AWS CloudTrail 查看 API 错误
+4. 运行 `python scripts/verify_infrastructure.py --verbose`
 
-## Script Reference
+## 脚本参考
 
 ### deploy_all.py
-Orchestrates all deployment steps in sequence.
+编排所有部署步骤的顺序。
 
 ```bash
-python scripts/deploy_all.py                    # Full deployment
-python scripts/deploy_all.py --verify-only      # Verify only
-python scripts/deploy_all.py --skip setup_network.py  # Skip a step
+python scripts/deploy_all.py                    # 完整部署
+python scripts/deploy_all.py --verify-only      # 仅验证
+python scripts/deploy_all.py --skip setup_network.py  # 跳过一个步骤
 ```
 
 ### setup_network.py
-Creates VPC, subnets, IGW, and route tables.
+创建 VPC、子网、IGW 和路由表。
 
 ### setup_iam_role.py
-Creates IAM role with necessary permissions.
+创建具有必要权限的 IAM 角色。
 
 ### setup_security_groups.py
-Creates and configures security groups.
+创建并配置安全组。
 
 ### setup_instances.py
-Creates EC2 launch templates with user data scripts.
+创建具有用户数据脚本的 EC2 启动模板。
 
 ### setup_alb.py
-Creates Application Load Balancer and target groups.
+创建应用负载均衡器和目标组。
 
 ### setup_asg.py
-Creates Auto Scaling Groups with scaling policies.
+创建带有扩展策略的自动扩展组。
 
 ### verify_infrastructure.py
-Verifies all components are created and healthy.
+验证所有组件已创建且健康。
 
 ---
 
-**Created**: April 17, 2025
-**Last Updated**: April 17, 2025
-**Version**: 1.0
+**创建时间**: 2025年4月17日
+**最后更新**: 2025年4月17日
+**版本**: 1.0

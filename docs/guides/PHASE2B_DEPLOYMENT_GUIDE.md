@@ -1,129 +1,129 @@
-# Phase 2B: Application Development & Deployment Guide
+# Phase 2B: 应用开发和部署指南
 
-## Overview
+## 概述
 
-Phase 2B is the application development phase where you build the core components needed to run autoscaling experiments. This phase creates three main components:
+Phase 2B 是应用开发阶段，在此阶段您将构建运行自动扩缩容实验所需的核心组件。此阶段创建三个主要组件：
 
-1. **Load Generator** - HTTP load generation tool with configurable traffic patterns
-2. **Metrics Collector** - Real-time AWS CloudWatch metrics polling and export
-3. **Experiment Runner** - Orchestration layer that coordinates load tests and metrics collection
-4. **Flask Test Application** - Lightweight test application that responds to load with configurable behavior
+1. **负载生成器** - 具有可配置流量模式的 HTTP 负载生成工具
+2. **指标收集器** - 实时 AWS CloudWatch 指标轮询和导出
+3. **实验运行器** - 协调负载测试和指标收集的编排层
+4. **Flask 测试应用** - 轻量级测试应用，具有可配置的行为响应负载
 
-**Duration**: Estimated 6-10 hours  
-**Prerequisites**: Phase 1 (AWS infrastructure) must be completed  
-**Output**: Functional load generation and metrics collection tools ready for Phase 3 deployment
-
----
-
-## Architecture Overview
-
-```
-Phase 2B Components
-├── Load Generator (scripts/load_generator.py)
-│   ├── Constant rate load generation
-│   ├── Ramp-up patterns
-│   └── Wave patterns
-│
-├── Metrics Collector (scripts/metrics_collector.py)
-│   ├── CloudWatch API integration
-│   ├── Real-time metric polling
-│   └── CSV export functionality
-│
-├── Experiment Runner (scripts/experiment_runner.py)
-│   ├── Coordinates load generation
-│   ├── Collects metrics in parallel
-│   └── Aggregates results
-│
-└── Flask Test Application (apps/test_app/app.py)
-    ├── Health check endpoint
-    ├── CPU-intensive endpoints
-    └── Data processing endpoints
-```
+**预计时长**: 6-10 小时  
+**前置要求**: Phase 1 (AWS 基础设施) 必须完成  
+**输出**: 功能完整的负载生成和指标收集工具，准备用于 Phase 3 部署
 
 ---
 
-## Prerequisites
+## 架构概述
 
-### System Requirements
+```
+Phase 2B 组件
+├── 负载生成器 (scripts/load_generator.py)
+│   ├── 恒定速率负载生成
+│   ├── 加速上升模式
+│   └── 波浪模式
+│
+├── 指标收集器 (scripts/metrics_collector.py)
+│   ├── CloudWatch API 集成
+│   ├── 实时指标轮询
+│   └── CSV 导出功能
+│
+├── 实验运行器 (scripts/experiment_runner.py)
+│   ├── 协调负载生成
+│   ├── 并行收集指标
+│   └── 聚合结果
+│
+└── Flask 测试应用 (apps/test_app/app.py)
+    ├── 健康检查端点
+    ├── CPU 密集型端点
+    └── 数据处理端点
+```
 
-- **Python**: 3.9+ (upgrade to 3.10+ recommended)
-- **AWS CLI**: v2 configured with credentials
-- **Virtual Environment**: Already created and activated (see README.md)
+---
 
-### Python Dependencies
+## 前置要求
 
-Verify all dependencies are installed:
+### 系统要求
+
+- **Python**: 3.9+ (建议升级到 3.10+)
+- **AWS CLI**: v2 已配置凭证
+- **虚拟环境**: 已创建并激活 (参见 README.md)
+
+### Python 依赖
+
+验证所有依赖都已安装：
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Required packages:
-- `boto3` - AWS SDK for Python
-- `requests` - HTTP client library
-- `flask` - Web framework for test application
-- `pandas` - Data analysis and export
-- `matplotlib` - Visualization (optional, for charts)
+所需包：
+- `boto3` - Python 版 AWS SDK
+- `requests` - HTTP 客户端库
+- `flask` - 测试应用的 Web 框架
+- `pandas` - 数据分析和导出
+- `matplotlib` - 可视化 (可选，用于图表)
 
-### AWS Prerequisites
+### AWS 前置要求
 
-1. **AWS Account Access**: Already configured from Phase 1
-2. **Infrastructure Deployed**: Phase 1 deployment must be complete
-3. **ALB Endpoint**: Note the ALB DNS name from Phase 1
+1. **AWS 账户访问**: 已从 Phase 1 配置
+2. **基础设施已部署**: Phase 1 部署必须完成
+3. **ALB 端点**: 记下 Phase 1 中的 ALB DNS 名称
    ```bash
-   # Get ALB DNS from Phase 1 config
+   # 从 Phase 1 配置获取 ALB DNS
    cat infrastructure/alb-config.json | grep dns_name
    ```
 
-### Verify Prerequisites
+### 验证前置要求
 
 ```bash
-# Check Python version
+# 检查 Python 版本
 python --version
-# Expected: Python 3.9.x or higher
+# 预期: Python 3.9.x 或更高版本
 
-# Verify AWS credentials
+# 验证 AWS 凭证
 aws sts get-caller-identity
-# Expected: Shows your AWS account ID and user
+# 预期: 显示您的 AWS 账户 ID 和用户
 
-# Check boto3 is installed
+# 检查 boto3 是否已安装
 python -c "import boto3; print(boto3.__version__)"
-# Expected: Version 1.26+
+# 预期: 版本 1.26+
 ```
 
 ---
 
-## Quick Start
+## 快速开始
 
-### Option 1: Automated Setup (Recommended)
+### 选项 1: 自动化设置 (推荐)
 
-Phase 2B setup is typically handled by the setup.py script:
+Phase 2B 设置通常由 setup.py 脚本处理：
 
 ```bash
 python scripts/setup.py
 ```
 
-This automatically:
-- Creates project directories
-- Validates all dependencies
-- Sets up Flask app structure
-- Tests AWS connectivity
+这自动执行：
+- 创建项目目录
+- 验证所有依赖
+- 设置 Flask 应用结构
+- 测试 AWS 连接
 
-### Option 2: Manual Step-by-Step
+### 选项 2: 手动逐步
 
-Follow the detailed steps below to understand each component.
+按照下面详细步骤来理解每个组件。
 
 ---
 
-## Detailed Implementation Steps
+## 详细实现步骤
 
-### Step 1: Create Load Generator (load_generator.py)
+### 步骤 1: 创建负载生成器 (load_generator.py)
 
-**File**: `scripts/load_generator.py`
+**文件**: `scripts/load_generator.py`
 
-**Purpose**: Generate HTTP requests with configurable patterns to simulate real-world traffic.
+**用途**: 使用可配置的模式生成 HTTP 请求以模拟真实流量。
 
-**Implementation**:
+**实现**:
 
 ```python
 import requests
@@ -134,13 +134,13 @@ from datetime import datetime
 class LoadGenerator:
     def __init__(self, target_url, request_rate=10, duration_seconds=300, pattern="constant"):
         """
-        Initialize load generator.
+        初始化负载生成器。
         
         Args:
-            target_url: Target endpoint (e.g., http://alb-dns/api/compute)
-            request_rate: Requests per second
-            duration_seconds: How long to generate load
-            pattern: "constant", "ramp", or "wave"
+            target_url: 目标端点 (例如 http://alb-dns/api/compute)
+            request_rate: 每秒请求数
+            duration_seconds: 生成负载的时长
+            pattern: "constant"、"ramp" 或 "wave"
         """
         self.target_url = target_url
         self.request_rate = request_rate
@@ -155,7 +155,7 @@ class LoadGenerator:
         }
     
     def generate_constant(self):
-        """Generate constant rate load."""
+        """生成恒定速率负载。"""
         start_time = time.time()
         request_interval = 1.0 / self.request_rate
         request_times = []
@@ -178,30 +178,30 @@ class LoadGenerator:
             
             self.results["total_requests"] += 1
             
-            # Sleep to maintain request rate
+            # 休眠以保持请求速率
             elapsed = time.time() - loop_start
             sleep_time = max(0, request_interval - elapsed)
             if sleep_time > 0:
                 time.sleep(sleep_time)
         
-        # Calculate averages
+        # 计算平均值
         if request_times:
             self.results["avg_response_time"] = sum(request_times) / len(request_times)
         
         return self.results
     
     def generate_ramp(self):
-        """Generate ramp-up pattern (rate increases over time)."""
-        # Similar to constant but with increasing rate
+        """生成加速上升模式 (速率随时间增加)。"""
+        # 与恒定类似但速率不断增加
         pass
     
     def generate_wave(self):
-        """Generate wave pattern (rate peaks and valleys)."""
-        # Similar to constant but with wave-like variations
+        """生成波浪模式 (速率峰值和谷值)。"""
+        # 与恒定类似但具有波浪变化
         pass
     
     def run(self):
-        """Execute load generation based on selected pattern."""
+        """根据选定的模式执行负载生成。"""
         if self.pattern == "constant":
             return self.generate_constant()
         elif self.pattern == "ramp":
@@ -209,13 +209,13 @@ class LoadGenerator:
         elif self.pattern == "wave":
             return self.generate_wave()
         else:
-            raise ValueError(f"Unknown pattern: {self.pattern}")
+            raise ValueError(f"未知模式: {self.pattern}")
 ```
 
-**Verification**:
+**验证**:
 
 ```bash
-# Test load generator with a simple echo endpoint
+# 使用简单的回显端点测试负载生成器
 python -c "
 from scripts.load_generator import LoadGenerator
 gen = LoadGenerator(
@@ -225,30 +225,30 @@ gen = LoadGenerator(
     pattern='constant'
 )
 results = gen.run()
-print(f\"Total Requests: {results['total_requests']}\")
-print(f\"Successful: {results['successful']}\")
-print(f\"Failed: {results['failed']}\")
-print(f\"Avg Response Time: {results['avg_response_time']:.2f}ms\")
+print(f\"总请求数: {results['total_requests']}\")
+print(f\"成功: {results['successful']}\")
+print(f\"失败: {results['failed']}\")
+print(f\"平均响应时间: {results['avg_response_time']:.2f}ms\")
 "
 ```
 
-**Expected Output**:
+**预期输出**:
 ```
-Total Requests: 50
-Successful: 50
-Failed: 0
-Avg Response Time: 245.32ms
+总请求数: 50
+成功: 50
+失败: 0
+平均响应时间: 245.32ms
 ```
 
 ---
 
-### Step 2: Create Metrics Collector (metrics_collector.py)
+### 步骤 2: 创建指标收集器 (metrics_collector.py)
 
-**File**: `scripts/metrics_collector.py`
+**文件**: `scripts/metrics_collector.py`
 
-**Purpose**: Poll AWS CloudWatch for autoscaling metrics during experiments.
+**用途**: 在实验期间轮询 AWS CloudWatch 以获取自动扩展指标。
 
-**Implementation**:
+**实现**:
 
 ```python
 import boto3
@@ -258,21 +258,21 @@ from datetime import datetime, timedelta
 
 class MetricsCollector:
     def __init__(self, region="us-east-1"):
-        """Initialize CloudWatch client."""
+        """初始化 CloudWatch 客户端。"""
         self.cloudwatch = boto3.client("cloudwatch", region_name=region)
         self.autoscaling = boto3.client("autoscaling", region_name=region)
         self.metrics = []
     
     def get_asg_metrics(self, asg_name, duration_minutes=30):
         """
-        Collect metrics for an Auto Scaling Group.
+        为自动扩展组收集指标。
         
         Args:
-            asg_name: Name of ASG (e.g., "asg-cpu")
-            duration_minutes: How many minutes back to query
+            asg_name: ASG 的名称 (例如 "asg-cpu")
+            duration_minutes: 查询多少分钟的数据
         
         Returns:
-            Dictionary with metric data
+            包含指标数据的字典
         """
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(minutes=duration_minutes)
@@ -285,19 +285,19 @@ class MetricsCollector:
             "request_count": []
         }
         
-        # Collect CPU Utilization
+        # 收集 CPU 利用率
         response = self.cloudwatch.get_metric_statistics(
             Namespace="AWS/EC2",
             MetricName="CPUUtilization",
             Dimensions=[{"Name": "AutoScalingGroupName", "Value": asg_name}],
             StartTime=start_time,
             EndTime=end_time,
-            Period=60,  # 1-minute intervals
+            Period=60,  # 1 分钟间隔
             Statistics=["Average"]
         )
         metrics_data["cpu_utilization"] = response["Datapoints"]
         
-        # Collect Group Desired Capacity
+        # 收集组期望容量
         response = self.cloudwatch.get_metric_statistics(
             Namespace="AWS/AutoScaling",
             MetricName="GroupDesiredCapacity",
@@ -309,7 +309,7 @@ class MetricsCollector:
         )
         metrics_data["group_desired_capacity"] = response["Datapoints"]
         
-        # Collect In-Service Instances
+        # 收集服务中实例
         response = self.cloudwatch.get_metric_statistics(
             Namespace="AWS/AutoScaling",
             MetricName="GroupInServiceInstances",
@@ -324,7 +324,7 @@ class MetricsCollector:
         return metrics_data
     
     def export_to_csv(self, filename, metrics_dict):
-        """Export metrics to CSV file."""
+        """将指标导出到 CSV 文件。"""
         with open(filename, "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["timestamp", "metric_name", "value"])
             writer.writeheader()
@@ -340,28 +340,28 @@ class MetricsCollector:
                     })
 ```
 
-**Verification**:
+**验证**:
 
 ```bash
-# Test metrics collector
+# 测试指标收集器
 python -c "
 from scripts.metrics_collector import MetricsCollector
 collector = MetricsCollector()
 metrics = collector.get_asg_metrics('asg-cpu', duration_minutes=5)
-print(f\"CPU Data Points: {len(metrics['cpu_utilization'])}\")
-print(f\"Capacity Data Points: {len(metrics['group_desired_capacity'])}\")
+print(f\"CPU 数据点: {len(metrics['cpu_utilization'])}\")
+print(f\"容量数据点: {len(metrics['group_desired_capacity'])}\")
 "
 ```
 
 ---
 
-### Step 3: Create Flask Test Application
+### 步骤 3: 创建 Flask 测试应用
 
-**File**: `apps/test_app/app.py`
+**文件**: `apps/test_app/app.py`
 
-**Purpose**: Lightweight Flask application that responds to load with CPU-intensive operations.
+**用途**: 轻量级 Flask 应用，响应 CPU 密集操作的负载。
 
-**Implementation**:
+**实现**:
 
 ```python
 from flask import Flask, jsonify, request
@@ -372,15 +372,15 @@ app = Flask(__name__)
 
 @app.route("/health", methods=["GET"])
 def health():
-    """Health check endpoint."""
+    """健康检查端点。"""
     return jsonify({"status": "healthy"}), 200
 
 @app.route("/api/compute", methods=["GET"])
 def compute():
-    """CPU-intensive computation endpoint."""
+    """CPU 密集型计算端点。"""
     intensity = int(request.args.get("intensity", 1))
     
-    # Simulate CPU work
+    # 模拟 CPU 工作
     result = 0
     for i in range(1000000 * intensity):
         result += i ** 2
@@ -393,10 +393,10 @@ def compute():
 
 @app.route("/api/data", methods=["GET"])
 def data():
-    """Data processing endpoint."""
+    """数据处理端点。"""
     size = int(request.args.get("size", 1000))
     
-    # Create and process data
+    # 创建和处理数据
     data_list = list(range(size))
     processed = sum(data_list) / len(data_list)
     
@@ -411,30 +411,30 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port, debug=False)
 ```
 
-**Test Locally**:
+**本地测试**:
 
 ```bash
-# Start the app
+# 启动应用
 python apps/test_app/app.py &
 
-# Test endpoints
+# 测试端点
 curl http://localhost:5000/health
 curl http://localhost:5000/api/compute?intensity=1
 curl http://localhost:5000/api/data?size=1000
 
-# Kill the app
+# 终止应用
 pkill -f "python apps/test_app/app.py"
 ```
 
 ---
 
-### Step 4: Create Experiment Runner
+### 步骤 4: 创建实验运行器
 
-**File**: `scripts/experiment_runner.py`
+**文件**: `scripts/experiment_runner.py`
 
-**Purpose**: Orchestrate load generation and metrics collection.
+**用途**: 编排负载生成和指标收集。
 
-**Implementation**:
+**实现**:
 
 ```python
 import json
@@ -451,8 +451,8 @@ class ExperimentRunner:
         self.results = {}
     
     def run_experiment(self, duration_seconds=300, request_rate=10):
-        """Run complete experiment with load generation and metrics."""
-        # Start metrics collection in background
+        """运行带负载生成和指标收集的完整实验。"""
+        # 在后台启动指标收集
         collector = MetricsCollector()
         metrics_thread = threading.Thread(
             target=self._collect_metrics,
@@ -460,7 +460,7 @@ class ExperimentRunner:
         )
         metrics_thread.start()
         
-        # Run load generation
+        # 运行负载生成
         generator = LoadGenerator(
             target_url=f"http://{self.alb_endpoint}/api/compute",
             request_rate=request_rate,
@@ -469,10 +469,10 @@ class ExperimentRunner:
         )
         load_results = generator.run()
         
-        # Wait for metrics collection to complete
+        # 等待指标收集完成
         metrics_thread.join()
         
-        # Aggregate results
+        # 聚合结果
         self.results = {
             "experiment": self.experiment_name,
             "timestamp": datetime.utcnow().isoformat(),
@@ -483,100 +483,100 @@ class ExperimentRunner:
         return self.results
     
     def _collect_metrics(self, collector):
-        """Collect metrics for all ASGs."""
+        """为所有 ASG 收集指标。"""
         self.metrics = {}
         for asg_name in self.asg_names:
             self.metrics[asg_name] = collector.get_asg_metrics(asg_name)
     
     def save_results(self, filename):
-        """Save experiment results to JSON file."""
+        """将实验结果保存到 JSON 文件。"""
         with open(filename, "w") as f:
             json.dump(self.results, f, indent=2, default=str)
 ```
 
 ---
 
-## Verification Checklist
+## 验证检查清单
 
-Before proceeding to Phase 3, verify each component:
+在进行 Phase 3 之前，验证每个组件：
 
-- [ ] Load Generator
+- [ ] 负载生成器
   ```bash
   python scripts/load_generator.py --help
-  # Should show no errors
+  # 不应显示错误
   ```
 
-- [ ] Metrics Collector
+- [ ] 指标收集器
   ```bash
   python -c "from scripts.metrics_collector import MetricsCollector; print('OK')"
-  # Should print: OK
+  # 应打印: OK
   ```
 
-- [ ] Flask App (local test)
+- [ ] Flask 应用 (本地测试)
   ```bash
   python apps/test_app/app.py &
   sleep 2
   curl http://localhost:5000/health
   pkill -f "test_app"
-  # Should show: {"status":"healthy"}
+  # 应显示: {"status":"healthy"}
   ```
 
-- [ ] All imports in experiment_runner.py
+- [ ] experiment_runner.py 中的所有导入
   ```bash
   python -c "from scripts.experiment_runner import ExperimentRunner; print('OK')"
-  # Should print: OK
+  # 应打印: OK
   ```
 
 ---
 
-## Troubleshooting
+## 故障排查
 
-### Problem: ImportError: No module named 'boto3'
+### 问题: ImportError: 找不到 'boto3' 模块
 
-**Solution**: Install dependencies
+**解决方案**: 安装依赖
 ```bash
 pip install -r requirements.txt
 ```
 
-### Problem: AWS credentials not found
+### 问题: 未找到 AWS 凭证
 
-**Solution**: Configure AWS CLI
+**解决方案**: 配置 AWS CLI
 ```bash
 aws configure
-# Enter: Access Key, Secret Key, Region (us-east-1), Output (json)
+# 输入: 访问密钥、秘密密钥、区域 (us-east-1)、输出 (json)
 ```
 
-### Problem: ConnectionError when connecting to ALB
+### 问题: 连接 ALB 时连接错误
 
-**Solution**: Verify Phase 1 deployment
+**解决方案**: 验证 Phase 1 部署
 ```bash
-# Get ALB DNS
+# 获取 ALB DNS
 cat infrastructure/alb-config.json | grep dns_name
 
-# Test connectivity
+# 测试连接
 curl http://<ALB-DNS>/health
 ```
 
-### Problem: Flask app fails to start
+### 问题: Flask 应用启动失败
 
-**Solution**: Check port availability
+**解决方案**: 检查端口可用性
 ```bash
-# Check if port 5000 is in use
+# 检查端口 5000 是否被使用
 lsof -i :5000
 
-# Use different port
+# 使用不同端口
 PORT=5001 python apps/test_app/app.py
 ```
 
 ---
 
-## Next Steps
+## 后续步骤
 
-Once Phase 2B components are verified:
+验证了 Phase 2B 组件后：
 
-1. Move test app to EC2 instances (Phase 3)
-2. Deploy load generator and metrics collector to separate EC2 instance (Phase 3)
-3. Configure autoscaling policies for both ASGs (Phase 3)
-4. Run Phase 4-5 experiments using these tools
+1. 将测试应用移至 EC2 实例 (Phase 3)
+2. 将负载生成器和指标收集器部署到单独的 EC2 实例 (Phase 3)
+3. 为两个 ASG 配置自动扩展策略 (Phase 3)
+4. 使用这些工具运行 Phase 4-5 实验
 
-See **Phase 3 Deployment Guide** for next steps.
+请参阅 **Phase 3 部署指南**了解后续步骤。
