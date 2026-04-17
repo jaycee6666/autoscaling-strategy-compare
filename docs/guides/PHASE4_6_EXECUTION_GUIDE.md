@@ -148,39 +148,40 @@ Phase 4-5 总计: ~75 分钟
 │     输出: cpu_strategy_metrics.json (~18,000 个请求)
 │     监控: CPU 利用率、请求率、扩展事件
 │
-├─ Step 3: Request-Rate Strategy Experiment (30 min)
-│  └─ Command: python experiments/03_run_request_rate_experiment.py
-│     Output: request_rate_experiment_metrics.json (~18,000 requests)
-│     Monitors: Request rate, scaling behavior, latency
+├─ 步骤 3: 请求率策略实验 (30 分钟)
+│  └─ 命令: python experiments/03_run_request_rate_experiment.py
+│     输出: request_rate_experiment_metrics.json (~18,000 个请求)
+│     监控: 请求率、扩展行为、延迟
 │
-└─ Step 4: Aggregate & Compare Results (10 min)
-   └─ Command: python experiments/04_aggregate_results.py
-      Outputs: comparison_report.json, metrics_comparison.csv
-      Analysis: Scaling efficiency, responsiveness, resource utilization
+└─ 步骤 4: 聚合和比较结果 (10 分钟)
+   └─ 命令: python experiments/04_aggregate_results.py
+      输出: comparison_report.json, metrics_comparison.csv
+      分析: 扩展效率、响应性、资源利用
+
 ```
 
-### Critical Success Requirements
+### 关键成功要求
 
-For valid experiment results:
-1. ✅ Load generator must maintain exactly 10 requests/second (±0.5 req/s)
-2. ✅ No network interruptions during 30-minute periods
-3. ✅ No manual ASG changes during experiments (hands-off)
-4. ✅ CloudWatch metrics available for collection (5-minute lag acceptable)
-5. ✅ Output files contain real AWS metrics, not mock data
+对于有效的实验结果：
+1. ✅ 负载生成器必须恰好维持 10 个请求/秒 (±0.5 req/s)
+2. ✅ 30 分钟周期内无网络中断
+3. ✅ 实验期间无手动 ASG 更改 (无干预)
+4. ✅ CloudWatch 指标可用于收集 (5 分钟滞后可接受)
+5. ✅ 输出文件包含真实 AWS 指标，非模拟数据
 
-### 🚀 Detailed Step-by-Step Execution
+### 🚀 详细逐步执行
 
-#### STEP 1: Verify Infrastructure (5 minutes)
+#### 步骤 1: 验证基础设施 (5 分钟)
 
-**Purpose**: Confirm all AWS resources are healthy before running experiments
+**用途**: 在运行实验前确认所有 AWS 资源健康
 
-**Command**:
+**命令**:
 ```bash
 cd C:\project\CS5296\project3\autoscaling-strategy-compare
 python experiments/01_verify_infrastructure.py
 ```
 
-**Expected Output**:
+**预期输出**:
 ```json
 {
   "timestamp": "2026-04-17T17:30:45Z",
@@ -206,242 +207,242 @@ python experiments/01_verify_infrastructure.py
 }
 ```
 
-**What to Check**:
-- ✅ `alb_health.status` = `"healthy"` (must be true)
-- ✅ All instances show running state
-- ✅ `asg_cpu.current` matches `asg_cpu.desired`
-- ✅ `asg_request.current` matches `asg_request.desired`
-- ❌ **STOP if**: Any instance is stopped or terminated
+**检查项**:
+- ✅ `alb_health.status` = `"healthy"` (必须为真)
+- ✅ 所有实例显示运行状态
+- ✅ `asg_cpu.current` 匹配 `asg_cpu.desired`
+- ✅ `asg_request.current` 匹配 `asg_request.desired`
+- ❌ **停止如果**: 任何实例已停止或终止
 
-**Troubleshooting**:
-- If ALB returns 502/503: instances may not be fully booted. Wait 2 minutes, retry.
-- If instance count mismatch: ASG may be scaling. Wait for stability, retry.
+**故障排查**:
+- 如果 ALB 返回 502/503: 实例可能未完全启动。等待 2 分钟，重试。
+- 如果实例计数不匹配: ASG 可能在扩展。等待稳定，重试。
 
 ---
 
-#### STEP 2: Run CPU Strategy Experiment (30 minutes)
+#### 步骤 2: 运行 CPU 策略实验 (30 分钟)
 
-**Purpose**: Generate metrics for CPU-based autoscaling strategy
+**用途**: 为基于 CPU 的自动扩缩容策略生成指标
 
-**Command**:
+**命令**:
 ```bash
 python experiments/02_run_cpu_experiment.py
 ```
 
-**What Happens During Experiment**:
-1. Script connects to ALB and begins sending exactly 10 requests/second
-2. CloudWatch metrics collection starts (background)
-3. System monitors:
-   - CPU utilization of each instance
-   - Request count and response times
-   - Scaling activities (scale-out/scale-in events)
-   - Instance lifecycle changes
-4. After 30 minutes, script collects final metrics and saves to `experiments/results/cpu_strategy_metrics.json`
+**实验期间发生的情况**:
+1. 脚本连接到 ALB 并开始发送恰好 10 个请求/秒
+2. CloudWatch 指标收集启动 (后台)
+3. 系统监控:
+   - 每个实例的 CPU 利用率
+   - 请求计数和响应时间
+   - 扩展活动 (扩出/扩入事件)
+   - 实例生命周期更改
+4. 30 分钟后，脚本收集最终指标并保存到 `experiments/results/cpu_strategy_metrics.json`
 
-**Console Output** (real-time monitoring):
+**控制台输出** (实时监控):
 ```
-[17:30:45] CPU Strategy Experiment Started
-[17:30:45] Target: 50% CPU utilization | ASG: asg-cpu | Duration: 1800 seconds
-[17:30:45] Sending load to ALB: experiment-alb-1466294824.us-east-1.elb.amazonaws.com
+[17:30:45] CPU 策略实验已启动
+[17:30:45] 目标: 50% CPU 利用率 | ASG: asg-cpu | 时长: 1800 秒
+[17:30:45] 向 ALB 发送负载: experiment-alb-1466294824.us-east-1.elb.amazonaws.com
 
-[17:31:15] Elapsed: 0:00:30 | Requests: 300 | Success: 100% | Avg Response: 0.659s
-[17:31:45] Elapsed: 0:01:00 | Requests: 600 | Success: 100% | Avg Response: 0.651s
+[17:31:15] 已用时间: 0:00:30 | 请求: 300 | 成功: 100% | 平均响应: 0.659s
+[17:31:45] 已用时间: 0:01:00 | 请求: 600 | 成功: 100% | 平均响应: 0.651s
 ...
-[18:00:45] Elapsed: 0:30:00 | Requests: 18000 | Success: 100% | Avg Response: 0.662s
+[18:00:45] 已用时间: 0:30:00 | 请求: 18000 | 成功: 100% | 平均响应: 0.662s
 
-[18:00:45] Collecting final CloudWatch metrics...
-[18:00:50] Analyzing scaling events...
-[18:00:55] CPU Strategy Experiment Complete!
+[18:00:45] 收集最终 CloudWatch 指标...
+[18:00:50] 分析扩展事件...
+[18:00:55] CPU 策略实验完成!
 
-✅ Results saved to: experiments/results/cpu_strategy_metrics.json
+✅ 结果保存到: experiments/results/cpu_strategy_metrics.json
 ```
 
-**Critical Monitoring** (Keep terminal open):
-- Response time should remain stable (~0.65s)
-- Success rate should be 100%
-- Requests/second should be consistently 10±0.5
-- No timeouts or errors
+**关键监控** (保持终端开放):
+- 响应时间应保持稳定 (~0.65s)
+- 成功率应为 100%
+- 请求/秒应一致为 10±0.5
+- 无超时或错误
 
 ---
 
-#### STEP 3: Run Request-Rate Strategy Experiment (30 minutes)
+#### 步骤 3: 运行请求率策略实验 (30 分钟)
 
-**Purpose**: Generate metrics for request-rate-based autoscaling strategy
+**用途**: 为基于请求率的自动扩缩容策略生成指标
 
-**Command**:
+**命令**:
 ```bash
 python experiments/03_run_request_rate_experiment.py
 ```
 
-**What Happens During Experiment**:
-1. Script resets ASG to request-rate strategy (`asg-request`)
-2. Begins sending exactly 10 requests/second (same as CPU experiment)
-3. System monitors:
-   - Request count per instance
-   - Request rate metrics
-   - Scaling activities
-   - Response latency
-4. After 30 minutes, collects final metrics and saves to `experiments/results/request_rate_experiment_metrics.json`
+**实验期间发生的情况**:
+1. 脚本重置 ASG 为请求率策略 (`asg-request`)
+2. 开始发送恰好 10 个请求/秒 (与 CPU 实验相同)
+3. 系统监控:
+   - 每个实例的请求计数
+   - 请求率指标
+   - 扩展活动
+   - 响应延迟
+4. 30 分钟后，收集最终指标并保存到 `experiments/results/request_rate_experiment_metrics.json`
 
-**Key Difference vs CPU Experiment**:
-- Request-rate strategy may use fewer instances (more efficient)
-- Scaling should be faster (responds to actual request load)
-- Response times may be more consistent
+**与 CPU 实验的关键差异**:
+- 请求率策略可能使用更少实例 (更高效)
+- 扩展应更快 (响应实际请求负载)
+- 响应时间可能更一致
 
-**After This Step Completes**:
-- Output file: `experiments/results/request_rate_experiment_metrics.json` (15-20 KB)
-- Total experiment time elapsed: ~60 minutes
+**此步骤完成后**:
+- 输出文件: `experiments/results/request_rate_experiment_metrics.json` (15-20 KB)
+- 总实验时长已用: ~60 分钟
 
 ---
 
-#### STEP 4: Aggregate & Compare Results (10 minutes)
+#### 步骤 4: 聚合和比较结果 (10 分钟)
 
-**Purpose**: Combine both experiment results and generate comparison analysis
+**用途**: 合并两个实验结果并生成对比分析
 
-**Command**:
+**命令**:
 ```bash
 python experiments/04_aggregate_results.py
 ```
 
-**What This Script Does**:
-1. Reads both JSON files from Step 2 and Step 3
-2. Calculates comparative metrics:
-   - Average response time comparison
-   - Success rate comparison
-   - Resource utilization (CPU vs Request-rate)
-   - Scaling efficiency
-   - Cost estimate (instances × 30 min)
-3. Identifies which strategy performed better
-4. Generates two output files: `comparison_report.json` and `metrics_comparison.csv`
+**此脚本执行的操作**:
+1. 读取步骤 2 和步骤 3 中的两个 JSON 文件
+2. 计算对比指标:
+   - 平均响应时间对比
+   - 成功率对比
+   - 资源利用 (CPU vs 请求率)
+   - 扩展效率
+   - 成本估计 (实例 × 30 分钟)
+3. 识别哪种策略表现更好
+4. 生成两个输出文件: `comparison_report.json` 和 `metrics_comparison.csv`
 
-**Expected Output**:
+**预期输出**:
 ```
-[18:31:00] Loading experiment results...
-[18:31:01] Analyzing CPU strategy metrics...
-[18:31:02] Analyzing request-rate strategy metrics...
-[18:31:03] Generating comparison report...
-[18:31:04] Calculating efficiency metrics...
+[18:31:00] 加载实验结果...
+[18:31:01] 分析 CPU 策略指标...
+[18:31:02] 分析请求率策略指标...
+[18:31:03] 生成对比报告...
+[18:31:04] 计算效率指标...
 
-✅ Comparison Report Generated:
-   - CPU Strategy:
-     * Avg Response Time: 0.659s
-     * Max Instances: 3
-     * Scaling Events: 4
+✅ 对比报告生成:
+   - CPU 策略:
+     * 平均响应时间: 0.659s
+     * 最大实例: 3
+     * 扩展事件: 4
    
-   - Request-Rate Strategy:
-     * Avg Response Time: 0.661s
-     * Max Instances: 2
-     * Scaling Events: 2
+   - 请求率策略:
+     * 平均响应时间: 0.661s
+     * 最大实例: 2
+     * 扩展事件: 2
    
-   - Recommendation: Request-rate strategy is more efficient
+   - 建议: 请求率策略更高效
 ```
 
-**Output Files**:
+**输出文件**:
 - `experiments/results/comparison_report.json` (1-2 KB)
-- `experiments/results/metrics_comparison.csv` (plaintext)
+- `experiments/results/metrics_comparison.csv` (纯文本)
 
 ---
 
-## Phase 6: Analysis & Winner Determination
+## Phase 6: 分析和获胜者确定
 
-### Overview
+### 概述
 
-Phase 6 processes the experimental results from Steps 2-4 and performs sophisticated multi-factor analysis to determine the optimal strategy. This phase reads the raw AWS metrics collected from both autoscaling strategies and performs:
+Phase 6 处理来自步骤 2-4 的实验结果，并执行复杂的多因素分析以确定最优策略。此阶段读取从两个自动扩缩容策略收集的原始 AWS 指标，并执行：
 
-1. **Data validation** - Ensures all metrics are present and valid
-2. **Comparative metrics calculation** - Cost factors, latency scores, efficiency metrics
-3. **Winner determination** - Composite scoring algorithm (50/50 latency + cost weighting)
-4. **Confidence scoring** - Quantifies how clear the winner is
-5. **Rationale generation** - Human-readable explanation of decision
+1. **数据验证** - 确保所有指标都存在且有效
+2. **对比指标计算** - 成本因素、延迟得分、效率指标
+3. **获胜者确定** - 复合评分算法 (50/50 延迟 + 成本权重)
+4. **置信度评分** - 量化获胜者有多清晰
+5. **理由生成** - 人类可读的决策解释
 
-### ⏱️ Timeline for Phase 6
+### ⏱️ Phase 6 时间表
 
 ```
-Phase 6 Total: ~10 minutes
+Phase 6 总计: ~10 分钟
 
-├─ Input validation (1 min)
-│  └─ Verify both metric files exist and are valid JSON
+├─ 输入验证 (1 分钟)
+│  └─ 验证两个指标文件存在且是有效的 JSON
 │
-├─ Analysis execution (2 min)
-│  ├─ Load experiment results
-│  ├─ Calculate cost factors and latency scores
-│  ├─ Apply composite scoring algorithm
-│  └─ Generate winner determination
+├─ 分析执行 (2 分钟)
+│  ├─ 加载实验结果
+│  ├─ 计算成本因素和延迟得分
+│  ├─ 应用复合评分算法
+│  └─ 生成获胜者确定
 │
-└─ Output generation (2 min)
-   └─ Write analysis_report.json with complete analysis
+└─ 输出生成 (2 分钟)
+   └─ 写入 analysis_report.json 包含完整分析
 ```
 
-### Quick Start - Phase 6
+### 快速开始 - Phase 6
 
-#### Option 1: Automated Analysis (Recommended)
+#### 选项 1: 自动化分析 (推荐)
 
-The `scripts/run_all_experiments.py` orchestration script handles Phase 6 automatically after Phase 4-5:
+`scripts/run_all_experiments.py` 编排脚本在 Phase 4-5 后自动处理 Phase 6：
 
 ```bash
-# From project root
+# 从项目根目录
 python scripts/run_all_experiments.py
 
-# Output includes:
-# ✅ Phase 6: Analysis completed
-# Winner: Request-Rate Strategy
-# Confidence: 2.37%
+# 输出包括:
+# ✅ Phase 6: 分析完成
+# 获胜者: 请求率策略
+# 置信度: 2.37%
 ```
 
-#### Option 2: Manual Analysis Execution
+#### 选项 2: 手动分析执行
 
-Run Phase 6 analysis directly (after Phase 4-5 is complete):
+在 Phase 4-5 完成后直接运行 Phase 6 分析：
 
 ```bash
-# From project root
+# 从项目根目录
 python experiments/06_analyze_results.py
 
-# Console output:
-# Phase 6: Analyzing experiment results...
-# Loading CPU strategy results...
-# Loading Request-Rate strategy results...
-# Analyzing results...
-# Winner determined: Request-Rate Strategy (confidence: 2.37%)
-# Analysis report written to experiments/results/analysis_report.json
+# 控制台输出:
+# Phase 6: 分析实验结果...
+# 加载 CPU 策略结果...
+# 加载请求率策略结果...
+# 分析结果...
+# 获胜者已确定: 请求率策略 (置信度: 2.37%)
+# 分析报告已写入 experiments/results/analysis_report.json
 ```
 
-#### Option 3: Programmatic Analysis
+#### 选项 3: 编程化分析
 
 ```python
 from experiments.analysis_06 import load_experiment_results, analyze_results
 
-# Load both experiment results
+# 加载两个实验结果
 cpu_results = load_experiment_results('experiments/results/cpu_strategy_metrics.json')
 req_results = load_experiment_results('experiments/results/request_rate_experiment_metrics.json')
 
-# Perform analysis
+# 执行分析
 analysis = analyze_results(cpu_results, req_results)
 
-# Use the results
-print(f"Winner: {analysis['winner']['strategy']}")
-print(f"Confidence: {analysis['winner']['confidence_pct']:.2f}%")
+# 使用结果
+print(f"获胜者: {analysis['winner']['strategy']}")
+print(f"置信度: {analysis['winner']['confidence_pct']:.2f}%")
 ```
 
-### Phase 6 Detailed Steps
+### Phase 6 详细步骤
 
-#### Step 1: Verify Input Data
+#### 步骤 1: 验证输入数据
 
-Before running analysis, validate that input files are complete and valid:
+在运行分析前，验证输入文件完整且有效：
 
 ```bash
-# Check file sizes (should be 20-30 KB each)
+# 检查文件大小 (应为 20-30 KB 每个)
 ls -lh experiments/results/*_metrics.json
 
-# Verify JSON validity
+# 验证 JSON 有效性
 python -c "
 import json
 for file in ['experiments/results/cpu_strategy_metrics.json', 
              'experiments/results/request_rate_experiment_metrics.json']:
     with open(file) as f:
         data = json.load(f)
-        print(f'{file}: Valid JSON')
-        print(f'  - Total requests: {data.get(\"load_summary\", {}).get(\"total_requests\")}')
-        print(f'  - Success rate: {data.get(\"load_summary\", {}).get(\"success_rate\", 0)*100:.1f}%')
+        print(f'{file}: JSON 有效')
+        print(f'  - 总请求: {data.get(\"load_summary\", {}).get(\"total_requests\")}')
+        print(f'  - 成功率: {data.get(\"load_summary\", {}).get(\"success_rate\", 0)*100:.1f}%')
 "
 ```
 
