@@ -356,7 +356,8 @@ class LaunchTemplatesSetup:
             logger.info(f"✓ Launch template created: {template_id}")
             return template_id
         except ClientError as e:
-            if e.response["Error"]["Code"] == "InvalidLaunchTemplateName.AlreadyExists":
+            error_code = e.response["Error"]["Code"]
+            if "AlreadyExists" in error_code or "AlreadyExistsException" in error_code:
                 logger.warning(f"⚠ Launch template already exists: {template_name}")
                 response = self.ec2.describe_launch_templates(
                     LaunchTemplateNames=[template_name]

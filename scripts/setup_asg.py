@@ -133,8 +133,6 @@ class ASGSetup:
                     "PredefinedMetricSpecification": {
                         "PredefinedMetricType": "ASGAverageCPUUtilization",
                     },
-                    "ScaleOutCooldown": 60,  # 1 minute
-                    "ScaleInCooldown": 300,  # 5 minutes
                 },
             )
 
@@ -174,8 +172,6 @@ class ASGSetup:
                         if metric_name == "RequestRate"
                         else "None",
                     },
-                    "ScaleOutCooldown": scale_out_cooldown,
-                    "ScaleInCooldown": scale_in_cooldown,
                 },
             )
 

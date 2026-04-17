@@ -43,8 +43,21 @@ class NetworkInfrastructure:
         self.config: Dict[str, Any] = {}
 
     def create_vpc(self) -> str:
-        """Create VPC with CIDR 10.0.0.0/16."""
+        """Create VPC with CIDR 10.0.0.0/16, or reuse existing if at limit."""
         try:
+            # First, try to find an existing experiment VPC
+            existing_vpcs = self.ec2.describe_vpcs(
+                Filters=[
+                    {"Name": "tag:Environment", "Values": ["experiment"]},
+                    {"Name": "cidr", "Values": ["10.0.0.0/16"]},
+                ]
+            )
+
+            if existing_vpcs.get("Vpcs"):
+                vpc_id = existing_vpcs["Vpcs"][0]["VpcId"]
+                logger.warning(f"⚠ Found existing VPC: {vpc_id}, reusing it")
+                return vpc_id
+
             logger.info("Creating VPC (10.0.0.0/16)...")
             response = self.ec2.create_vpc(CidrBlock="10.0.0.0/16")
             vpc_id = response["Vpc"]["VpcId"]
@@ -61,12 +74,38 @@ class NetworkInfrastructure:
             logger.info(f"✓ VPC created: {vpc_id}")
             return vpc_id
         except ClientError as e:
+            if "VpcLimitExceeded" in str(e):
+                # Try to reuse any existing experiment VPC
+                logger.warning("⚠ VPC limit reached, trying to reuse existing VPC...")
+                existing_vpcs = self.ec2.describe_vpcs(
+                    Filters=[{"Name": "tag:Environment", "Values": ["experiment"]}]
+                )
+                if existing_vpcs.get("Vpcs"):
+                    vpc_id = existing_vpcs["Vpcs"][0]["VpcId"]
+                    logger.info(f"✓ Reusing existing VPC: {vpc_id}")
+                    return vpc_id
+                logger.error("No existing experiment VPC found to reuse")
             logger.error(f"✗ Failed to create VPC: {e}")
             raise
 
     def create_public_subnet(self, vpc_id: str, cidr: str, az_index: int) -> str:
-        """Create a public subnet."""
+        """Create a public subnet or reuse existing."""
         try:
+            # Try to find existing subnet with same CIDR
+            existing_subnets = self.ec2.describe_subnets(
+                Filters=[
+                    {"Name": "vpc-id", "Values": [vpc_id]},
+                    {"Name": "cidr-block", "Values": [cidr]},
+                ]
+            )
+
+            if existing_subnets.get("Subnets"):
+                subnet_id = existing_subnets["Subnets"][0]["SubnetId"]
+                logger.warning(
+                    f"⚠ Found existing public subnet: {subnet_id}, reusing it"
+                )
+                return subnet_id
+
             logger.info(f"Creating public subnet ({cidr})...")
 
             # Get availability zones
@@ -99,8 +138,23 @@ class NetworkInfrastructure:
             raise
 
     def create_private_subnet(self, vpc_id: str, cidr: str, az_index: int) -> str:
-        """Create a private subnet."""
+        """Create a private subnet or reuse existing."""
         try:
+            # Try to find existing subnet with same CIDR
+            existing_subnets = self.ec2.describe_subnets(
+                Filters=[
+                    {"Name": "vpc-id", "Values": [vpc_id]},
+                    {"Name": "cidr-block", "Values": [cidr]},
+                ]
+            )
+
+            if existing_subnets.get("Subnets"):
+                subnet_id = existing_subnets["Subnets"][0]["SubnetId"]
+                logger.warning(
+                    f"⚠ Found existing private subnet: {subnet_id}, reusing it"
+                )
+                return subnet_id
+
             logger.info(f"Creating private subnet ({cidr})...")
 
             # Get availability zones
@@ -128,8 +182,21 @@ class NetworkInfrastructure:
             raise
 
     def create_internet_gateway(self, vpc_id: str) -> str:
-        """Create and attach Internet Gateway."""
+        """Create and attach Internet Gateway or reuse existing."""
         try:
+            # Try to find existing IGW attached to VPC
+            existing_igws = self.ec2.describe_internet_gateways(
+                Filters=[
+                    {"Name": "attachment.vpc-id", "Values": [vpc_id]},
+                    {"Name": "tag:Environment", "Values": ["experiment"]},
+                ]
+            )
+
+            if existing_igws.get("InternetGateways"):
+                igw_id = existing_igws["InternetGateways"][0]["InternetGatewayId"]
+                logger.warning(f"⚠ Found existing IGW: {igw_id}, reusing it")
+                return igw_id
+
             logger.info("Creating Internet Gateway...")
 
             # Create IGW
@@ -156,59 +223,98 @@ class NetworkInfrastructure:
     def create_route_tables(
         self, vpc_id: str, igw_id: str, public_subnets: list, private_subnets: list
     ) -> tuple:
-        """Create and configure public and private route tables."""
+        """Create and configure public and private route tables, or reuse existing."""
         try:
-            logger.info("Creating public route table...")
+            # Try to find existing route tables
+            public_rt_id = None
+            private_rt_id = None
 
-            # Create public route table
-            public_rt_response = self.ec2.create_route_table(VpcId=vpc_id)
-            public_rt_id = public_rt_response["RouteTable"]["RouteTableId"]
-
-            # Tag it
-            self.ec2.create_tags(
-                Resources=[public_rt_id],
-                Tags=[
-                    {"Key": "Name", "Value": "public-route-table"},
-                    {"Key": "Type", "Value": "Public"},
-                ],
+            existing_rts = self.ec2.describe_route_tables(
+                Filters=[
+                    {"Name": "vpc-id", "Values": [vpc_id]},
+                    {"Name": "tag:Type", "Values": ["Public"]},
+                ]
             )
-
-            # Add route to IGW (0.0.0.0/0 -> IGW)
-            self.ec2.create_route(
-                RouteTableId=public_rt_id,
-                DestinationCidrBlock="0.0.0.0/0",
-                GatewayId=igw_id,
-            )
-            logger.info(f"✓ Public route table created: {public_rt_id}")
-
-            # Associate public subnets
-            for i, subnet_id in enumerate(public_subnets):
-                self.ec2.associate_route_table(
-                    RouteTableId=public_rt_id, SubnetId=subnet_id
+            if existing_rts.get("RouteTables"):
+                public_rt_id = existing_rts["RouteTables"][0]["RouteTableId"]
+                logger.warning(
+                    f"⚠ Found existing public route table: {public_rt_id}, reusing it"
                 )
-                logger.info(f"✓ Associated public subnet {i + 1}: {subnet_id}")
 
-            # Create private route table
-            logger.info("Creating private route table...")
-            private_rt_response = self.ec2.create_route_table(VpcId=vpc_id)
-            private_rt_id = private_rt_response["RouteTable"]["RouteTableId"]
-
-            # Tag it
-            self.ec2.create_tags(
-                Resources=[private_rt_id],
-                Tags=[
-                    {"Key": "Name", "Value": "private-route-table"},
-                    {"Key": "Type", "Value": "Private"},
-                ],
+            existing_rts = self.ec2.describe_route_tables(
+                Filters=[
+                    {"Name": "vpc-id", "Values": [vpc_id]},
+                    {"Name": "tag:Type", "Values": ["Private"]},
+                ]
             )
-            logger.info(f"✓ Private route table created: {private_rt_id}")
-
-            # Associate private subnets
-            for i, subnet_id in enumerate(private_subnets):
-                self.ec2.associate_route_table(
-                    RouteTableId=private_rt_id, SubnetId=subnet_id
+            if existing_rts.get("RouteTables"):
+                private_rt_id = existing_rts["RouteTables"][0]["RouteTableId"]
+                logger.warning(
+                    f"⚠ Found existing private route table: {private_rt_id}, reusing it"
                 )
-                logger.info(f"✓ Associated private subnet {i + 1}: {subnet_id}")
+
+            # Create public route table if needed
+            if not public_rt_id:
+                logger.info("Creating public route table...")
+                public_rt_response = self.ec2.create_route_table(VpcId=vpc_id)
+                public_rt_id = public_rt_response["RouteTable"]["RouteTableId"]
+
+                # Tag it
+                self.ec2.create_tags(
+                    Resources=[public_rt_id],
+                    Tags=[
+                        {"Key": "Name", "Value": "public-route-table"},
+                        {"Key": "Type", "Value": "Public"},
+                    ],
+                )
+
+                # Add route to IGW (0.0.0.0/0 -> IGW)
+                self.ec2.create_route(
+                    RouteTableId=public_rt_id,
+                    DestinationCidrBlock="0.0.0.0/0",
+                    GatewayId=igw_id,
+                )
+                logger.info(f"✓ Public route table created: {public_rt_id}")
+
+                # Associate public subnets
+                for i, subnet_id in enumerate(public_subnets):
+                    try:
+                        self.ec2.associate_route_table(
+                            RouteTableId=public_rt_id, SubnetId=subnet_id
+                        )
+                        logger.info(f"✓ Associated public subnet {i + 1}: {subnet_id}")
+                    except ClientError as e:
+                        if "Resource.AlreadyAssociated" not in str(e):
+                            raise
+                        logger.warning(f"⚠ Subnet {subnet_id} already associated")
+
+            # Create private route table if needed
+            if not private_rt_id:
+                logger.info("Creating private route table...")
+                private_rt_response = self.ec2.create_route_table(VpcId=vpc_id)
+                private_rt_id = private_rt_response["RouteTable"]["RouteTableId"]
+
+                # Tag it
+                self.ec2.create_tags(
+                    Resources=[private_rt_id],
+                    Tags=[
+                        {"Key": "Name", "Value": "private-route-table"},
+                        {"Key": "Type", "Value": "Private"},
+                    ],
+                )
+                logger.info(f"✓ Private route table created: {private_rt_id}")
+
+                # Associate private subnets
+                for i, subnet_id in enumerate(private_subnets):
+                    try:
+                        self.ec2.associate_route_table(
+                            RouteTableId=private_rt_id, SubnetId=subnet_id
+                        )
+                        logger.info(f"✓ Associated private subnet {i + 1}: {subnet_id}")
+                    except ClientError as e:
+                        if "Resource.AlreadyAssociated" not in str(e):
+                            raise
+                        logger.warning(f"⚠ Subnet {subnet_id} already associated")
 
             return public_rt_id, private_rt_id
         except ClientError as e:

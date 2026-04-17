@@ -133,9 +133,11 @@ class IAMRoleSetup:
                 )
                 logger.info(f"✓ Role added to instance profile")
             except ClientError as e:
-                if e.response["Error"]["Code"] != "EntityAlreadyExists":
+                error_code = e.response["Error"]["Code"]
+                if error_code in ("EntityAlreadyExists", "LimitExceeded"):
+                    logger.warning(f"⚠ Role already in instance profile")
+                else:
                     raise
-                logger.warning(f"⚠ Role already in instance profile")
 
             return profile_arn
         except ClientError as e:

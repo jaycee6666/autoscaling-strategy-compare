@@ -109,25 +109,35 @@ class SecurityGroupsSetup:
     ) -> None:
         """Add inbound rule to security group."""
         try:
-            kwargs = {
-                "GroupId": sg_id,
-                "IpProtocol": protocol,
-                "FromPort": from_port,
-                "ToPort": to_port,
-            }
-
             if cidr_ip:
-                kwargs["CidrIp"] = cidr_ip
+                kwargs = {
+                    "GroupId": sg_id,
+                    "IpProtocol": protocol,
+                    "FromPort": from_port,
+                    "ToPort": to_port,
+                    "CidrIp": cidr_ip,
+                }
                 logger.info(
                     f"  Adding inbound rule: {protocol} {from_port} from {cidr_ip}"
                 )
+                self.ec2.authorize_security_group_ingress(**kwargs)
             elif source_sg_id:
-                kwargs["SourceSecurityGroupId"] = source_sg_id
+                kwargs = {
+                    "GroupId": sg_id,
+                    "IpPermissions": [
+                        {
+                            "IpProtocol": protocol,
+                            "FromPort": from_port,
+                            "ToPort": to_port,
+                            "UserIdGroupPairs": [{"GroupId": source_sg_id}],
+                        }
+                    ],
+                }
                 logger.info(
                     f"  Adding inbound rule: {protocol} {from_port} from SG {source_sg_id}"
                 )
+                self.ec2.authorize_security_group_ingress(**kwargs)
 
-            self.ec2.authorize_security_group_ingress(**kwargs)
             logger.info(f"  ✓ Inbound rule added")
         except ClientError as e:
             if e.response["Error"]["Code"] == "InvalidPermission.Duplicate":
@@ -147,25 +157,39 @@ class SecurityGroupsSetup:
     ) -> None:
         """Add outbound rule to security group."""
         try:
-            kwargs = {
-                "GroupId": sg_id,
-                "IpProtocol": protocol,
-                "FromPort": from_port,
-                "ToPort": to_port,
-            }
-
             if cidr_ip:
-                kwargs["CidrIp"] = cidr_ip
+                kwargs = {
+                    "GroupId": sg_id,
+                    "IpPermissions": [
+                        {
+                            "IpProtocol": protocol,
+                            "FromPort": from_port,
+                            "ToPort": to_port,
+                            "IpRanges": [{"CidrIp": cidr_ip}],
+                        }
+                    ],
+                }
                 logger.info(
                     f"  Adding outbound rule: {protocol} {from_port} to {cidr_ip}"
                 )
+                self.ec2.authorize_security_group_egress(**kwargs)
             elif dest_sg_id:
-                kwargs["DestinationSecurityGroupId"] = dest_sg_id
+                kwargs = {
+                    "GroupId": sg_id,
+                    "IpPermissions": [
+                        {
+                            "IpProtocol": protocol,
+                            "FromPort": from_port,
+                            "ToPort": to_port,
+                            "UserIdGroupPairs": [{"GroupId": dest_sg_id}],
+                        }
+                    ],
+                }
                 logger.info(
                     f"  Adding outbound rule: {protocol} {from_port} to SG {dest_sg_id}"
                 )
+                self.ec2.authorize_security_group_egress(**kwargs)
 
-            self.ec2.authorize_security_group_egress(**kwargs)
             logger.info(f"  ✓ Outbound rule added")
         except ClientError as e:
             if e.response["Error"]["Code"] == "InvalidPermission.Duplicate":
