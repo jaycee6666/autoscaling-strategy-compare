@@ -331,10 +331,10 @@ python experiments/04_aggregate_results.py
 
 ---
 
-## 🔥 Phase 4-5 文档更新 (April 17, 2026 - 17:15)
+## 🔥 Phase 4-6 文档更新 (April 17, 2026 - 17:15)
 
 ✅ **新增文档** (已保存到 `docs/guides/`):
-- `PHASE4_5_EXECUTION_GUIDE.md` (22 KB) - 完整分步指南 (已巩固为标准参考)
+- `PHASE4_6_EXECUTION_GUIDE.md` (22 KB) - 完整分步指南 (已巩固为标准参考)
 
 ✅ **实验框架状态**:
 - 4 个实验脚本已完成并经过编译检查
