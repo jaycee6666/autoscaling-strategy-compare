@@ -1,241 +1,241 @@
-# Project File Index
+# 项目文件索引
 
-## 📁 Directory Structure
+## 📁 目录结构
 
 ```
 autoscaling-strategy-compare/
 ├── .github/
-│   └── CROSSPLATFORM_GUIDE.md           # Windows/Mac/Linux setup guide
-├── docs/                              # Documentation (1500+ lines)
+│   └── CROSSPLATFORM_GUIDE.md           # Windows/Mac/Linux 设置指南
+├── docs/                              # 文档 (1500+ 行)
 │   ├── guides/
-│   │   ├── PHASE4_6_EXECUTION_GUIDE.md # ⭐ Phase 4-6 execution guide
-│   │   ├── PHASE1_DEPLOYMENT_GUIDE.md  # Phase 1 deployment
-│   │   ├── PHASE3_DEPLOYMENT_GUIDE.md  # Phase 3 deployment
+│   │   ├── PHASE4_6_EXECUTION_GUIDE.md # ⭐ Phase 4-6 执行指南
+│   │   ├── PHASE1_DEPLOYMENT_GUIDE.md  # Phase 1 部署
+│   │   ├── PHASE3_DEPLOYMENT_GUIDE.md  # Phase 3 部署
 │   │   └── ...
 │   ├── plans/
-│   │   ├── PROJECT_EXECUTION_PLAN.md # Full 10-week execution plan
+│   │   ├── PROJECT_EXECUTION_PLAN.md # 完整 10 周执行计划
 │   │   └── ...
 │   ├── references/
-│   │   ├── ACCEPTANCE_CRITERIA.md    # Grading requirements
-│   │   ├── FILE_INDEX.md             # This file
+│   │   ├── ACCEPTANCE_CRITERIA.md    # 评分要求
+│   │   ├── FILE_INDEX.md             # 本文件
 │   │   └── ...
 │   └── README.md
-├── scripts/                           # Python automation (500+ lines)
-│   ├── check_environment.py          # ⭐ Environment validation
-│   ├── init_project.py               # ⭐ Project initialization
-│   ├── config_manager.py             # Configuration management
-│   ├── aws_utils.py                  # AWS CLI wrapper
-│   ├── setup_network.py              # [TO BE CREATED] VPC setup
-│   ├── setup_security_groups.py      # [TO BE CREATED] Security
-│   ├── setup_iam_role.py             # [TO BE CREATED] IAM setup
-│   ├── setup_instances.py            # [TO BE CREATED] EC2 setup
-│   ├── setup_asg.py                  # [TO BE CREATED] ASG setup
-│   ├── deploy_all.py                 # [TO BE CREATED] One-click deploy
-│   └── cleanup_infrastructure.py      # [TO BE CREATED] Cleanup
+├── scripts/                           # Python 自动化 (500+ 行)
+│   ├── check_environment.py          # ⭐ 环境验证
+│   ├── init_project.py               # ⭐ 项目初始化
+│   ├── config_manager.py             # 配置管理
+│   ├── aws_utils.py                  # AWS CLI 包装器
+│   ├── setup_network.py              # [待创建] VPC 设置
+│   ├── setup_security_groups.py      # [待创建] 安全组
+│   ├── setup_iam_role.py             # [待创建] IAM 设置
+│   ├── setup_instances.py            # [待创建] EC2 设置
+│   ├── setup_asg.py                  # [待创建] ASG 设置
+│   ├── deploy_all.py                 # [待创建] 一键部署
+│   └── cleanup_infrastructure.py      # [待创建] 清理
 │
-├── config/                            # Configuration
-│   ├── .env.template                 # Environment template
-│   ├── .env                          # [CREATED BY init_project.py]
-│   ├── config.yaml                   # [CREATED BY init_project.py]
-│   └── check_environment_results.json # [CREATED BY check_environment.py]
+├── config/                            # 配置
+│   ├── .env.template                 # 环境模板
+│   ├── .env                          # [由 init_project.py 创建]
+│   ├── config.yaml                   # [由 init_project.py 创建]
+│   └── check_environment_results.json # [由 check_environment.py 创建]
 │
-├── data/                              # Data collection
-│   ├── experiments/                  # Experiment results
-│   ├── metrics/                      # Performance metrics
-│   └── analysis/                     # Analysis outputs
+├── data/                              # 数据收集
+│   ├── experiments/                  # 实验结果
+│   ├── metrics/                      # 性能指标
+│   └── analysis/                     # 分析输出
 │
-├── logs/                              # Application logs
-│   └── [generated at runtime]
+├── logs/                              # 应用日志
+│   └── [运行时生成]
 │
-├── README.md                          # ⭐ Project overview
-├── setup.py                           # Quick setup script
-├── requirements.txt                   # Python dependencies
-├── .gitignore                         # Git ignore rules
-└── FILE_INDEX.md                      # This file
+├── README.md                          # ⭐ 项目概述
+├── setup.py                           # 快速设置脚本
+├── requirements.txt                   # Python 依赖
+├── .gitignore                         # Git 忽略规则
+└── FILE_INDEX.md                      # 本文件
 ```
 
-## 📄 File Descriptions
+## 📄 文件描述
 
-### Documentation (docs/)
+### 文档 (docs/)
 
-| File | Size | Purpose | For Whom |
+| 文件 | 大小 | 用途 | 适合 |
 |------|------|---------|----------|
-| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | Complete Phase 4-6 execution guide | Everyone |
-| **plans/PROJECT_EXECUTION_PLAN.md** | 56KB | Complete 10-week plan with all phases | Technical leads, implementers |
-| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | Phase 4-6 execution reference | Daily work |
-| **.github/CROSSPLATFORM_GUIDE.md** | 11KB | Windows/Mac/Linux compatibility guide | Troubleshooting |
-| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Course grading requirements | Quality assurance |
-| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Grading checklist | QA/Grading |
-| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | Project guidelines | Overview readers |
-| **README.md** | 6KB | Project overview | Quick context |
+| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | 完整 Phase 4-6 执行指南 | 所有人 |
+| **plans/PROJECT_EXECUTION_PLAN.md** | 56KB | 完整 10 周计划及所有阶段 | 技术主管、实施者 |
+| **guides/PHASE4_6_EXECUTION_GUIDE.md** | 22KB | Phase 4-6 执行参考 | 日常工作 |
+| **.github/CROSSPLATFORM_GUIDE.md** | 11KB | Windows/Mac/Linux 兼容指南 | 故障排查 |
+| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | 课程评分要求 | 质量保证 |
+| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | 评分清单 | 质量保证/评分 |
+| **references/ACCEPTANCE_CRITERIA.md** | 9.6KB | 项目指南 | 概述读者 |
+| **README.md** | 6KB | 项目概述 | 快速上下文 |
 
-**Total Documentation**: 110+ KB, 5500+ lines
+**总文档**: 110+ KB, 5500+ 行
 
-### Scripts (scripts/)
+### 脚本 (scripts/)
 
-#### ✅ Ready to Use (Phase 0)
+#### ✅ 准备好使用 (Phase 0)
 
-| Script | Lines | Purpose |
+| 脚本 | 行数 | 用途 |
 |--------|-------|---------|
-| **check_environment.py** | 280 | Validates Python, AWS CLI, credentials, packages, permissions |
-| **init_project.py** | 140 | Creates config files, directories, initializes project |
-| **config_manager.py** | 320 | Centralized configuration via YAML, ENV, JSON |
-| **aws_utils.py** | 480 | AWS CLI wrapper with error handling, VPC, EC2, ASG, CloudWatch |
+| **check_environment.py** | 280 | 验证 Python、AWS CLI、凭证、包、权限 |
+| **init_project.py** | 140 | 创建配置文件、目录、初始化项目 |
+| **config_manager.py** | 320 | 通过 YAML、ENV、JSON 的集中配置 |
+| **aws_utils.py** | 480 | AWS CLI 包装器，带错误处理、VPC、EC2、ASG、CloudWatch |
 
-**Total Phase 0**: 1220 lines
+**总 Phase 0**: 1220 行
 
-#### 🔄 To Be Created (Phases 1-7)
+#### 🔄 待创建 (Phases 1-7)
 
-| Script | Purpose | Phase |
+| 脚本 | 用途 | Phase |
 |--------|---------|-------|
-| setup_network.py | VPC, subnets, internet gateway | 1 |
-| setup_security_groups.py | Security group configuration | 2 |
-| setup_iam_role.py | IAM roles and policies | 3 |
-| setup_instances.py | EC2 instance templates | 4 |
-| setup_alb.py | Load balancer configuration | 5 |
-| setup_asg.py | Auto Scaling Groups | 6 |
-| deploy_all.py | One-click deployment | 6 |
-| verify_infrastructure.py | Health checks and validation | 7 |
-| cleanup_infrastructure.py | Resource cleanup | 8 |
+| setup_network.py | VPC、子网、互联网网关 | 1 |
+| setup_security_groups.py | 安全组配置 | 2 |
+| setup_iam_role.py | IAM 角色和策略 | 3 |
+| setup_instances.py | EC2 实例模板 | 4 |
+| setup_alb.py | 负载均衡器配置 | 5 |
+| setup_asg.py | 自动扩展组 | 6 |
+| deploy_all.py | 一键部署 | 6 |
+| verify_infrastructure.py | 健康检查和验证 | 7 |
+| cleanup_infrastructure.py | 资源清理 | 8 |
 
-### Configuration (config/)
+### 配置 (config/)
 
-| File | Created By | Purpose |
+| 文件 | 创建者 | 用途 |
 |------|-----------|---------|
-| .env.template | Manual | Template for .env values |
-| .env | init_project.py | Actual configuration (git-ignored) |
-| config.yaml | init_project.py | Project YAML config |
-| check_environment_results.json | check_environment.py | Environment check results |
+| .env.template | 手动 | .env 值的模板 |
+| .env | init_project.py | 实际配置 (git 忽略) |
+| config.yaml | init_project.py | 项目 YAML 配置 |
+| check_environment_results.json | check_environment.py | 环境检查结果 |
 
-### Data Directories (data/)
+### 数据目录 (data/)
 
-| Directory | Purpose |
+| 目录 | 用途 |
 |-----------|---------|
-| experiments/ | Experiment result files |
-| metrics/ | CloudWatch metrics exports |
-| analysis/ | Data analysis outputs |
+| experiments/ | 实验结果文件 |
+| metrics/ | CloudWatch 指标导出 |
+| analysis/ | 数据分析输出 |
 
-### Root Files
+### 根目录文件
 
-| File | Purpose |
+| 文件 | 用途 |
 |------|---------|
-| **README.md** | Project overview and quick start |
-| **setup.py** | Automated setup script (runs Phase 0 scripts) |
-| **requirements.txt** | Python package dependencies |
-| **.gitignore** | Git ignore rules (excludes .env, logs, data) |
+| **README.md** | 项目概述和快速开始 |
+| **setup.py** | 自动设置脚本 (运行 Phase 0 脚本) |
+| **requirements.txt** | Python 包依赖 |
+| **.gitignore** | Git 忽略规则 (排除 .env、日志、数据) |
 
-## 🚀 Execution Flow
+## 🚀 执行流程
 
-### First Run (Complete Setup)
+### 首次运行 (完整设置)
 
 ```
-1. setup.py                 # Run me first! Automates everything
+1. setup.py                 # 首先运行我! 自动化一切
    ↓
-2. check_environment.py     # Validate environment
+2. check_environment.py     # 验证环境
    ↓
-3. init_project.py          # Initialize project
+3. init_project.py          # 初始化项目
    ↓
-4. [MANUAL] Edit config/.env
+4. [手动] 编辑 config/.env
    ↓
-5. check_environment.py     # Verify configuration
+5. check_environment.py     # 验证配置
    ↓
-6. aws_utils.py             # Test AWS connection
+6. aws_utils.py             # 测试 AWS 连接
 ```
 
-### Daily Development
+### 日常开发
 
 ```
-1. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
+1. 阅读: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
    ↓
-2. Run appropriate script from scripts/
+2. 运行 scripts/ 中的适当脚本
    ↓
-3. Refer to: docs/plans/PROJECT_EXECUTION_PLAN.md for context
+3. 参考: docs/plans/PROJECT_EXECUTION_PLAN.md 获取上下文
    ↓
-4. Troubleshoot: .github/CROSSPLATFORM_GUIDE.md if needed
+4. 故障排查: 如需要，参考 .github/CROSSPLATFORM_GUIDE.md
 ```
 
-## 📊 File Statistics
+## 📊 文件统计
 
-### Documentation
-- Total files: 8
-- Total size: ~110 KB
-- Total lines: 5500+
-- Ready to read: ✅ Yes (all complete)
+### 文档
+- 总文件: 8
+- 总大小: ~110 KB
+- 总行数: 5500+
+- 准备好阅读: ✅ 是 (全部完成)
 
-### Scripts
-- Phase 0 (Ready): 4 scripts, 1220 lines, ~45 KB
-- Phase 1-7 (To Create): 9 scripts, ~2000+ lines estimated
+### 脚本
+- Phase 0 (准备好): 4 个脚本, 1220 行, ~45 KB
+- Phase 1-7 (待创建): 9 个脚本, ~2000+ 行估计
 
-### Configuration
-- Templates: 1 (.env.template)
-- Generated: 3 (.env, config.yaml, check_environment_results.json)
+### 配置
+- 模板: 1 (.env.template)
+- 生成: 3 (.env, config.yaml, check_environment_results.json)
 
-## 🎯 Usage Paths
+## 🎯 使用路径
 
-### New Team Member (First Day)
+### 新团队成员 (第一天)
 ```
-1. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
-2. Run: python scripts/setup.py
-3. Read: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
-```
-
-### Developer (Daily Work)
-```
-1. Check: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
-2. Follow: docs/plans/PROJECT_EXECUTION_PLAN.md
-3. Troubleshoot: .github/CROSSPLATFORM_GUIDE.md
+1. 阅读: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
+2. 运行: python scripts/setup.py
+3. 阅读: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
 ```
 
-### Project Manager
+### 开发人员 (日常工作)
 ```
-1. Read: docs/references/ACCEPTANCE_CRITERIA.md
-2. Monitor: Phase progress in docs/plans/PROJECT_EXECUTION_PLAN.md
-3. Use: ACCEPTANCE_CRITERIA.md for validation
-```
-
-### DevOps/Infrastructure
-```
-1. Study: docs/plans/PROJECT_EXECUTION_PLAN.md (Phase 1-3)
-2. Use: scripts/aws_utils.py as reference
-3. Create: Phase 1-7 infrastructure scripts
+1. 检查: docs/guides/PHASE4_6_EXECUTION_GUIDE.md
+2. 遵循: docs/plans/PROJECT_EXECUTION_PLAN.md
+3. 故障排查: .github/CROSSPLATFORM_GUIDE.md
 ```
 
-## ✅ Implementation Status
+### 项目经理
+```
+1. 阅读: docs/references/ACCEPTANCE_CRITERIA.md
+2. 监控: docs/plans/PROJECT_EXECUTION_PLAN.md 中的进度
+3. 使用: ACCEPTANCE_CRITERIA.md 进行验证
+```
 
-### Completed ✅
-- [x] Documentation (8 guides, 5500+ lines)
-- [x] Phase 0 Scripts (check, init, config, aws)
-- [x] Project structure and organization
-- [x] Cross-platform compatibility (Python/YAML/Paths)
-- [x] Requirements and setup automation
+### DevOps/基础设施
+```
+1. 研究: docs/plans/PROJECT_EXECUTION_PLAN.md (Phase 1-3)
+2. 使用: scripts/aws_utils.py 作为参考
+3. 创建: Phase 1-7 基础设施脚本
+```
 
-### Ready to Implement 🔄
-- [ ] Phase 1 Infrastructure Scripts (Network setup)
-- [ ] Phase 2-3 Infrastructure Scripts (Security, IAM)
-- [ ] Phase 4 Infrastructure Scripts (EC2, ALB)
-- [ ] Phase 5-6 Infrastructure Scripts (ASG, Deployment)
-- [ ] Phase 7 Deployment Verification
-- [ ] Phase 8 Application Development (Flask)
-- [ ] Phase 9 Experiment Execution
-- [ ] Phase 10 Data Analysis and Report
+## ✅ 实现状态
 
-## 📚 Reading Order (Recommended)
+### 已完成 ✅
+- [x] 文档 (8 个指南, 5500+ 行)
+- [x] Phase 0 脚本 (检查、初始化、配置、aws)
+- [x] 项目结构和组织
+- [x] 跨平台兼容性 (Python/YAML/路径)
+- [x] 需求和设置自动化
 
-1. **First Time**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (15 min)
-2. **Setup**: Run `python scripts/setup.py` (5 min)
-3. **Overview**: `README.md` (5 min)
-4. **Daily Ref**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (ongoing)
-5. **Deep Dive**: `docs/plans/PROJECT_EXECUTION_PLAN.md` (1 hour)
-6. **Troubleshooting**: `.github/CROSSPLATFORM_GUIDE.md` (as needed)
-7. **Team Lead**: `docs/references/ACCEPTANCE_CRITERIA.md` (if applicable)
+### 准备实现 🔄
+- [ ] Phase 1 基础设施脚本 (网络设置)
+- [ ] Phase 2-3 基础设施脚本 (安全性、IAM)
+- [ ] Phase 4 基础设施脚本 (EC2、ALB)
+- [ ] Phase 5-6 基础设施脚本 (ASG、部署)
+- [ ] Phase 7 部署验证
+- [ ] Phase 8 应用开发 (Flask)
+- [ ] Phase 9 实验执行
+- [ ] Phase 10 数据分析和报告
 
-## 🔗 File Dependencies
+## 📚 推荐阅读顺序
+
+1. **首次**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (15 分钟)
+2. **设置**: 运行 `python scripts/setup.py` (5 分钟)
+3. **概述**: `README.md` (5 分钟)
+4. **日常参考**: `docs/guides/PHASE4_6_EXECUTION_GUIDE.md` (持续)
+5. **深入了解**: `docs/plans/PROJECT_EXECUTION_PLAN.md` (1 小时)
+6. **故障排查**: `.github/CROSSPLATFORM_GUIDE.md` (按需)
+7. **团队主管**: `docs/references/ACCEPTANCE_CRITERIA.md` (如适用)
+
+## 🔗 文件依赖
 
 ```
 setup.py
 ├── requirements.txt
 ├── check_environment.py
-│   └── [No dependencies]
+│   └── [无依赖]
 └── init_project.py
     ├── config_manager.py
     │   ├── python-dotenv
@@ -248,33 +248,33 @@ aws_utils.py
 └── logging
 ```
 
-## 🎓 Learning Path
+## 🎓 学习路径
 
-1. **Understand**: Read docs/plans/PROJECT_EXECUTION_PLAN.md (all 10 phases)
-2. **Setup**: Run setup.py on your machine
-3. **Test**: Run check_environment.py and aws_utils.py
-4. **Implement**: Create Phase 1-7 scripts following aws_utils.py pattern
-5. **Deploy**: Use deploy_all.py to orchestrate infrastructure
-6. **Develop**: Build Flask application (Phase 8)
-7. **Execute**: Run experiments (Phase 9)
-8. **Analyze**: Collect and analyze data (Phase 10)
+1. **理解**: 阅读 docs/plans/PROJECT_EXECUTION_PLAN.md (所有 10 个阶段)
+2. **设置**: 在您的计算机上运行 setup.py
+3. **测试**: 运行 check_environment.py 和 aws_utils.py
+4. **实施**: 按照 aws_utils.py 模式创建 Phase 1-7 脚本
+5. **部署**: 使用 deploy_all.py 协调基础设施
+6. **开发**: 构建 Flask 应用 (Phase 8)
+7. **执行**: 运行实验 (Phase 9)
+8. **分析**: 收集和分析数据 (Phase 10)
 
-## 🆘 Quick Troubleshooting
+## 🆘 快速故障排查
 
-| Issue | File to Read |
+| 问题 | 文件 |
 |-------|--------------|
-| Setup fails | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
-| Python errors | .github/CROSSPLATFORM_GUIDE.md |
-| AWS CLI issues | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
-| Environment validation fails | check_environment.py output |
-| Team coordination | docs/references/ACCEPTANCE_CRITERIA.md |
-| Grading requirements | docs/references/ACCEPTANCE_CRITERIA.md |
+| 设置失败 | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
+| Python 错误 | .github/CROSSPLATFORM_GUIDE.md |
+| AWS CLI 问题 | docs/guides/PHASE4_6_EXECUTION_GUIDE.md |
+| 环境验证失败 | check_environment.py 输出 |
+| 团队协调 | docs/references/ACCEPTANCE_CRITERIA.md |
+| 评分要求 | docs/references/ACCEPTANCE_CRITERIA.md |
 
 ---
 
-**Version**: 1.0  
-**Last Updated**: April 17, 2026  
-**Total Project Files**: 30+  
-**Total Lines**: 8000+  
-**Total Documentation**: 5500+ lines  
-**Ready Status**: Phase 0 ✅ | Phase 1-10 🔄
+**版本**: 1.0  
+**最后更新**: 2026 年 4 月 17 日  
+**总项目文件**: 30+  
+**总行数**: 8000+  
+**总文档**: 5500+ 行  
+**就绪状态**: Phase 0 ✅ | Phase 1-10 🔄
