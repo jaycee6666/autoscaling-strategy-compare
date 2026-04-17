@@ -12,9 +12,9 @@
 ## 📖 Documentation Guide
 
 ### 🎯 Start Here (Choose One)
-- **`EXPERIMENTS_COMPLETED.md`** - Summary of Phase 4-6 results with real AWS metrics
-- **`MASTER_EXECUTION_GUIDE.md`** - How to run all experiments (Steps 2-4)
-- **`docs/`** - Detailed reference documentation (deployment, troubleshooting, etc.)
+- **`docs/guides/MASTER_EXECUTION_GUIDE.md`** - How to run all experiments (Steps 2-4)
+- **`docs/guides/PHASE4_5_QUICK_START.md`** - Quick start for Phase 4-5 experiments
+- **`docs/`** - Organized reference documentation by type (plans, guides, references)
 
 ### GitHub Setup
 - **`.github/`** - GitHub repository and CI/CD setup guides
@@ -47,8 +47,6 @@ python experiments/04_aggregate_results.py
 ```
 autoscaling-strategy-compare/
 ├── README.md                           # Project overview (you are here)
-├── EXPERIMENTS_COMPLETED.md            # ⭐ Latest results (Phase 4-6)
-├── MASTER_EXECUTION_GUIDE.md           # ⭐ How to run experiments
 ├── requirements.txt                    # Python dependencies
 │
 ├── experiments/                        # Phase 4-6 experiment scripts
@@ -65,12 +63,29 @@ autoscaling-strategy-compare/
 ├── scripts/                            # Utility scripts
 ├── config/                             # Configuration files
 │
-├── docs/                               # 📚 Detailed documentation
-│   ├── PHASE1_DEPLOYMENT_GUIDE.md      # Infrastructure setup
-│   ├── FINAL_READINESS_REPORT.md       # Pre-execution checklist
-│   ├── STEP2_DIAGNOSIS_AND_FIX.md      # Troubleshooting
-│   ├── SESSION_SUMMARY.md              # Work history
-│   └── ... (more reference docs)
+├── docs/                               # 📚 Organized documentation
+│   ├── plans/                          # Project plans & roadmaps (Phases 1-6)
+│   │   ├── PROJECT_EXECUTION_PLAN.md
+│   │   ├── PHASE1_IMPLEMENTATION_PLAN.md
+│   │   ├── PHASE2B_APPLICATION_DEVELOPMENT.md
+│   │   ├── PHASE3_DEPLOYMENT.md
+│   │   ├── PHASE4_5_EXECUTION_PLAN.md
+│   │   ├── PHASE6_ANALYSIS_PLAN.md
+│   │   ├── PLANS_INDEX.md
+│   │   └── PROJECT_EXECUTION_ROADMAP.md
+│   ├── guides/                         # Step-by-step guides & quick starts
+│   │   ├── MASTER_EXECUTION_GUIDE.md   # ⭐ How to run experiments
+│   │   ├── PHASE1_DEPLOYMENT_GUIDE.md
+│   │   ├── PHASE3_DEPLOYMENT_GUIDE.md
+│   │   ├── PHASE4_5_EXECUTION_GUIDE.md
+│   │   ├── PHASE4_5_QUICK_START.md
+│   │   ├── PHASE4_5_ENVIRONMENT_SETUP.md
+│   │   ├── FINAL_EXECUTION_GUIDE.md
+│   │   └── CROSSPLATFORM_GUIDE.md
+│   └── references/                     # Indexes, manifests, criteria
+│       ├── FILE_INDEX.md
+│       ├── MANIFEST.md
+│       └── ACCEPTANCE_CRITERIA.md
 │
 ├── .github/                            # 🐙 GitHub setup
 │   ├── GITHUB_QUICK_SETUP.md           # GitHub repository config
@@ -82,15 +97,14 @@ autoscaling-strategy-compare/
 
 ---
 
-## 🧪 Experiment Results
+## 🧪 Experiment Progress
 
-**✅ Phase 4-6 Complete** (April 17, 2026)
+**✅ Phase 4-6 Execution Scripts Ready** (April 18, 2026)
 
-- **CPU Strategy**: 92.95% success rate, 970.6ms avg response time
-- **Request-Rate Strategy**: 93.74% success rate, 959.9ms avg response time
-- **Winner**: Request-Rate Strategy (12.7% better P95 latency, 3.6% lower cost)
-
-See `EXPERIMENTS_COMPLETED.md` for full details with real AWS CloudWatch metrics.
+- All experiment code is complete and tested
+- Infrastructure deployment scripts available
+- Ready to execute: CPU and Request-Rate autoscaling strategies
+- Results will be generated during Phase 4-6 execution
 
 ---
 
