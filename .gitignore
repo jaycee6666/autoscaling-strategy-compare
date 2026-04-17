@@ -69,3 +69,7 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# Git Worktrees
+.worktrees/
+worktrees/
