@@ -13,8 +13,10 @@
 │   ├── asg-cpu (CPU利用率策略)
 │   └── asg-request (请求率策略)
 ├── Application Load Balancer (ALB)
-├── 4 个 EC2 实例 (t3.micro)
-│   └── 自动扩展管理
+├── 3 个 EC2 实例 (t3.micro) - 当前运行中
+│   ├── i-0b8e90d9fad9e90f5 (running)
+│   ├── i-0c2dfc40723e238b2 (running)
+│   └── i-0c239fb80dcfb7bb7 (running)
 ├── IAM 角色和权限
 └── Security Groups (防火墙规则)
 ```
@@ -81,20 +83,22 @@
 **如何操作：**
 
 ```bash
-# 停止 ASG 中的所有实例
+# 停止 ASG 中的所有实例（推荐用脚本）
 python scripts/stop_instances.py
 
-# 或手动停止
-aws ec2 stop-instances --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e --region us-east-1
+# 或手动停止（使用当前实际的实例 ID）
+aws ec2 stop-instances --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 --region us-east-1
 
 # 查看实例状态
 aws ec2 describe-instances --region us-east-1 --query 'Reservations[].Instances[].{ID:InstanceId, State:State.Name}'
 ```
 
+⚠️ **重要提示**: Instance IDs 会随着部署变化。始终用上面的查询命令获取最新的 ID，而不是硬编码。
+
 **重启（快速恢复）：**
 ```bash
-# 启动实例
-aws ec2 start-instances --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e --region us-east-1
+# 启动实例（使用当前实际的实例 ID）
+aws ec2 start-instances --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 --region us-east-1
 
 # 等待健康检查
 python scripts/verify_infrastructure.py
@@ -139,16 +143,16 @@ aws autoscaling update-auto-scaling-group \
 这是最实用的方案：
 
 ```bash
-# Step 1: 停止所有 EC2 实例
-aws ec2 stop-instances --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e --region us-east-1
+# Step 1: 停止所有 EC2 实例（使用当前实际的实例 ID）
+aws ec2 stop-instances --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 --region us-east-1
 
 # Step 2: 验证状态
-aws ec2 describe-instances --region us-east-1 --instance-ids i-0f15b92f0d225b987
+aws ec2 describe-instances --region us-east-1 --query 'Reservations[].Instances[].{ID:InstanceId, State:State.Name}'
 
-# 输出应该显示: "State": "stopped"
+# 输出应该显示所有实例的 State 为 "stopped"
 
 # Step 3: 十几小时后，快速启动
-aws ec2 start-instances --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e --region us-east-1
+aws ec2 start-instances --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 --region us-east-1
 
 # 等待实例启动和健康检查通过（约 2-3 分钟）
 ```
@@ -173,7 +177,7 @@ aws ec2 start-instances --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i
 ```bash
 # 离开前（十几小时前）
 aws ec2 stop-instances \
-  --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e \
+  --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 \
   --region us-east-1
 
 # 成本: 只需支付 ALB ($0.18-0.27) + 存储 (~$0.01)
@@ -181,7 +185,7 @@ aws ec2 stop-instances \
 
 # 回来后（快速恢复）
 aws ec2 start-instances \
-  --instance-ids i-0f15b92f0d225b987 i-0105de960c2b06f2e i-0b753c4faa63e14ac i-0bd201ef2a892ea3e \
+  --instance-ids i-0b8e90d9fad9e90f5 i-0c2dfc40723e238b2 i-0c239fb80dcfb7bb7 \
   --region us-east-1
 
 # 等待 2-3 分钟后，所有东西恢复如初，继续做实验
@@ -207,6 +211,61 @@ aws ec2 start-instances \
 2. **Elastic IP** - 如果你有绑定弹性 IP，也会继续收费
 3. **ALB** - 负载均衡器无论如何都会收费，除非删除
 4. **快照** - 如果需要长期保存，考虑创建 AMI 快照
+
+---
+
+## 🔴 **重要：动态获取 Instance IDs（不要硬编码）**
+
+Instance IDs 在部署时变化。**永远不要在脚本中硬编码 Instance IDs**。
+
+### ✅ 正确做法：动态获取当前 IDs
+
+**Python 脚本（推荐）：**
+```python
+import boto3
+from dotenv import load_dotenv
+import os
+
+load_dotenv("config/.env")
+
+ec2 = boto3.client(
+    'ec2',
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION")
+)
+
+# 获取所有运行中的实例
+response = ec2.describe_instances(
+    Filters=[{'Name': 'instance-state-name', 'Values': ['running']}]
+)
+
+running_ids = []
+for reservation in response['Reservations']:
+    for instance in reservation['Instances']:
+        running_ids.append(instance['InstanceId'])
+        print(f"Found: {instance['InstanceId']} ({instance['InstanceType']})")
+
+# 停止所有运行中的实例
+if running_ids:
+    ec2.stop_instances(InstanceIds=running_ids)
+    print(f"✅ Stopped {len(running_ids)} instances")
+```
+
+**Bash 脚本：**
+```bash
+# 获取所有运行中的实例 ID
+INSTANCE_IDS=$(aws ec2 describe-instances \
+  --filters "Name=instance-state-name,Values=running" \
+  --region us-east-1 \
+  --query 'Reservations[].Instances[].InstanceId' \
+  --output text)
+
+echo "Found running instances: $INSTANCE_IDS"
+
+# 停止它们
+aws ec2 stop-instances --instance-ids $INSTANCE_IDS --region us-east-1
+```
 
 ---
 
