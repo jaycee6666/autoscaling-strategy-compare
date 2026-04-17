@@ -28,8 +28,10 @@
 |-------|------|------|------|
 | **Phase 1** | [PHASE1_IMPLEMENTATION_PLAN.md](./PHASE1_IMPLEMENTATION_PLAN.md) | ✅ 完成 | AWS基础设施代码实现 |
 | **Phase 1** | [PHASE1_COMPLETION_REPORT.md](./PHASE1_COMPLETION_REPORT.md) | ✅ 完成 | Phase 1总结报告 |
-| **Phase 2b** | [PHASE2B_IMPLEMENTATION_GUIDE.md](./PHASE2B_IMPLEMENTATION_GUIDE.md) | ✅ 完成 | 应用开发和工具实现 |
-| **Phase 3** | [PHASE3_DEPLOYMENT_GUIDE.md](./PHASE3_DEPLOYMENT_GUIDE.md) | ✅ 完成 | 部署步骤和故障排查 |
+| **Phase 2A** | [PHASE2A_INFRASTRUCTURE_SETUP.md](./plans/PHASE2A_INFRASTRUCTURE_SETUP.md) | ✅ 完成 | AWS基础设施脚本和配置 |
+| **Phase 2B** | [PHASE2B_APPLICATION_DEVELOPMENT.md](./plans/PHASE2B_APPLICATION_DEVELOPMENT.md) | ✅ 完成 | 应用工具开发和Flask应用 |
+| **Phase 2B** | [PHASE2B_DEPLOYMENT_GUIDE.md](./guides/PHASE2B_DEPLOYMENT_GUIDE.md) | ✅ 完成 | 应用部署实施指南 |
+| **Phase 3** | [PHASE3_DEPLOYMENT_GUIDE.md](./guides/PHASE3_DEPLOYMENT_GUIDE.md) | ✅ 完成 | 部署步骤和故障排查 |
 | **Phase 3** | [PHASE3_DEPLOYMENT_LOG.md](./PHASE3_DEPLOYMENT_LOG.md) | ✅ 完成 | 部署执行日志和证据 |
 
 ---
@@ -60,12 +62,12 @@
 
 ```
 Phase 1: AWS基础设施     ✅ COMPLETE
-Phase 2a: 脚本和工具      ✅ COMPLETE
-Phase 2b: 应用开发        ✅ COMPLETE
+Phase 2a: 脚本和工具      ✅ COMPLETE (Infrastructure provisioning scripts)
+Phase 2b: 应用开发        ✅ COMPLETE (Load generator, metrics collector, Flask app)
 Phase 3: 部署            ✅ COMPLETE
-Phase 4-5: 自动扩缩容实验  ⏳ NEXT
-Phase 6-7: 分析和报告     ⏳ TODO
-Phase 8-10: 演示和提交    ⏳ TODO
+Phase 4-5: 自动扩缩容实验  ✅ COMPLETE
+Phase 6: 分析和报告       ✅ COMPLETE
+Phase 7: 演示和提交       ⏳ NEXT
 ```
 
 **完成时间**: ~27小时  
