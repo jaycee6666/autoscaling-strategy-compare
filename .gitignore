@@ -1,0 +1,71 @@
+# Environment and Configuration
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+aws_credentials
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# AWS
+.aws/
+terraform/
+*.tfstate
+*.tfstate.backup
+
+# Data and Logs
+data/experiments/*
+!data/experiments/.gitkeep
+data/metrics/*
+!data/metrics/.gitkeep
+logs/
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
+*.bak
+
+# Temporary
+tmp/
+temp/
+*.tmp

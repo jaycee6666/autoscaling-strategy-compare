@@ -1,0 +1,170 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║          AUTOSCALING STRATEGY COMPARISON PROJECT - START HERE!            ║
+║                                                                            ║
+║  Comparative Analysis of Autoscaling Strategies:                          ║
+║  Resource-Based CPU Utilization vs. Workload-Based Request Rate           ║
+║                                                                            ║
+║  Team: WU Wanpeng, CHEN Sijie                                             ║
+║  Deadline: April 24, 2026, 23:59 HKT                                      ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+👋 WELCOME!
+
+This project uses AWS CLI for infrastructure management across Windows, macOS,
+and Linux. All team members use identical commands regardless of OS.
+
+
+⚡ QUICK START (3 STEPS - 10 MINUTES)
+
+  1. Install Dependencies:
+     pip install -r requirements.txt
+
+  2. Run Setup:
+     python setup.py
+
+  3. Read Getting Started:
+     Open: docs/GETTING_STARTED.md
+
+
+📚 DOCUMENTATION MAP
+
+  ⭐ START HERE:
+     └─ docs/GETTING_STARTED.md (8 min read)
+
+  For Daily Work:
+     ├─ docs/QUICK_REFERENCE.md (commands & FAQ)
+     ├─ docs/PROJECT_EXECUTION_PLAN.md (full 10-week plan)
+     └─ FILE_INDEX.md (all project files explained)
+
+  For Troubleshooting:
+     ├─ docs/CROSSPLATFORM_GUIDE.md (Windows/Mac/Linux)
+     └─ docs/QUICK_REFERENCE.md (common problems)
+
+  For Team Leads:
+     └─ docs/ADMIN_GUIDE.md (coordination & management)
+
+  For Grading:
+     └─ docs/ACCEPTANCE_CRITERIA.md (what's expected)
+
+
+🚀 FIRST-TIME SETUP
+
+  1. Open Terminal/PowerShell/Command Prompt
+  2. Navigate to this directory
+  3. Run: python setup.py
+  4. Wait for completion (takes ~2 minutes)
+  5. Edit config/.env with your AWS credentials
+  6. Run: python scripts/check_environment.py
+
+
+📂 PROJECT STRUCTURE
+
+  docs/               ← All documentation (8 guides)
+  scripts/            ← Python automation (4 ready + 9 to create)
+  config/             ← Configuration files
+  data/               ← Experiment results & metrics
+  README.md           ← Project overview
+  FILE_INDEX.md       ← Complete file guide
+
+
+🔧 CORE SCRIPTS
+
+  Python 3.8+:  ✓ Required
+  AWS CLI v2:   ✓ Required
+  Git:          ✓ Recommended
+
+  setup.py                    ← Run this FIRST
+  check_environment.py        ← Verify setup
+  init_project.py             ← Initialize project
+  aws_utils.py               ← AWS operations
+
+
+⚙️ CONFIGURATION
+
+  1. Copy template: cp config/.env.template config/.env
+  2. Edit: config/.env
+  3. Add your AWS credentials:
+     AWS_ACCESS_KEY_ID=your_key
+     AWS_SECRET_ACCESS_KEY=your_secret
+     AWS_DEFAULT_REGION=us-east-1
+
+
+✅ CHECKLIST
+
+  □ Python 3.8+ installed
+  □ AWS CLI v2 installed
+  □ Git installed
+  □ AWS account with IAM access
+  □ Ran: python setup.py
+  □ Edited: config/.env
+  □ Ran: python scripts/check_environment.py
+  □ Result: ✅ ALL CHECKS PASSED
+  □ Read: docs/GETTING_STARTED.md
+
+
+📋 EXECUTION PHASES (10 WEEKS)
+
+  Week 1:    Phase 0 - Setup & foundation (YOU ARE HERE)
+  Week 2-3:  Phase 1-3 - AWS infrastructure
+  Week 4-5:  Phase 4 - Flask application
+  Week 6-7:  Phase 5-6 - Experiment execution
+  Week 8:    Phase 7 - Data collection
+  Week 9:    Phase 8 - Report writing
+  Week 10:   Phase 9-10 - Demo & submission
+
+
+🆘 TROUBLESHOOTING
+
+  Problem: "python: command not found"
+  Solution: Use "python3" or add Python to PATH
+  Help: See docs/CROSSPLATFORM_GUIDE.md
+
+  Problem: "aws: command not found"
+  Solution: Install AWS CLI
+  Help: See docs/GETTING_STARTED.md
+
+  Problem: "AWS credentials not found"
+  Solution: Set environment variables or ~/.aws/credentials
+  Help: See docs/GETTING_STARTED.md
+
+
+💡 KEY FEATURES
+
+  ✓ Cross-platform (Windows/macOS/Linux)
+  ✓ Identical commands on all platforms
+  ✓ Automated environment checking
+  ✓ Centralized configuration
+  ✓ AWS CLI wrapper with error handling
+  ✓ Comprehensive documentation
+  ✓ Multi-person team support
+
+
+📞 SUPPORT RESOURCES
+
+  AWS CLI Docs:        https://docs.aws.amazon.com/cli/
+  AWS Region List:     aws ec2 describe-regions --output table
+  Project Docs:        See docs/PROJECT_EXECUTION_PLAN.md
+  Troubleshooting:     See docs/CROSSPLATFORM_GUIDE.md
+
+
+🎯 NEXT STEPS
+
+  1. Complete quick start (above)
+  2. Read: docs/GETTING_STARTED.md
+  3. Follow: docs/PROJECT_EXECUTION_PLAN.md
+  4. Deploy: python scripts/deploy_all.py
+  5. Develop: Follow Phase 4-10 in docs/PROJECT_EXECUTION_PLAN.md
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+                    Ready to start? Run: python setup.py
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Version: 1.0
+Created: April 17, 2026
+Questions: See docs/ADMIN_GUIDE.md for team contact information
