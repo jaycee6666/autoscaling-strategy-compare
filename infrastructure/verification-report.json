@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-04-17T06:14:40.372632",
+  "region": "us-east-1",
+  "checks": {
+    "vpc": {
+      "status": "PASS",
+      "vpc_id": "vpc-07b76cd1cfc660131",
+      "cidr_block": "10.0.0.0/16",
+      "state": "available"
+    },
+    "subnets": {
+      "status": "PASS",
+      "count": 4,
+      "subnets": [
+        {
+          "subnet_id": "subnet-0380d57de0f4e7294",
+          "cidr_block": "10.0.2.0/24",
+          "availability_zone": "us-east-1b",
+          "available_ips": 250
+        },
+        {
+          "subnet_id": "subnet-0ee31bdc6a99a3c34",
+          "cidr_block": "10.0.1.0/24",
+          "availability_zone": "us-east-1a",
+          "available_ips": 250
+        },
+        {
+          "subnet_id": "subnet-039aa0f4ecf311da2",
+          "cidr_block": "10.0.12.0/24",
+          "availability_zone": "us-east-1b",
+          "available_ips": 249
+        },
+        {
+          "subnet_id": "subnet-0f7c6350f313de3e0",
+          "cidr_block": "10.0.11.0/24",
+          "availability_zone": "us-east-1a",
+          "available_ips": 249
+        }
+      ]
+    },
+    "security_groups": {
+      "status": "PASS",
+      "count": 2,
+      "security_groups": [
+        {
+          "group_id": "sg-09bfbb7e8057b57ee",
+          "group_name": "alb-sg",
+          "inbound_rules": 2,
+          "outbound_rules": 2
+        },
+        {
+          "group_id": "sg-0b4f2355bd9ce8a19",
+          "group_name": "app-sg",
+          "inbound_rules": 2,
+          "outbound_rules": 3
+        }
+      ]
+    },
+    "alb": {
+      "status": "PASS",
+      "alb_arn": "arn:aws:elasticloadbalancing:us-east-1:503280397333:loadbalancer/app/experiment-alb/2c15a7153dba984a",
+      "dns_name": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com",
+      "state": "active",
+      "load_balancer_name": "experiment-alb"
+    },
+    "target_groups": {
+      "status": "PASS",
+      "count": 2,
+      "target_groups": [
+        {
+          "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2",
+          "target_group_name": "tg-cpu-asg",
+          "protocol": "HTTP",
+          "port": 8080,
+          "healthy_targets": 0,
+          "total_targets": 2,
+          "health_check_path": "/health"
+        },
+        {
+          "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002",
+          "target_group_name": "tg-request-asg",
+          "protocol": "HTTP",
+          "port": 8080,
+          "healthy_targets": 0,
+          "total_targets": 2,
+          "health_check_path": "/health"
+        }
+      ]
+    },
+    "asg": {
+      "status": "PASS",
+      "count": 2,
+      "auto_scaling_groups": [
+        {
+          "asg_name": "asg-cpu",
+          "min_size": 1,
+          "max_size": 5,
+          "desired_capacity": 2,
+          "current_instances": 2,
+          "healthy_instances": 2,
+          "state": 2,
+          "created_time": "2026-04-17T06:11:46.514000+00:00"
+        },
+        {
+          "asg_name": "asg-request",
+          "min_size": 1,
+          "max_size": 5,
+          "desired_capacity": 2,
+          "current_instances": 2,
+          "healthy_instances": 2,
+          "state": 2,
+          "created_time": "2026-04-17T06:11:47.545000+00:00"
+        }
+      ]
+    },
+    "ec2_instances": {
+      "status": "PASS",
+      "count": 4,
+      "instances": [
+        {
+          "instance_id": "i-0f15b92f0d225b987",
+          "instance_type": "t3.micro",
+          "state": "running",
+          "launch_time": "2026-04-17T06:11:50+00:00"
+        },
+        {
+          "instance_id": "i-0105de960c2b06f2e",
+          "instance_type": "t3.micro",
+          "state": "running",
+          "launch_time": "2026-04-17T06:11:50+00:00"
+        },
+        {
+          "instance_id": "i-0b753c4faa63e14ac",
+          "instance_type": "t3.micro",
+          "state": "running",
+          "launch_time": "2026-04-17T06:11:53+00:00"
+        },
+        {
+          "instance_id": "i-0bd201ef2a892ea3e",
+          "instance_type": "t3.micro",
+          "state": "running",
+          "launch_time": "2026-04-17T06:11:53+00:00"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total_checks": 7,
+    "passed_checks": 7,
+    "failed_checks": 0,
+    "status": "PASS"
+  }
+}

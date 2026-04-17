@@ -1,40 +1,44 @@
 # Autoscaling Strategy Comparison Project
 
-**Project**: Comparative Analysis of Autoscaling Strategies: Resource-Based CPU Utilization vs. Workload-Based Request Rate
+**Project**: Comparative Analysis of Autoscaling Strategies: CPU Utilization vs. Request Rate
 
-**Team**: WU Wanpeng, CHEN Sijie
-
-**Deadline**: April 24, 2026, 23:59 HKT
-
-**Course**: CS5296 Cloud Computing
+**Team**: CHEN Sijie (jaycee6666)  
+**Deadline**: April 24, 2026, 23:59 HKT  
+**Course**: CS5296 Cloud Computing  
+**Status**: Phase 4-6 Complete ✅ | Phase 7 (Report & Demo) - Next
 
 ---
 
-## 📋 Quick Start
+## 📖 Documentation Guide
 
-### For First-Time Setup (All Platforms)
+### 🎯 Start Here (Choose One)
+- **`EXPERIMENTS_COMPLETED.md`** - Summary of Phase 4-6 results with real AWS metrics
+- **`MASTER_EXECUTION_GUIDE.md`** - How to run all experiments (Steps 2-4)
+- **`docs/`** - Detailed reference documentation (deployment, troubleshooting, etc.)
+
+### GitHub Setup
+- **`.github/`** - GitHub repository and CI/CD setup guides
+
+---
+
+## 🚀 Quick Commands
 
 ```bash
-# 1. Check your environment (Python, AWS CLI, etc.)
-python scripts/check_environment.py
+# Activate environment
+venv\Scripts\activate.bat  # Windows
+source venv/bin/activate  # Mac/Linux
 
-# 2. Initialize the project
-python scripts/init_project.py
+# Verify infrastructure
+python experiments/01_verify_infrastructure.py
 
-# 3. Configure AWS credentials
-# Edit config/.env with your AWS access key and secret key
+# Run all experiments (CPU + Request-Rate)
+python run_all_experiments.py
 
-# 4. Deploy infrastructure
-python scripts/deploy_all.py
+# Or run individually (30 min each)
+python experiments/02_run_cpu_experiment.py
+python experiments/03_run_request_rate_experiment.py
+python experiments/04_aggregate_results.py
 ```
-
-### Accessing Documentation
-
-- **Start here**: `docs/QUICK_REFERENCE.md` - Quick lookup and command cheat sheet
-- **Full plan**: `docs/PROJECT_EXECUTION_PLAN.md` - Phase-by-phase execution guide
-- **Cross-platform**: `docs/CROSSPLATFORM_GUIDE.md` - Troubleshooting and platform-specific issues
-- **Team lead**: `docs/ADMIN_GUIDE.md` - Coordination and management guide
-- **Grading**: `docs/ACCEPTANCE_CRITERIA.md` - What the course expects
 
 ---
 
@@ -42,110 +46,56 @@ python scripts/deploy_all.py
 
 ```
 autoscaling-strategy-compare/
-├── README.md                          # This file
-├── docs/                              # All documentation
-│   ├── PROJECT_EXECUTION_PLAN.md     # Detailed execution phases
-│   ├── CROSSPLATFORM_GUIDE.md        # Windows/Mac/Linux compatibility
-│   ├── QUICK_REFERENCE.md            # Quick lookup guide
-│   ├── ADMIN_GUIDE.md                # Team management
-│   ├── OPTIMIZATION_SUMMARY.md       # Before/after improvements
-│   └── ACCEPTANCE_CRITERIA.md        # Grading requirements
-├── scripts/                           # Python automation scripts
-│   ├── check_environment.py          # Environment validation (Phase 0)
-│   ├── init_project.py               # Project initialization (Phase 0)
-│   ├── config_manager.py             # Configuration management (Phase 0)
-│   ├── aws_utils.py                  # AWS CLI wrapper (Phase 0)
-│   ├── setup_*.py                    # Infrastructure setup scripts (Phase 1-5)
-│   ├── deploy_all.py                 # One-click deployment (Phase 6)
-│   └── verify_deployment.py          # Deployment verification (Phase 6)
-├── config/                            # Configuration files
-│   ├── .env.template                 # Environment variables template
-│   ├── .env                          # Actual configuration (git-ignored)
-│   └── config.yaml                   # Project configuration
-├── data/                              # Data collection and analysis
-│   ├── experiments/                  # Experiment results
-│   ├── metrics/                      # Performance metrics
-│   └── analysis/                     # Analysis outputs
-└── .gitignore                         # Git ignore rules
+├── README.md                           # Project overview (you are here)
+├── EXPERIMENTS_COMPLETED.md            # ⭐ Latest results (Phase 4-6)
+├── MASTER_EXECUTION_GUIDE.md           # ⭐ How to run experiments
+├── requirements.txt                    # Python dependencies
+│
+├── experiments/                        # Phase 4-6 experiment scripts
+│   ├── 01_verify_infrastructure.py     # Pre-check
+│   ├── 02_run_cpu_experiment.py        # CPU strategy (30 min)
+│   ├── 03_run_request_rate_experiment.py # Request-rate strategy (30 min)
+│   ├── 04_aggregate_results.py         # Compare results
+│   ├── 06_analyze_results.py           # Phase 6 analysis
+│   └── results/                        # Experiment outputs (JSON/CSV)
+│
+├── apps/                               # Flask test application
+├── deployment/                         # AWS deployment scripts
+├── infrastructure/                     # AWS infrastructure configs
+├── scripts/                            # Utility scripts
+├── config/                             # Configuration files
+│
+├── docs/                               # 📚 Detailed documentation
+│   ├── PHASE1_DEPLOYMENT_GUIDE.md      # Infrastructure setup
+│   ├── FINAL_READINESS_REPORT.md       # Pre-execution checklist
+│   ├── STEP2_DIAGNOSIS_AND_FIX.md      # Troubleshooting
+│   ├── SESSION_SUMMARY.md              # Work history
+│   └── ... (more reference docs)
+│
+├── .github/                            # 🐙 GitHub setup
+│   ├── GITHUB_QUICK_SETUP.md           # GitHub repository config
+│   ├── HOW_TO_UPLOAD_TO_GITHUB.md      # Upload instructions
+│   └── READY_FOR_GITHUB.md             # Pre-push checklist
+│
+└── venv/                               # Python virtual environment
 ```
 
 ---
 
-## 🚀 Execution Phases (10 Weeks)
+## 🧪 Experiment Results
 
-| Week | Phase | What | Lead |
-|------|-------|------|------|
-| 1 | Phase 0 | Setup & infrastructure foundation | WU Wanpeng |
-| 2-3 | Phase 1-3 | AWS infrastructure deployment | Both |
-| 4-5 | Phase 4 | Flask application development | CHEN Sijie |
-| 6-7 | Phase 5-6 | Experiment execution | Both |
-| 8 | Phase 7 | Data collection & analysis | Both |
-| 9 | Phase 8 | Report writing | Both |
-| 10 | Phase 9-10 | Demo video & final submission | Both |
+**✅ Phase 4-6 Complete** (April 17, 2026)
+
+- **CPU Strategy**: 92.95% success rate, 970.6ms avg response time
+- **Request-Rate Strategy**: 93.74% success rate, 959.9ms avg response time
+- **Winner**: Request-Rate Strategy (12.7% better P95 latency, 3.6% lower cost)
+
+See `EXPERIMENTS_COMPLETED.md` for full details with real AWS CloudWatch metrics.
 
 ---
 
-## ✅ Key Features
+## 🔧 Prerequisites
 
-✅ **Cross-Platform**: Windows, macOS, Linux with identical commands  
-✅ **Automated Setup**: One-command environment checking and initialization  
-✅ **CLI-Based**: All AWS operations via CLI, no AWS Console required  
-✅ **Team Collaboration**: Centralized configuration for multi-person work  
-✅ **Error Handling**: Comprehensive logging and error messages  
-✅ **Modular Design**: Each phase is independent and can be retried  
-
----
-
-## 🧪 Phase 2b Application Development
-
-Phase 2b delivers the experiment application stack:
-
-- `scripts/load_generator.py`: HTTP load generation (`constant` / `ramp` / `wave`)
-- `scripts/metrics_collector.py`: CloudWatch/ASG metrics collection via boto3
-- `scripts/experiment_runner.py`: End-to-end experiment orchestration
-- `apps/test_app/app.py`: Flask test service for autoscaling behavior
-
-### Quick usage
-
-```python
-from scripts.experiment_runner import ExperimentRunner
-
-runner = ExperimentRunner(
-    experiment_name="cpu_test_1",
-    asg_name="experiment-asg-cpu",
-    alb_dns="http://<YOUR-ALB-DNS>",
-    request_rate=20,
-    duration_seconds=300,
-    load_pattern="ramp",
-)
-
-results = runner.run()
-print(results)
-```
-
-### Phase 2b docs
-
-- `docs/PHASE2B_IMPLEMENTATION_GUIDE.md`
-
----
-
-## 🔗 Resources
-
-- **AWS CLI Documentation**: https://docs.aws.amazon.com/cli/
-- **Course Materials**: See `../project_instruction.md`
-- **Proposal**: See `../proposal.md`
-
----
-
-## 📞 Support
-
-For issues or questions:
-1. Check `docs/QUICK_REFERENCE.md` for common problems
-2. Review `docs/CROSSPLATFORM_GUIDE.md` for platform-specific solutions
-3. Consult `docs/PROJECT_EXECUTION_PLAN.md` for detailed phase info
-4. Contact team lead (check `docs/ADMIN_GUIDE.md`)
-
----
-
-**Last Updated**: April 17, 2026  
-**Version**: 1.0 - Initial Setup
+- Python 3.9+ (upgrade to 3.10+ recommended)
+- AWS credentials configured
+- Virtual environment: `venv\Scripts\activate.bat` (Windows) or `. venv/bin/activate` (Mac/Linux)

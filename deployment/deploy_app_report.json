@@ -1,0 +1,119 @@
+{
+  "timestamp_utc": "2026-04-17T10:03:59.479072+00:00",
+  "region": "us-east-1",
+  "alb_dns": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com",
+  "running_instances_before": {
+    "asg-cpu": 1,
+    "asg-request": 2
+  },
+  "launch_template_versions": {
+    "asg-cpu": "7",
+    "asg-request": "6"
+  },
+  "instance_refresh_ids": {
+    "asg-cpu": "b0cf053c-2622-47cb-a59b-4f0e4f33ef7c",
+    "asg-request": "35e467d5-e7bf-47c8-b4fc-12d3315c52a4"
+  },
+  "subnet_updates": {
+    "asg-cpu": "subnet-0ee31bdc6a99a3c34,subnet-0380d57de0f4e7294",
+    "asg-request": "subnet-0ee31bdc6a99a3c34,subnet-0380d57de0f4e7294"
+  },
+  "private_route_has_default_egress": false,
+  "asg_health": {
+    "ready": true,
+    "details": {
+      "asg-cpu": {
+        "desired": 1,
+        "instances": [
+          {
+            "instance_id": "i-05e0de69d12135d81",
+            "health": "Healthy",
+            "lifecycle": "InService"
+          },
+          {
+            "instance_id": "i-0b3ccbd67234c7217",
+            "health": "Healthy",
+            "lifecycle": "Terminating"
+          }
+        ]
+      },
+      "asg-request": {
+        "desired": 2,
+        "instances": [
+          {
+            "instance_id": "i-010b46651d52329c1",
+            "health": "Healthy",
+            "lifecycle": "Terminating"
+          },
+          {
+            "instance_id": "i-0b8e90d9fad9e90f5",
+            "health": "Healthy",
+            "lifecycle": "InService"
+          },
+          {
+            "instance_id": "i-0c2dfc40723e238b2",
+            "health": "Healthy",
+            "lifecycle": "InService"
+          },
+          {
+            "instance_id": "i-0df1399a158c2a780",
+            "health": "Healthy",
+            "lifecycle": "Terminating"
+          }
+        ]
+      }
+    }
+  },
+  "target_group_health": {
+    "ready": true,
+    "target_groups": {
+      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2": {
+        "total": 2,
+        "healthy": 1
+      }
+    }
+  },
+  "all_target_group_snapshot": {
+    "ready": false,
+    "target_groups": {
+      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2": {
+        "total": 2,
+        "healthy": 1
+      },
+      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002": {
+        "total": 2,
+        "healthy": 0
+      }
+    }
+  },
+  "active_listener_target_group": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2",
+  "alb_health_probe": {
+    "success": true,
+    "attempts": 20,
+    "successes": 20,
+    "status_codes": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "last_body": "{\"status\":\"healthy\",\"timestamp\":\"2026-04-17T10:03:54.249682\",\"version\":\"1.0\"}\n"
+  },
+  "success": true
+}

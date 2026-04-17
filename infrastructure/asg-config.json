@@ -1,0 +1,4 @@
+{
+  "cpu_asg_name": "asg-cpu",
+  "request_asg_name": "asg-request"
+}

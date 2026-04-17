@@ -1,0 +1,10 @@
+{
+  "vpc_id": "vpc-07b76cd1cfc660131",
+  "public_subnet_1_id": "subnet-0ee31bdc6a99a3c34",
+  "public_subnet_2_id": "subnet-0380d57de0f4e7294",
+  "private_subnet_1_id": "subnet-0f7c6350f313de3e0",
+  "private_subnet_2_id": "subnet-039aa0f4ecf311da2",
+  "internet_gateway_id": "igw-050e8bdb69b2b82ab",
+  "route_table_public_id": "rtb-095ca52d3342bdaed",
+  "route_table_private_id": "rtb-0bfaf1f71d55974fc"
+}

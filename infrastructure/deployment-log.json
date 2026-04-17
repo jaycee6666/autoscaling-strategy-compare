@@ -1,0 +1,47 @@
+{
+  "start_time": "2026-04-17T06:13:31.257515",
+  "steps": {
+    "setup_network.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 4.092689037322998,
+      "output": ""
+    },
+    "setup_iam_role.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 4.5321948528289795,
+      "output": ""
+    },
+    "setup_security_groups.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 13.642272233963013,
+      "output": ""
+    },
+    "setup_instances.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 5.543037176132202,
+      "output": ""
+    },
+    "setup_alb.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 3.898740768432617,
+      "output": ""
+    },
+    "setup_asg.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 6.8354127407073975,
+      "output": ""
+    },
+    "verify_infrastructure.py": {
+      "status": "SUCCESS",
+      "elapsed_seconds": 26.65560245513916,
+      "output": ""
+    }
+  },
+  "summary": {
+    "total_steps": 7,
+    "successful_steps": 7,
+    "failed_steps": 0,
+    "status": "SUCCESS"
+  },
+  "end_time": "2026-04-17T06:15:06.508361"
+}
