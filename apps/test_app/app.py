@@ -121,6 +121,33 @@ def get_metrics() -> Tuple[Any, int]:
     return jsonify(response), 200
 
 
+@app.route("/request", methods=["POST"])
+def handle_request() -> Tuple[Any, int]:
+    """Generic request handler for load testing."""
+    global request_count
+    request_count += 1
+
+    # Get optional delay from request body
+    delay_seconds = 0.0
+    if request.is_json and isinstance(request.json, dict):
+        delay_seconds = float(request.json.get("delay", 0.0))
+
+    # Simulate work by sleeping
+    if delay_seconds > 0:
+        time.sleep(delay_seconds)
+
+    return (
+        jsonify(
+            {
+                "status": "success",
+                "delay_seconds": delay_seconds,
+                "timestamp": datetime.now().isoformat(),
+            }
+        ),
+        200,
+    )
+
+
 @app.route("/reset", methods=["POST"])
 def reset_metrics() -> Tuple[Any, int]:
     """Reset in-memory metrics counters."""
