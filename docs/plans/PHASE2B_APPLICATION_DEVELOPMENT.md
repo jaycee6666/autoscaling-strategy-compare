@@ -135,7 +135,7 @@ This plan document outlines the task structure and validation criteria. The cano
 
 **Files:**
 - Update: `README.md` (add Phase 2b reference)
-- Reference: `docs/PHASE2B_IMPLEMENTATION_GUIDE.md` (pointer to this plan)
+- Update: Documentation cross-references
 
 **Objective:** Document Phase 2b components and usage.
 
