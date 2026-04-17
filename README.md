@@ -9,18 +9,6 @@
 
 ---
 
-## 📖 Documentation Guide
-
-### 🎯 Start Here (Choose One)
-- **`docs/guides/MASTER_EXECUTION_GUIDE.md`** - How to run all experiments (Steps 2-4)
-- **`docs/guides/PHASE4_5_EXECUTION_GUIDE.md`** - Detailed guide for Phase 4-5 experiments
-- **`docs/`** - Organized reference documentation by type (plans, guides, references)
-
-### GitHub Setup
-- **`.github/`** - GitHub repository and CI/CD setup guides
-
----
-
 ## 🔧 Prerequisites & Setup
 
 **Before running experiments, complete these one-time setup steps:**
@@ -37,7 +25,7 @@ source venv/bin/activate
 ### Step 2: Run Setup Script
 ```bash
 # One-command environment initialization
-python setup.py
+python scripts/setup.py
 ```
 
 This script will:
@@ -72,7 +60,7 @@ Once setup is complete, you can run experiments in three ways:
 
 ### Option 1: Run All Experiments (One Command)
 ```bash
-python run_all_experiments.py
+python scripts/run_all_experiments.py
 ```
 
 **Total time**: ~75 minutes (CPU strategy: 30 min + Request-Rate strategy: 30 min + Aggregation: 10 min)

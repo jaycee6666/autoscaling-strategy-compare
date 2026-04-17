@@ -1586,7 +1586,7 @@ Comparative analysis of two autoscaling strategies:
 
 ### 1. Environment Setup (Phase 0)
 ```bash
-python setup.py
+python scripts/setup.py
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 ```
 

@@ -175,7 +175,7 @@ autoscaling-strategy-compare/
 ### New Team Member (First Day)
 ```
 1. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
-2. Run: python setup.py
+2. Run: python scripts/setup.py
 3. Read: docs/guides/PHASE4_5_EXECUTION_GUIDE.md
 ```
 
@@ -222,7 +222,7 @@ autoscaling-strategy-compare/
 ## 📚 Reading Order (Recommended)
 
 1. **First Time**: `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` (15 min)
-2. **Setup**: Run `python setup.py` (5 min)
+2. **Setup**: Run `python scripts/setup.py` (5 min)
 3. **Overview**: `README.md` (5 min)
 4. **Daily Ref**: `docs/guides/PHASE4_5_EXECUTION_GUIDE.md` (ongoing)
 5. **Deep Dive**: `docs/plans/PROJECT_EXECUTION_PLAN.md` (1 hour)

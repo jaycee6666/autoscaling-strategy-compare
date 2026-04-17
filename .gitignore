@@ -73,3 +73,7 @@ temp/
 # Git Worktrees
 .worktrees/
 worktrees/
+
+# Development Scripts (not for commit)
+generate_charts.py
+generate_pdf.py

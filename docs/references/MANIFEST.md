@@ -70,7 +70,7 @@
 pip install -r requirements.txt
 
 # 2. Run setup (first time only)
-python setup.py
+python scripts/setup.py
 
 # 3. Edit configuration
 # Open: config/.env
@@ -200,7 +200,7 @@ app/
 ```bash
 1. Clone/download the project
 2. Read: README.md "Prerequisites & Setup" section (10 min)
-3. Run: python setup.py (5 min)
+3. Run: python scripts/setup.py (5 min)
 4. Edit: config/.env (2 min)
 5. Verify: python experiments/01_verify_infrastructure.py (5 min)
 6. Read: README.md "Running Experiments" section (5 min)
@@ -272,7 +272,7 @@ aws_utils.py
 
 ### Automated Setup ✅
 
-- **One-command setup**: python setup.py
+- **One-command setup**: python scripts/setup.py
 - **Auto-validation**: Environment checks
 - **Auto-initialization**: Project structure
 - **Templates ready**: Just fill in credentials

@@ -59,7 +59,7 @@ Week 10:    最终检查 & 提交
 所有平台使用相同的命令：
 
 ```bash
-python setup.py
+python scripts/setup.py
 ```
 
 **会自动执行以下所有步骤:**
