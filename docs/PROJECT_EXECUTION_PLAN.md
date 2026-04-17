@@ -1,5 +1,13 @@
 # 项目执行计划 (跨平台版本)
 
+> ⚠️ **注意**: 这是项目开始时制定的**原始执行计划**。
+> 
+> 有关**当前执行计划**，请参阅 [`PROJECT_EXECUTION_ROADMAP.md`](./PROJECT_EXECUTION_ROADMAP.md)。
+> 
+> 新的执行路线图基于 Phase 1 完成情况进行了优化，但仍保持 2026 年 4 月 24 日的截止日期。此文档保留供参考和审计跟踪。
+
+---
+
 **项目名称**: Comparative Analysis of Autoscaling Strategies: Resource-Based CPU Utilization vs. Workload-Based Request Rate
 
 **执行方式**: 本地 AWS CLI（Windows/macOS/Linux）
