@@ -97,27 +97,36 @@ def verify_step_output(step_num: int, expected_file: str) -> bool:
 def main() -> int:
     """Run all experiment steps sequentially."""
     parser = argparse.ArgumentParser(
-        description="Auto-run Phase 4-5 experiments (Steps 2-4)"
+        description="Auto-run Phase 4-5 experiments (Steps 2-4) + Phase 6 Analysis"
     )
     parser.add_argument(
         "--skip-verification",
         action="store_true",
         help="Skip output file verification after each step",
     )
+    parser.add_argument(
+        "--skip-phase-6",
+        action="store_true",
+        help="Skip Phase 6 analysis (just run Steps 2-4)",
+    )
     args = parser.parse_args()
 
     log("\n")
     log("╔" + "=" * 78 + "╗")
     log("║" + " " * 78 + "║")
-    log("║" + "Phase 4-5: Autoscaling Strategy Comparison Experiments".center(78) + "║")
-    log("║" + "Steps 2-4 Auto-Runner".center(78) + "║")
+    log(
+        "║"
+        + "Phase 4-6: Autoscaling Strategy Comparison (Complete Pipeline)".center(78)
+        + "║"
+    )
+    log("║" + "Steps 2-4 Experiments + Phase 6 Analysis".center(78) + "║")
     log("║" + " " * 78 + "║")
     log("╚" + "=" * 78 + "╝")
     log("")
 
     start_time = datetime.now(timezone.utc)
     log(f"Start time: {start_time.isoformat()}")
-    log(f"Expected total duration: ~65 minutes")
+    log(f"Expected total duration: ~75 minutes (65 min experiments + 10 min analysis)")
     log("")
 
     # Step 2: CPU Strategy Experiment
@@ -161,13 +170,23 @@ def main() -> int:
         if not verify_step_output(4, "metrics_comparison.csv"):
             return 1
 
+    # Phase 6: Analysis
+    if not args.skip_phase_6:
+        log("\nRunning Phase 6 (Analysis, ~2 min)...")
+        if not run_step(
+            6,
+            "06_analyze_results.py",
+            "Phase 6 Analysis: Compare Strategies & Determine Winner",
+        ):
+            log("⚠ Phase 6 analysis failed, but experiments completed successfully")
+
     # Summary
     end_time = datetime.now(timezone.utc)
     elapsed = (end_time - start_time).total_seconds()
     elapsed_min = elapsed / 60
 
     log(f"\n{'=' * 80}")
-    log(f"ALL EXPERIMENTS COMPLETED SUCCESSFULLY!")
+    log(f"ALL STEPS COMPLETED SUCCESSFULLY!")
     log(f"{'=' * 80}")
     log(f"Start time: {start_time.isoformat()}")
     log(f"End time: {end_time.isoformat()}")
@@ -175,15 +194,20 @@ def main() -> int:
     log("")
     log("Output files created:")
     results_dir = Path(__file__).parent / "experiments" / "results"
-    for file in results_dir.glob("*.json"):
+    for file in sorted(results_dir.glob("*.json")):
         size = file.stat().st_size
         log(f"  ✓ {file.name} ({size} bytes)")
-    for file in results_dir.glob("*.csv"):
+    for file in sorted(results_dir.glob("*.csv")):
         size = file.stat().st_size
         log(f"  ✓ {file.name} ({size} bytes)")
 
     log("")
-    log("Next: Begin Phase 6 (Analysis & Report Generation)")
+    if not args.skip_phase_6:
+        log("All experiments and analysis complete! Ready for report generation.")
+    else:
+        log(
+            "Experiments complete. Run 'python experiments/06_analyze_results.py' for analysis."
+        )
     log("")
 
     return 0
