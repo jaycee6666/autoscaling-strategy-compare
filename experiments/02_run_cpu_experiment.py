@@ -125,6 +125,16 @@ class CpuExperimentRunner:
     def _run_load(self, stop_time: float) -> None:
         url = f"http://{self.config.alb_dns}/request"
         interval = 1.0 / self.config.request_rate_per_second
+        progress_interval = 60  # Print progress every 60 seconds
+        last_progress = time.time()
+
+        print(f"[{datetime.now(timezone.utc).isoformat()}] Load generation started")
+        print(f"  Target: {self.config.request_rate_per_second} req/s")
+        print(
+            f"  Duration: {self.config.duration_seconds} seconds ({self.config.duration_seconds // 60} min)"
+        )
+        print(f"  URL: http://{self.config.alb_dns}/request")
+        print()
 
         while time.time() < stop_time:
             request_started = time.perf_counter()
@@ -146,6 +156,30 @@ class CpuExperimentRunner:
                 self.load_results["total_requests"] += 1
                 self.load_results["failed_requests"] += 1
                 self.load_results["errors"].append(str(exc))
+
+            # Print progress every 60 seconds
+            now = time.time()
+            if now - last_progress >= progress_interval:
+                elapsed = now - (stop_time - self.config.duration_seconds)
+                success_rate = (
+                    self.load_results["successful_requests"]
+                    / self.load_results["total_requests"]
+                    if self.load_results["total_requests"]
+                    else 0.0
+                )
+                avg_time = (
+                    sum(self.load_results["response_times_ms"])
+                    / len(self.load_results["response_times_ms"])
+                    if self.load_results["response_times_ms"]
+                    else 0.0
+                )
+                print(
+                    f"[{elapsed:.0f}s/{self.config.duration_seconds}s] "
+                    f"Requests: {self.load_results['total_requests']} | "
+                    f"Success: {success_rate * 100:.1f}% | "
+                    f"Avg time: {avg_time:.0f}ms"
+                )
+                last_progress = now
 
             remaining = interval - (time.perf_counter() - request_started)
             if remaining > 0:
@@ -243,6 +277,16 @@ class CpuExperimentRunner:
             time.sleep(self.config.sample_interval_seconds)
 
     def run(self) -> Dict[str, Any]:
+        print(f"\n{'=' * 70}")
+        print(f"CPU Strategy Experiment Starting")
+        print(f"{'=' * 70}")
+        print(f"ASG: {self.config.asg_name}")
+        print(f"ALB: {self.config.alb_dns}")
+        print(f"Region: {self.config.region}")
+        print(f"Target: {self.config.request_rate_per_second} requests/second")
+        print(f"Duration: {self.config.duration_seconds // 60} minutes")
+        print(f"{'=' * 70}\n")
+
         self._route_listener()
         self._set_desired_capacity()
 
@@ -258,6 +302,10 @@ class CpuExperimentRunner:
         metrics_thread.start()
         load_thread.join()
         metrics_thread.join()
+
+        print(f"\n{'=' * 70}")
+        print(f"Experiment Complete! Collecting final results...")
+        print(f"{'=' * 70}\n")
 
         ended_at = datetime.now(timezone.utc)
         times = [float(v) for v in self.load_results["response_times_ms"]]
