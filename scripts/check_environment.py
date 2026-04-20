@@ -194,7 +194,7 @@ class EnvironmentChecker:
         # Python Packages
         print("\n[...] PYTHON PACKAGES")
         print("-" * 60)
-        required_packages = ["boto3", "python_dotenv", "pyyaml", "requests"]
+        required_packages = ["boto3", "dotenv", "yaml", "requests"]
         status, packages_info = self.check_pip_packages(required_packages)
         self.results["Python Packages"] = {"status": status, "details": packages_info}
 
