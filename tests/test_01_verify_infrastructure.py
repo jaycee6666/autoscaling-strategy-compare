@@ -113,3 +113,20 @@ def test_check_application_health_ok(
     result = verifier._check_application_health("example-alb")
     assert result.passed is True
     assert result.details["status_code"] == 200
+
+
+def test_check_target_group_health_unused_ok(verifier: Any) -> None:
+    verifier.elbv2.describe_target_health.return_value = {
+        "TargetHealthDescriptions": [
+            {
+                "TargetHealth": {
+                    "State": "unused",
+                    "Reason": "Target.NotInUse",
+                }
+            }
+        ]
+    }
+
+    result = verifier._check_target_group_health("arn:aws:elasticloadbalancing:us-east-1:123:targetgroup/cpu/1")
+    assert result.passed is True
+    assert result.details["unused_count"] == 1

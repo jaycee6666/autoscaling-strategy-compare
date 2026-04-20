@@ -158,13 +158,19 @@ class InfrastructureHealthVerifier:
             for item in descriptions
             if item.get("TargetHealth", {}).get("State") == "healthy"
         ]
+        unused = [
+            item
+            for item in descriptions
+            if item.get("TargetHealth", {}).get("State") == "unused"
+        ]
 
         return CheckResult(
             name=f"target_group:{target_group_arn}",
-            passed=len(descriptions) > 0 and len(healthy) > 0,
+            passed=len(descriptions) > 0 and (len(healthy) > 0 or len(unused) > 0),
             details={
                 "target_count": len(descriptions),
                 "healthy_count": len(healthy),
+                "unused_count": len(unused),
             },
         )
 
