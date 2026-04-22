@@ -201,18 +201,30 @@ class RequestRateExperimentRunner:
 
         end = datetime.now(timezone.utc)
         start = end - timedelta(minutes=5)
-        cpu_resp = self.cloudwatch.get_metric_statistics(
-            Namespace="AWS/EC2",
-            MetricName="CPUUtilization",
-            Dimensions=[
-                {"Name": "AutoScalingGroupName", "Value": self.config.asg_name}
-            ],
-            StartTime=start,
-            EndTime=end,
-            Period=60,
-            Statistics=["Average"],
-        )
-        cpu_avg = _parse_latest_datapoint(cpu_resp, "Average")
+
+        # Get CPU utilization per instance and aggregate (not by AutoScalingGroupName)
+        cpu_avg = None
+        if groups:
+            asg = groups[0]
+            instances = asg.get("Instances", [])
+            cpu_values = []
+            for instance in instances:
+                instance_id = instance.get("InstanceId")
+                cpu_resp = self.cloudwatch.get_metric_statistics(
+                    Namespace="AWS/EC2",
+                    MetricName="CPUUtilization",
+                    Dimensions=[{"Name": "InstanceId", "Value": instance_id}],
+                    StartTime=start,
+                    EndTime=end,
+                    Period=60,
+                    Statistics=["Average"],
+                )
+                cpu_value = _parse_latest_datapoint(cpu_resp, "Average")
+                if cpu_value is not None:
+                    cpu_values.append(cpu_value)
+
+            if cpu_values:
+                cpu_avg = statistics.mean(cpu_values)
 
         alb_resp = self.cloudwatch.get_metric_statistics(
             Namespace="AWS/ApplicationELB",

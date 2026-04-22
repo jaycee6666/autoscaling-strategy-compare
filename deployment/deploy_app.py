@@ -42,7 +42,7 @@ set -euo pipefail
 yum update -y
 yum install -y python3 python3-pip
 python3 -m pip install --upgrade pip
-python3 -m pip install flask boto3 requests
+python3 -m pip install flask boto3 requests gunicorn
 
 mkdir -p /opt/test_app
 cat > /opt/test_app/app.py <<'PYAPP'
@@ -58,7 +58,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/opt/test_app
-ExecStart=/usr/bin/python3 /opt/test_app/app.py
+ExecStart=/usr/local/bin/gunicorn app:app -w 4 -k gthread -b 0.0.0.0:8080 --timeout 120 --access-logfile /var/log/gunicorn-access.log --error-logfile /var/log/gunicorn-error.log
 Restart=always
 RestartSec=5
 Environment=AWS_REGION=us-east-1
@@ -309,6 +309,26 @@ class FlaskAppDeployer:
             last_body=last_body,
         )
 
+    def _update_alb_listener_routing(
+        self, listener_arn: str, target_group_arn: str
+    ) -> bool:
+        """Update ALB listener to route traffic to the specified target group"""
+        try:
+            print(
+                f"Updating ALB listener {listener_arn} to route to target group {target_group_arn}"
+            )
+            self.elbv2.modify_listener(
+                ListenerArn=listener_arn,
+                DefaultActions=[
+                    {"Type": "forward", "TargetGroupArn": target_group_arn}
+                ],
+            )
+            print("Successfully updated ALB listener routing")
+            return True
+        except Exception as e:
+            print(f"Error updating ALB listener: {e}")
+            return False
+
     def deploy(self) -> Dict[str, Any]:
         inputs = self._load_inputs()
         app_user_data = build_user_data(inputs["app_source"])
@@ -372,6 +392,13 @@ class FlaskAppDeployer:
             timeout_seconds=5,
         )
         probe = self._probe_alb_health(inputs["alb_dns"])
+
+        # Update ALB listener to route to Request ASG (instead of CPU ASG)
+        request_tg_arn = inputs["request_target_group_arn"]
+        if self._update_alb_listener_routing(inputs["listener_arn"], request_tg_arn):
+            print("ALB listener successfully updated to route to Request ASG")
+        else:
+            print("Failed to update ALB listener routing")
 
         report: Dict[str, Any] = {
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),

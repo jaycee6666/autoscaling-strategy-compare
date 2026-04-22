@@ -1,0 +1,132 @@
+{
+  "timestamp_utc": "2026-04-22T04:58:39.221561+00:00",
+  "cpu_metrics": {
+    "strategy": "cpu",
+    "total_requests": 7175,
+    "successful_requests": 510,
+    "failed_requests": 97274,
+    "success_rate": 0.0710801393728223,
+    "avg_response_ms": 2767.364737240417,
+    "p95_response_ms": 7052.96270000008,
+    "p99_response_ms": 8993.879500000048,
+    "max_capacity": 5,
+    "scale_out_events": 3,
+    "scale_in_events": 0,
+    "scale_out_latency_stats": {
+      "count": 0,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0,
+      "stdev": 0
+    },
+    "phases": {
+      "Preheating": {
+        "duration_sec": 300,
+        "target_rate": 15,
+        "avg_response_ms": 23.050198989252976,
+        "avg_capacity": 1,
+        "avg_cpu": 55.93277349830163,
+        "samples": 16
+      },
+      "Baseline": {
+        "duration_sec": 600,
+        "target_rate": 15,
+        "avg_response_ms": 23.186377281295677,
+        "avg_capacity": 2.1666666666666665,
+        "avg_cpu": 87.35936824128298,
+        "samples": 30
+      },
+      "Burst": {
+        "duration_sec": 900,
+        "target_rate": 50,
+        "avg_response_ms": 39.36333838128293,
+        "avg_capacity": 4.7073170731707314,
+        "avg_cpu": 94.31959475059026,
+        "samples": 41
+      },
+      "Recovery": {
+        "duration_sec": 600,
+        "target_rate": 15,
+        "avg_response_ms": 29.608594759988957,
+        "avg_capacity": 5,
+        "avg_cpu": 97.46561742216375,
+        "samples": 27
+      }
+    },
+    "timestamp": "2026-04-22T03:43:01.785246+00:00"
+  },
+  "request_rate_metrics": {
+    "strategy": "request_rate",
+    "total_requests": 120875,
+    "successful_requests": 120613,
+    "failed_requests": 3637,
+    "success_rate": 0.9978324715615305,
+    "avg_response_ms": 1534.8273543180972,
+    "p95_response_ms": 2835.6008000000656,
+    "p99_response_ms": 4073.4067999999297,
+    "max_capacity": 5,
+    "scale_out_events": 1,
+    "scale_in_events": 1,
+    "scale_out_latency_stats": {
+      "count": 0,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0,
+      "stdev": 0
+    },
+    "phases": {
+      "Preheating": {
+        "duration_sec": 300,
+        "target_rate": 15,
+        "avg_response_ms": 0.003465284634433521,
+        "avg_capacity": 3.2222222222222223,
+        "avg_cpu": 1.402412041095615,
+        "samples": 9
+      },
+      "Baseline": {
+        "duration_sec": 600,
+        "target_rate": 15,
+        "avg_response_ms": 0.004036563465200333,
+        "avg_capacity": 5,
+        "avg_cpu": 1.3333746689289012,
+        "samples": 16
+      },
+      "Burst": {
+        "duration_sec": 900,
+        "target_rate": 50,
+        "avg_response_ms": 0.0095223595748939,
+        "avg_capacity": 1.5925925925925926,
+        "avg_cpu": 4.0723188552706775,
+        "samples": 27
+      },
+      "Recovery": {
+        "duration_sec": 600,
+        "target_rate": 15,
+        "avg_response_ms": 0.014663543999060169,
+        "avg_capacity": 1,
+        "avg_cpu": 8.258171702411,
+        "samples": 18
+      }
+    },
+    "timestamp": "2026-04-22T01:38:34.702620+00:00"
+  },
+  "improvements": {
+    "avg_response_improvement_pct": 44.538306293206276,
+    "p95_response_improvement_pct": 59.79560759622289,
+    "p99_response_improvement_pct": 54.70912413269593
+  },
+  "winner_analysis": {
+    "winner": "Request-Rate Strategy",
+    "cpu_score": 10,
+    "req_score": 55,
+    "confidence_pct": 84.61538461538461,
+    "reasoning": [
+      "\u2705 Request-rate: P95 latency 59.8% better (2836ms vs 7053ms)",
+      "\u26aa Same capacity scaling: Both use 5 instances",
+      "\u2705 Request-rate: Higher success rate (99.8% vs 7.1%)",
+      "\u2705 Request-rate: Higher throughput (120875 requests vs 7175)"
+    ]
+  }
+}

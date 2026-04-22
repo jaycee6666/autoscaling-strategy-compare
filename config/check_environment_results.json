@@ -5,11 +5,11 @@
   },
   "Command: aws": {
     "status": true,
-    "info": "C:\\project\\CS5296\\project3\\autoscaling-strategy-compare\\venv\\Scripts\\aws"
+    "info": "C:\\software\\anacoda3\\Scripts\\aws"
   },
   "Command: git": {
     "status": true,
-    "info": "C:\\software\\Git\\cmd\\git.exe"
+    "info": "C:\\software\\Git\\mingw64\\bin\\git.exe"
   },
   "AWS CLI": {
     "status": true,
@@ -24,16 +24,15 @@
     "info": "Config file found at C:\\Users\\HUAWEI\\.aws\\config"
   },
   "Python Packages": {
-    "status": false,
+    "status": true,
     "details": {
       "installed": {
         "boto3": "[OK]",
+        "dotenv": "[OK]",
+        "yaml": "[OK]",
         "requests": "[OK]"
       },
-      "missing": {
-        "python_dotenv": "[ERROR]",
-        "pyyaml": "[ERROR]"
-      }
+      "missing": {}
     }
   },
   "Directories": {

@@ -1,11 +1,14 @@
 {
-  "timestamp_utc": "2026-04-17T17:52:33.076336+00:00",
+  "timestamp_utc": "2026-04-21T14:48:10.408276+00:00",
   "region": "us-east-1",
   "config": {
     "cpu_asg_name": "asg-cpu",
     "request_asg_name": "asg-request",
-    "alb_dns": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com"
+    "alb_dns": "experiment-alb-914480444.us-east-1.elb.amazonaws.com"
   },
+  "active_target_groups": [
+    "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/3958ac39083b3078"
+  ],
   "checks": [
     {
       "name": "asg:asg-cpu",
@@ -24,9 +27,9 @@
       "details": {
         "min_size": 1,
         "max_size": 5,
-        "desired_capacity": 2,
-        "instance_count": 2,
-        "healthy_instance_count": 2
+        "desired_capacity": 1,
+        "instance_count": 1,
+        "healthy_instance_count": 1
       }
     },
     {
@@ -34,43 +37,167 @@
       "passed": true,
       "details": {
         "state": "active",
-        "dns_name": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com"
+        "dns_name": "experiment-alb-914480444.us-east-1.elb.amazonaws.com"
       }
     },
     {
-      "name": "target_group:arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2",
-      "passed": false,
+      "name": "target_group:cpu:health",
+      "passed": true,
       "details": {
+        "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/3958ac39083b3078",
+        "status": "ACTIVE (ALB forwards traffic)",
         "target_count": 1,
-        "healthy_count": 0
+        "healthy_count": 1,
+        "unused_count": 0,
+        "is_active": true
       }
     },
     {
-      "name": "target_group:arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002",
-      "passed": false,
+      "name": "target_group:request:health",
+      "passed": true,
       "details": {
-        "target_count": 2,
-        "healthy_count": 0
+        "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/08c9351cc1fe54cc",
+        "status": "STANDBY (registered instances exist, health check deferred)",
+        "target_count": 1,
+        "healthy_count": 0,
+        "unused_count": 1,
+        "is_active": false
+      }
+    },
+    {
+      "name": "target_group_config:cpu",
+      "passed": true,
+      "details": {
+        "health_check_path": "/health",
+        "health_check_interval_seconds": 30,
+        "healthy_threshold_count": 2,
+        "unhealthy_threshold_count": 3,
+        "path_valid": true,
+        "interval_valid": true,
+        "healthy_threshold_valid": true,
+        "unhealthy_threshold_valid": true
+      }
+    },
+    {
+      "name": "target_group_config:request",
+      "passed": true,
+      "details": {
+        "health_check_path": "/health",
+        "health_check_interval_seconds": 30,
+        "healthy_threshold_count": 2,
+        "unhealthy_threshold_count": 3,
+        "path_valid": true,
+        "interval_valid": true,
+        "healthy_threshold_valid": true,
+        "unhealthy_threshold_valid": true
+      }
+    },
+    {
+      "name": "security_group:ALB",
+      "passed": true,
+      "details": {
+        "sg_id": "sg-03dbb90f267e336b2",
+        "ingress_rule_count": 2,
+        "egress_rule_count": 2,
+        "ingress_ok": true,
+        "egress_ok": true,
+        "required_ports": [
+          80,
+          443
+        ]
+      }
+    },
+    {
+      "name": "security_group:App",
+      "passed": true,
+      "details": {
+        "sg_id": "sg-0b0c7d21ac9c0f8ca",
+        "ingress_rule_count": 2,
+        "egress_rule_count": 3,
+        "ingress_ok": true,
+        "egress_ok": true,
+        "required_ports": [
+          8080
+        ]
+      }
+    },
+    {
+      "name": "asg_policies:asg-cpu",
+      "passed": true,
+      "details": {
+        "total_policies": 1,
+        "target_tracking_policies": 1,
+        "policies_valid": true
+      }
+    },
+    {
+      "name": "asg_policies:asg-request",
+      "passed": true,
+      "details": {
+        "total_policies": 1,
+        "target_tracking_policies": 1,
+        "policies_valid": true
+      }
+    },
+    {
+      "name": "launch_template:asg-cpu",
+      "passed": true,
+      "details": {
+        "instance_type": "t3.micro",
+        "image_id": "ami-0d05471b100e9083f",
+        "user_data_present": true,
+        "instance_type_ok": true,
+        "image_id_ok": true,
+        "user_data_ok": true
+      }
+    },
+    {
+      "name": "launch_template:asg-request",
+      "passed": true,
+      "details": {
+        "instance_type": "t3.micro",
+        "image_id": "ami-0d05471b100e9083f",
+        "user_data_present": true,
+        "instance_type_ok": true,
+        "image_id_ok": true,
+        "user_data_ok": true
+      }
+    },
+    {
+      "name": "iam_instance_profile:asg-cpu",
+      "passed": true,
+      "details": {
+        "profile_arn": "arn:aws:iam::503280397333:instance-profile/EC2InstanceProfileForExperiment",
+        "profile_name": "",
+        "profile_attached": true
+      }
+    },
+    {
+      "name": "iam_instance_profile:asg-request",
+      "passed": true,
+      "details": {
+        "profile_arn": "arn:aws:iam::503280397333:instance-profile/EC2InstanceProfileForExperiment",
+        "profile_name": "",
+        "profile_attached": true
       }
     },
     {
       "name": "endpoint:/health",
       "passed": true,
       "details": {
-        "url": "http://experiment-alb-1466294824.us-east-1.elb.amazonaws.com/health",
+        "url": "http://experiment-alb-914480444.us-east-1.elb.amazonaws.com/health",
         "status_code": 200,
         "response": {
           "status": "healthy",
-          "timestamp": "2026-04-17T17:52:32.800559",
-          "version": "1.0"
+          "timestamp": "2026-04-21T14:48:10.277016"
         }
       }
     }
   ],
   "summary": {
-    "total_checks": 6,
-    "passed_checks": 4,
-    "failed_checks": 2,
-    "all_passed": false
+    "total_checks": 16,
+    "passed_checks": 16,
+    "failed_checks": 0,
+    "all_passed": true
   }
 }

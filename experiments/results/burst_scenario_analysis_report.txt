@@ -1,0 +1,75 @@
+
+================================================================================
+🔬 BURST SCENARIO EXPERIMENT ANALYSIS REPORT
+================================================================================
+
+📈 SUMMARY METRICS COMPARISON
+--------------------------------------------------------------------------------
+Metric                         CPU Strategy         Request-Rate        
+--------------------------------------------------------------------------------
+Total Requests                 7175                 120875              
+Success Rate                   7.1%                 99.8%               
+Avg Response Time              2767ms               1535ms              
+P95 Response Time              7053ms               2836ms              
+P99 Response Time              8994ms               4073ms              
+Max Instances                  5                    5                   
+Scale-Out Events               3                    1                   
+Scale-In Events                0                    1                   
+Scale-Out Latency              N/A                  N/A                 
+
+📊 PERFORMANCE IMPROVEMENTS (Request-Rate vs CPU)
+--------------------------------------------------------------------------------
+  Average Response Time:  +44.5%
+  P95 Response Time:      +59.8%
+  P99 Response Time:      +54.7%
+
+
+================================================================================
+📊 PHASE-BY-PHASE ANALYSIS
+================================================================================
+
+▶ PREHEATING
+--------------------------------------------------------------------------------
+  Avg Capacity:     CPU=1.0  | Request-Rate=3.2
+  Avg Response:     CPU=23.05ms  | Request-Rate=0.00ms  ✅ 100.0% faster
+  Avg CPU:          CPU=55.93%  | Request-Rate=1.40%
+
+▶ BASELINE
+--------------------------------------------------------------------------------
+  Avg Capacity:     CPU=2.2  | Request-Rate=5.0
+  Avg Response:     CPU=23.19ms  | Request-Rate=0.00ms  ✅ 100.0% faster
+  Avg CPU:          CPU=87.36%  | Request-Rate=1.33%
+
+▶ BURST
+--------------------------------------------------------------------------------
+  Avg Capacity:     CPU=4.7  | Request-Rate=1.6  ✅ CPU scales more aggressively
+  Avg Response:     CPU=39.36ms  | Request-Rate=0.01ms  ✅ 100.0% faster
+  Avg CPU:          CPU=94.32%  | Request-Rate=4.07%
+
+▶ RECOVERY
+--------------------------------------------------------------------------------
+  Avg Capacity:     CPU=5.0  | Request-Rate=1.0
+  Avg Response:     CPU=29.61ms  | Request-Rate=0.01ms  ✅ 100.0% faster
+  Avg CPU:          CPU=97.47%  | Request-Rate=8.26%
+
+🏆 WINNER ANALYSIS
+================================================================================
+Winner:      Request-Rate Strategy
+Confidence:  84.6%
+Score:       CPU 10 vs Request-Rate 55
+
+📋 REASONING:
+--------------------------------------------------------------------------------
+1. ✅ Request-rate: P95 latency 59.8% better (2836ms vs 7053ms)
+2. ⚪ Same capacity scaling: Both use 5 instances
+3. ✅ Request-rate: Higher success rate (99.8% vs 7.1%)
+4. ✅ Request-rate: Higher throughput (120875 requests vs 7175)
+
+💡 RECOMMENDATIONS
+================================================================================
+✅ Use Request-Rate Strategy for Production
+   • Better P95 latency = improved user experience
+   • Properly scales during burst scenarios
+   • Trade-off: Higher infrastructure cost (more instances)
+   • Consider for: Services where latency SLO matters
+
