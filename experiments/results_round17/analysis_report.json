@@ -1,0 +1,69 @@
+{
+  "timestamp_utc": "2026-04-22T04:30:18.497868+00:00",
+  "comparison": {
+    "cpu_strategy": {
+      "strategy": "CPU Utilization Target",
+      "total_requests": 62957,
+      "success_rate": 1.0,
+      "avg_response_time_ms": 1010.234173890344,
+      "p95_response_time_ms": 1012.934046004375,
+      "p99_response_time_ms": 1087.6836140014348,
+      "max_instances": 1,
+      "avg_instances": 1,
+      "scale_out_events": 0,
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 8.230843627527186
+    },
+    "request_rate_strategy": {
+      "strategy": "Request Rate Target",
+      "total_requests": 62990,
+      "success_rate": 1.0,
+      "avg_response_time_ms": 1008.8923407127315,
+      "p95_response_time_ms": 1011.8451860034838,
+      "p99_response_time_ms": 1048.1243450049078,
+      "max_instances": 5,
+      "avg_instances": 3.4,
+      "scale_out_events": 1,
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 5.300740880743641
+    }
+  },
+  "metrics": {
+    "cpu_strategy": {
+      "cost_factor": 3600,
+      "cost_per_request": 0.05718188604920819,
+      "latency_score": 1026.8040107581746,
+      "success_rate_pct": 100.0
+    },
+    "request_rate_strategy": {
+      "cost_factor": 18000,
+      "cost_per_request": 0.2857596443879981,
+      "latency_score": 1017.9198796874678,
+      "success_rate_pct": 100.0
+    }
+  },
+  "proposal_metrics": {
+    "cpu_strategy": {
+      "error_rate_pct": 0.0,
+      "p95_response_time_ms": 1012.934046004375,
+      "scale_out_latency_seconds": null
+    },
+    "request_rate_strategy": {
+      "error_rate_pct": 0.0,
+      "p95_response_time_ms": 1011.8451860034838,
+      "scale_out_latency_seconds": 362.042228
+    }
+  },
+  "proposal_alignment": {
+    "has_scaling_phase": true,
+    "notes": [
+      "Proposal requires evaluating P95 latency, scale-out latency, and error rate during scale-out phase.",
+      "If no scale-out occurs, result is marked inconclusive for proposal validation."
+    ]
+  },
+  "winner": {
+    "strategy": "Request-Rate Strategy",
+    "confidence_pct": 0.10749564645262624,
+    "rationale": "Request-rate strategy achieved lower P95 latency (1012ms vs 1013ms)"
+  }
+}

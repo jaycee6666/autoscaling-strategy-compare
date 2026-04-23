@@ -47,7 +47,8 @@ def run_step(step_num: int, script_name: str, description: str) -> bool:
     log(f"STARTING STEP {step_num}: {description}")
     log(f"{'=' * 80}\n")
 
-    script_path = Path(__file__).parent / "experiments" / script_name
+    # Fixed: Point to the experiments directory in the project root
+    script_path = Path(__file__).parent.parent / "experiments" / script_name
 
     if not script_path.exists():
         log(f"ERROR: Script not found: {script_path}")
@@ -84,7 +85,8 @@ def verify_step_output(step_num: int, expected_file: str) -> bool:
     Returns:
         True if output file exists
     """
-    results_dir = Path(__file__).parent / "experiments" / "results"
+    # Fixed: Point to the correct results directory in the project root
+    results_dir = Path(__file__).parent.parent / "experiments" / "results"
     output_file = results_dir / expected_file
 
     if output_file.exists():
@@ -175,6 +177,7 @@ def main() -> int:
     # Phase 6: Analysis
     if not args.skip_phase_6:
         log("\nRunning Phase 6 (Analysis, ~2 min)...")
+        # Fixed: Analyze results script is also in experiments/
         if not run_step(
             6,
             "06_analyze_results.py",
@@ -195,7 +198,8 @@ def main() -> int:
     log(f"Total duration: {elapsed_min:.1f} minutes ({elapsed:.0f} seconds)")
     log("")
     log("Output files created:")
-    results_dir = Path(__file__).parent / "experiments" / "results"
+    # Fixed: Search in the correct results directory
+    results_dir = Path(__file__).parent.parent / "experiments" / "results"
     for file in sorted(results_dir.glob("*.json")):
         size = file.stat().st_size
         log(f"  ✓ {file.name} ({size} bytes)")

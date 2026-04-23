@@ -1,0 +1,33 @@
+{
+  "generated_at_utc": "2026-04-22T04:30:18.452116+00:00",
+  "inputs": {
+    "cpu_metrics_file": "/home/ec2-user/autoscaling-strategy-compare/experiments/results/cpu_strategy_metrics.json",
+    "request_metrics_file": "/home/ec2-user/autoscaling-strategy-compare/experiments/results/request_rate_experiment_metrics.json"
+  },
+  "comparison_metrics": {
+    "success_rate_cpu": 1.0,
+    "success_rate_request": 1.0,
+    "avg_response_time_ms_cpu": 1010.234173890344,
+    "avg_response_time_ms_request": 1008.8923407127315,
+    "p95_response_time_ms_cpu": 1012.934046004375,
+    "p95_response_time_ms_request": 1011.8451860034838,
+    "p99_response_time_ms_cpu": 1087.6836140014348,
+    "p99_response_time_ms_request": 1048.1243450049078,
+    "avg_cpu_utilization_cpu": 8.230843627527186,
+    "avg_cpu_utilization_request": 5.300740880743641,
+    "max_desired_capacity_cpu": 1.0,
+    "max_desired_capacity_request": 5.0,
+    "scale_out_events_cpu": 0.0,
+    "scale_out_events_request": 1.0
+  },
+  "findings": {
+    "better_success_rate": "request_rate",
+    "better_p95_latency": "request_rate",
+    "p95_latency_improvement_percent_request_vs_cpu": 0.10749564645262624,
+    "avg_latency_improvement_percent_request_vs_cpu": 0.13282397411336164
+  },
+  "notes": [
+    "At least 8 comparison metrics are included for Phase 6 analysis.",
+    "Values default to 0.0 if missing in source files."
+  ]
+}

@@ -32,6 +32,43 @@ class ExperimentResults:
     scale_in_events: int
     avg_cpu_utilization: float
     collection_errors: List[str]
+    started_at_utc: Optional[str]
+    metric_samples: List[Dict[str, Any]]
+
+
+def _parse_timestamp(ts: Optional[str]) -> Optional[datetime]:
+    if not ts:
+        return None
+    try:
+        return datetime.fromisoformat(ts)
+    except ValueError:
+        return None
+
+
+def _estimate_scale_out_latency_seconds(results: ExperimentResults) -> Optional[float]:
+    start = _parse_timestamp(results.started_at_utc)
+    if start is None:
+        return None
+
+    capacities = [
+        sample.get("desired_capacity")
+        for sample in results.metric_samples
+        if sample.get("desired_capacity") is not None
+    ]
+    if len(capacities) < 2:
+        return None
+
+    baseline = capacities[0]
+    for sample in results.metric_samples:
+        desired = sample.get("desired_capacity")
+        if desired is None:
+            continue
+        if desired > baseline:
+            sample_time = _parse_timestamp(sample.get("timestamp_utc"))
+            if sample_time is None:
+                return None
+            return max(0.0, (sample_time - start).total_seconds())
+    return None
 
 
 def load_experiment_results(json_file: Path) -> ExperimentResults:
@@ -57,6 +94,8 @@ def load_experiment_results(json_file: Path) -> ExperimentResults:
         scale_in_events=scaling_summary.get("scale_in_events", 0),
         avg_cpu_utilization=scaling_summary.get("avg_cpu_utilization", 0.0),
         collection_errors=load_errors,
+        started_at_utc=data.get("experiment", {}).get("started_at_utc"),
+        metric_samples=metric_samples,
     )
 
 
@@ -130,22 +169,70 @@ def analyze_results(
         "success_rate_pct": request_results.success_rate * 100,
     }
 
-    # Determine winner
-    cpu_score = (
-        1 - (cpu_latency_score / (cpu_latency_score + req_latency_score + 0.001))
-    ) * 50 + (1 - (cpu_cost_factor / (cpu_cost_factor + req_cost_factor + 1))) * 50
-    req_score = 100 - cpu_score
+    # Proposal-aligned evaluation metrics
+    cpu_error_rate = 1.0 - cpu_results.success_rate
+    req_error_rate = 1.0 - request_results.success_rate
+    cpu_scale_out_latency = _estimate_scale_out_latency_seconds(cpu_results)
+    req_scale_out_latency = _estimate_scale_out_latency_seconds(request_results)
 
-    if cpu_score > req_score:
+    analysis["proposal_metrics"] = {
+        "cpu_strategy": {
+            "error_rate_pct": cpu_error_rate * 100,
+            "p95_response_time_ms": cpu_results.p95_response_time_ms,
+            "scale_out_latency_seconds": cpu_scale_out_latency,
+        },
+        "request_rate_strategy": {
+            "error_rate_pct": req_error_rate * 100,
+            "p95_response_time_ms": request_results.p95_response_time_ms,
+            "scale_out_latency_seconds": req_scale_out_latency,
+        },
+    }
+
+    analysis["proposal_alignment"] = {
+        "has_scaling_phase": bool(
+            cpu_results.scale_out_events > 0 or request_results.scale_out_events > 0
+        ),
+        "notes": [
+            "Proposal requires evaluating P95 latency, scale-out latency, and error rate during scale-out phase.",
+            "If no scale-out occurs, result is marked inconclusive for proposal validation.",
+        ],
+    }
+
+    # Determine winner using proposal criteria first
+    if cpu_results.scale_out_events == 0 and request_results.scale_out_events == 0:
+        analysis["winner"] = {
+            "strategy": "Inconclusive",
+            "confidence_pct": 0.0,
+            "rationale": (
+                "Neither strategy triggered scale-out events, so proposal hypotheses "
+                "about scale-out behavior cannot be validated from this run."
+            ),
+        }
+        return analysis
+
+    # Weighted proposal score: lower is better
+    cpu_score = cpu_results.p95_response_time_ms * 0.45 + cpu_error_rate * 10000 * 0.4
+    req_score = request_results.p95_response_time_ms * 0.45 + req_error_rate * 10000 * 0.4
+
+    if cpu_scale_out_latency is not None and req_scale_out_latency is not None:
+        cpu_score += cpu_scale_out_latency * 0.15
+        req_score += req_scale_out_latency * 0.15
+
+    if cpu_score < req_score:
         winner = "CPU Strategy"
-        winner_margin = cpu_score - req_score
+        loser_score = req_score
+        winner_score = cpu_score
     else:
         winner = "Request-Rate Strategy"
-        winner_margin = req_score - cpu_score
+        loser_score = cpu_score
+        winner_score = req_score
+
+    margin = max(0.0, loser_score - winner_score)
+    confidence = (margin / max(loser_score, 1.0)) * 100
 
     analysis["winner"] = {
         "strategy": winner,
-        "confidence_pct": winner_margin,
+        "confidence_pct": confidence,
         "rationale": _generate_rationale(winner, cpu_results, request_results),
     }
 
@@ -158,19 +245,31 @@ def _generate_rationale(
     """Generate human-readable explanation for winner."""
 
     if "CPU" in winner:
-        if cpu_results.max_capacity < request_results.max_capacity:
-            reason = f"CPU strategy used fewer instances ({cpu_results.max_capacity} vs {request_results.max_capacity}), reducing costs"
-        elif cpu_results.avg_response_time_ms < request_results.avg_response_time_ms:
-            reason = f"CPU strategy achieved better response time ({cpu_results.avg_response_time_ms:.0f}ms vs {request_results.avg_response_time_ms:.0f}ms)"
+        if cpu_results.p95_response_time_ms < request_results.p95_response_time_ms:
+            reason = (
+                f"CPU strategy achieved lower P95 latency "
+                f"({cpu_results.p95_response_time_ms:.0f}ms vs {request_results.p95_response_time_ms:.0f}ms)"
+            )
+        elif cpu_results.success_rate > request_results.success_rate:
+            reason = (
+                f"CPU strategy achieved lower error rate "
+                f"({(1-cpu_results.success_rate)*100:.2f}% vs {(1-request_results.success_rate)*100:.2f}%)"
+            )
         else:
-            reason = "CPU strategy provided better overall efficiency and response characteristics"
+            reason = "CPU strategy performed better on proposal-weighted latency and reliability metrics"
     else:
-        if request_results.max_capacity < cpu_results.max_capacity:
-            reason = f"Request-rate strategy used fewer instances ({request_results.max_capacity} vs {cpu_results.max_capacity}), reducing costs"
-        elif request_results.avg_response_time_ms < cpu_results.avg_response_time_ms:
-            reason = f"Request-rate strategy achieved better response time ({request_results.avg_response_time_ms:.0f}ms vs {cpu_results.avg_response_time_ms:.0f}ms)"
+        if request_results.p95_response_time_ms < cpu_results.p95_response_time_ms:
+            reason = (
+                f"Request-rate strategy achieved lower P95 latency "
+                f"({request_results.p95_response_time_ms:.0f}ms vs {cpu_results.p95_response_time_ms:.0f}ms)"
+            )
+        elif request_results.success_rate > cpu_results.success_rate:
+            reason = (
+                f"Request-rate strategy achieved lower error rate "
+                f"({(1-request_results.success_rate)*100:.2f}% vs {(1-cpu_results.success_rate)*100:.2f}%)"
+            )
         else:
-            reason = "Request-rate strategy provided better overall efficiency and response characteristics"
+            reason = "Request-rate strategy performed better on proposal-weighted latency and reliability metrics"
 
     return reason
 

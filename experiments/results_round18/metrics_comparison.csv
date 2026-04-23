@@ -1,0 +1,8 @@
+metric,cpu_strategy,request_rate_strategy
+success_rate,1.0,1.0
+avg_response_time_ms,1009.1371540599848,1010.4547219773978
+p95_response_time_ms,1011.9214919977821,1012.4937279979349
+p99_response_time_ms,1053.2881649996853,1073.6145670016413
+avg_cpu_utilization,8.262866487977544,5.038768242922336
+max_desired_capacity,1.0,5.0
+scale_out_events,0.0,1.0

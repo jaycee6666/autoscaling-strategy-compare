@@ -1,10 +1,10 @@
 {
-  "vpc_id": "vpc-07b76cd1cfc660131",
-  "public_subnet_1_id": "subnet-0ee31bdc6a99a3c34",
-  "public_subnet_2_id": "subnet-0380d57de0f4e7294",
-  "private_subnet_1_id": "subnet-0f7c6350f313de3e0",
-  "private_subnet_2_id": "subnet-039aa0f4ecf311da2",
-  "internet_gateway_id": "igw-050e8bdb69b2b82ab",
-  "route_table_public_id": "rtb-095ca52d3342bdaed",
-  "route_table_private_id": "rtb-0bfaf1f71d55974fc"
+  "vpc_id": "vpc-015438ef3947bb68e",
+  "public_subnet_1_id": "subnet-0edc3fd6ef894e9c1",
+  "public_subnet_2_id": "subnet-0edafa297e6569d21",
+  "private_subnet_1_id": "subnet-0293662c7a7f15b16",
+  "private_subnet_2_id": "subnet-0c34e9a737a5a790c",
+  "internet_gateway_id": "igw-0cc2fd76cd5937c6e",
+  "route_table_public_id": "rtb-09f80075e1fc14ab4",
+  "route_table_private_id": "rtb-04cc350735488b426"
 }

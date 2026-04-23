@@ -1,6 +1,6 @@
 {
   "role_name": "EC2RoleForExperiment",
-  "role_arn": "arn:aws:iam::503280397333:role/EC2RoleForExperiment",
+  "role_arn": "arn:aws:iam::320343233742:role/EC2RoleForExperiment",
   "instance_profile_name": "EC2InstanceProfileForExperiment",
-  "instance_profile_arn": "arn:aws:iam::503280397333:instance-profile/EC2InstanceProfileForExperiment"
+  "instance_profile_arn": "arn:aws:iam::320343233742:instance-profile/EC2InstanceProfileForExperiment"
 }

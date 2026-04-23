@@ -1,30 +1,30 @@
 {
-  "generated_at_utc": "2026-04-17T11:15:10.150684+00:00",
+  "generated_at_utc": "2026-04-23T13:54:51.674480+00:00",
   "inputs": {
-    "cpu_metrics_file": "C:\\project\\CS5296\\project3\\autoscaling-strategy-compare\\experiments\\results\\cpu_strategy_metrics.json",
-    "request_metrics_file": "C:\\project\\CS5296\\project3\\autoscaling-strategy-compare\\experiments\\results\\request_rate_experiment_metrics.json"
+    "cpu_metrics_file": "E:\\MSCS\\CloudComputing\\project\\autoscaling-strategy-compare\\experiments\\results\\cpu_strategy_metrics.json",
+    "request_metrics_file": "E:\\MSCS\\CloudComputing\\project\\autoscaling-strategy-compare\\experiments\\results\\request_rate_experiment_metrics.json"
   },
   "comparison_metrics": {
-    "success_rate_cpu": 0.9295184926727146,
-    "success_rate_request": 0.9373737373737374,
-    "avg_response_time_ms_cpu": 970.6417442942919,
-    "avg_response_time_ms_request": 959.9272008620709,
-    "p95_response_time_ms_cpu": 1175.7360999999946,
-    "p95_response_time_ms_request": 1026.3390000000072,
-    "p99_response_time_ms_cpu": 1935.852699999998,
-    "p99_response_time_ms_request": 1691.8502999999987,
-    "avg_cpu_utilization_cpu": 0.6520388026107498,
-    "avg_cpu_utilization_request": 0.19916741836750262,
-    "max_desired_capacity_cpu": 2.0,
-    "max_desired_capacity_request": 2.0,
+    "success_rate_cpu": 0.9991666666666666,
+    "success_rate_request": 0.9992222222222222,
+    "avg_response_time_ms_cpu": 897.0857131609673,
+    "avg_response_time_ms_request": 912.1313751417783,
+    "p95_response_time_ms_cpu": 1137.9930999999033,
+    "p95_response_time_ms_request": 1194.094199999995,
+    "p99_response_time_ms_cpu": 1971.9344000000092,
+    "p99_response_time_ms_request": 2115.617800000109,
+    "avg_cpu_utilization_cpu": 1.5449308729035243,
+    "avg_cpu_utilization_request": 1.0534549413365968,
+    "max_desired_capacity_cpu": 1.0,
+    "max_desired_capacity_request": 4.0,
     "scale_out_events_cpu": 0.0,
-    "scale_out_events_request": 0.0
+    "scale_out_events_request": 2.0
   },
   "findings": {
     "better_success_rate": "request_rate",
-    "better_p95_latency": "request_rate",
-    "p95_latency_improvement_percent_request_vs_cpu": 12.706686474965606,
-    "avg_latency_improvement_percent_request_vs_cpu": 1.1038618002166263
+    "better_p95_latency": "cpu",
+    "p95_latency_improvement_percent_request_vs_cpu": -4.929827781916822,
+    "avg_latency_improvement_percent_request_vs_cpu": -1.6771710618148392
   },
   "notes": [
     "At least 8 comparison metrics are included for Phase 6 analysis.",

@@ -1,27 +1,27 @@
 {
   "Python": {
     "status": true,
-    "info": "Python 3.9.12"
+    "info": "Python 3.9.8"
   },
   "Command: aws": {
     "status": true,
-    "info": "C:\\project\\CS5296\\project3\\autoscaling-strategy-compare\\venv\\Scripts\\aws"
+    "info": "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe"
   },
   "Command: git": {
     "status": true,
-    "info": "C:\\software\\Git\\cmd\\git.exe"
+    "info": "D:\\Program Files\\Git\\cmd\\git.exe"
   },
   "AWS CLI": {
     "status": true,
-    "info": "aws-cli/2.34.30 Python/3.14.4 Windows/11 exe/AMD64"
+    "info": "aws-cli/2.34.32 Python/3.14.4 Windows/11 exe/AMD64"
   },
   "AWS Credentials": {
     "status": true,
-    "info": "Credentials file found at C:\\Users\\HUAWEI\\.aws\\credentials"
+    "info": "Credentials file found at C:\\Users\\Administrator\\.aws\\credentials"
   },
   "AWS Region": {
     "status": true,
-    "info": "Config file found at C:\\Users\\HUAWEI\\.aws\\config"
+    "info": "Config file found at C:\\Users\\Administrator\\.aws\\config"
   },
   "Python Packages": {
     "status": false,

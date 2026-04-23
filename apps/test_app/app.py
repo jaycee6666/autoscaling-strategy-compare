@@ -173,4 +173,4 @@ def internal_error(error: Exception) -> Tuple[Any, int]:
 
 if __name__ == "__main__":
     logger.info("Starting test application...")
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="0.0.0.0", port=8080, debug=False, threaded=True)

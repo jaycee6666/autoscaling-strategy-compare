@@ -1,0 +1,69 @@
+{
+  "timestamp_utc": "2026-04-22T05:01:09.534723+00:00",
+  "comparison": {
+    "cpu_strategy": {
+      "strategy": "CPU Utilization Target",
+      "total_requests": 62972,
+      "success_rate": 1.0,
+      "avg_response_time_ms": 1009.1371540599848,
+      "p95_response_time_ms": 1011.9214919977821,
+      "p99_response_time_ms": 1053.2881649996853,
+      "max_instances": 1,
+      "avg_instances": 1,
+      "scale_out_events": 0,
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 8.262866487977544
+    },
+    "request_rate_strategy": {
+      "strategy": "Request Rate Target",
+      "total_requests": 62937,
+      "success_rate": 1.0,
+      "avg_response_time_ms": 1010.4547219773978,
+      "p95_response_time_ms": 1012.4937279979349,
+      "p99_response_time_ms": 1073.6145670016413,
+      "max_instances": 5,
+      "avg_instances": 3.4,
+      "scale_out_events": 1,
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 5.038768242922336
+    }
+  },
+  "metrics": {
+    "cpu_strategy": {
+      "cost_factor": 3600,
+      "cost_per_request": 0.05716826526075081,
+      "latency_score": 1019.0810914230439,
+      "success_rate_pct": 100.0
+    },
+    "request_rate_strategy": {
+      "cost_factor": 18000,
+      "cost_per_request": 0.286000286000286,
+      "latency_score": 1023.9022933904614,
+      "success_rate_pct": 100.0
+    }
+  },
+  "proposal_metrics": {
+    "cpu_strategy": {
+      "error_rate_pct": 0.0,
+      "p95_response_time_ms": 1011.9214919977821,
+      "scale_out_latency_seconds": null
+    },
+    "request_rate_strategy": {
+      "error_rate_pct": 0.0,
+      "p95_response_time_ms": 1012.4937279979349,
+      "scale_out_latency_seconds": 361.934769
+    }
+  },
+  "proposal_alignment": {
+    "has_scaling_phase": true,
+    "notes": [
+      "Proposal requires evaluating P95 latency, scale-out latency, and error rate during scale-out phase.",
+      "If no scale-out occurs, result is marked inconclusive for proposal validation."
+    ]
+  },
+  "winner": {
+    "strategy": "CPU Strategy",
+    "confidence_pct": 0.056517485919076973,
+    "rationale": "CPU strategy achieved lower P95 latency (1012ms vs 1012ms)"
+  }
+}

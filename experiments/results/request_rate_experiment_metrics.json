@@ -2,531 +2,492 @@
   "experiment": {
     "strategy": "request_rate",
     "asg_name": "asg-request",
-    "alb_dns": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com",
+    "alb_dns": "experiment-alb-843355418.us-east-1.elb.amazonaws.com",
     "region": "us-east-1",
     "duration_seconds": 1800,
     "request_rate_per_second": 10,
     "request_delay_seconds": 0.3,
-    "started_at_utc": "2026-04-17T10:44:53.367650+00:00",
-    "ended_at_utc": "2026-04-17T11:15:04.305956+00:00"
+    "started_at_utc": "2026-04-23T13:24:33.365733+00:00",
+    "ended_at_utc": "2026-04-23T13:54:51.493904+00:00"
   },
   "load_summary": {
-    "total_requests": 1485,
-    "successful_requests": 1392,
-    "failed_requests": 93,
-    "success_rate": 0.9373737373737374,
-    "avg_response_time_ms": 959.9272008620709,
-    "p95_response_time_ms": 1026.3390000000072,
-    "p99_response_time_ms": 1691.8502999999987
+    "total_requests": 18000,
+    "successful_requests": 17986,
+    "failed_requests": 14,
+    "success_rate": 0.9992222222222222,
+    "avg_response_time_ms": 912.1313751417783,
+    "p95_response_time_ms": 1194.094199999995,
+    "p99_response_time_ms": 2115.617800000109
   },
   "scaling_summary": {
-    "sample_count": 50,
-    "avg_desired_capacity": 2,
-    "max_desired_capacity": 2,
-    "min_desired_capacity": 2,
-    "scale_out_events": 0,
+    "sample_count": 55,
+    "avg_desired_capacity": 3.290909090909091,
+    "max_desired_capacity": 4,
+    "min_desired_capacity": 1,
+    "scale_out_events": 2,
     "scale_in_events": 0,
-    "avg_cpu_utilization": 0.19916741836750262,
-    "max_cpu_utilization": 0.2872385719759515,
-    "avg_request_count_per_target": 0.4392597767926333,
-    "max_request_count_per_target": 0.5
+    "avg_cpu_utilization": 1.0534549413365968,
+    "max_cpu_utilization": 1.7500000000000002,
+    "avg_request_count_per_target": 0.6258018625057125,
+    "max_request_count_per_target": 1.0
   },
   "metric_samples": [
     {
-      "timestamp_utc": "2026-04-17T10:45:15.783361+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.12077692761322804,
+      "timestamp_utc": "2026-04-23T13:24:37.204321+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 0.1165617610816931,
       "alb_target_response_time_seconds": null,
       "request_count_per_target_avg_1m": null
     },
     {
-      "timestamp_utc": "2026-04-17T10:46:08.181637+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.12928643061149575,
+      "timestamp_utc": "2026-04-23T13:25:09.917721+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 0.1334534414306209,
       "alb_target_response_time_seconds": null,
       "request_count_per_target_avg_1m": null
     },
     {
-      "timestamp_utc": "2026-04-17T10:46:41.054987+00:00",
+      "timestamp_utc": "2026-04-23T13:25:43.027379+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 0.1334534414306209,
+      "alb_target_response_time_seconds": 0.30248303139013455,
+      "request_count_per_target_avg_1m": 0.9955357142857143
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:26:15.799050+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.5152776621430353,
+      "alb_target_response_time_seconds": 0.30248303139013455,
+      "request_count_per_target_avg_1m": 0.9955357142857143
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:26:48.502780+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.5152776621430353,
+      "alb_target_response_time_seconds": 0.3026077670549085,
+      "request_count_per_target_avg_1m": 1.0
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:27:21.712728+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.7015597631161898,
+      "alb_target_response_time_seconds": 0.30281074683544307,
+      "request_count_per_target_avg_1m": 1.0
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:27:55.009913+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.7015597631161898,
+      "alb_target_response_time_seconds": 0.3026189816360601,
+      "request_count_per_target_avg_1m": 1.0
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:28:29.497418+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.665195743759679,
+      "alb_target_response_time_seconds": 0.3024847881355932,
+      "request_count_per_target_avg_1m": 1.0
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:29:02.294224+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.6749720837986033,
+      "alb_target_response_time_seconds": 0.30257335785953177,
+      "request_count_per_target_avg_1m": 0.998330550918197
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:29:34.894665+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.6749720837986033,
+      "alb_target_response_time_seconds": 0.302841695,
+      "request_count_per_target_avg_1m": 0.9983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:30:07.506143+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 1.668168017882761,
+      "alb_target_response_time_seconds": 0.302841695,
+      "request_count_per_target_avg_1m": 0.9983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:30:40.271858+00:00",
       "desired_capacity": 2,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.14575292896666164,
-      "alb_target_response_time_seconds": 0.30421944444444443,
+      "cpu_utilization_avg": 1.668168017882761,
+      "alb_target_response_time_seconds": 0.30272543946932007,
+      "request_count_per_target_avg_1m": 0.996694214876033
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:31:13.394967+00:00",
+      "desired_capacity": 2,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 1.7500000000000002,
+      "alb_target_response_time_seconds": 0.30272543946932007,
+      "request_count_per_target_avg_1m": 0.996694214876033
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:31:46.150531+00:00",
+      "desired_capacity": 2,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 1.7500000000000002,
+      "alb_target_response_time_seconds": 0.3050241035058431,
+      "request_count_per_target_avg_1m": 0.9966722129783694
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:32:19.239974+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 1.7166666666666666,
+      "alb_target_response_time_seconds": 0.3050241035058431,
+      "request_count_per_target_avg_1m": 0.9966722129783694
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:32:53.883824+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 1.7166666666666666,
+      "alb_target_response_time_seconds": 0.3038852662229617,
+      "request_count_per_target_avg_1m": 0.7296173044925125
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:33:27.360709+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.89919072834449,
+      "alb_target_response_time_seconds": 0.30257494807370183,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T10:47:14.084247+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:34:00.227156+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18752433243207905,
-      "alb_target_response_time_seconds": 0.30421944444444443,
+      "cpu_utilization_avg": 0.89919072834449,
+      "alb_target_response_time_seconds": 0.30257494807370183,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T10:47:46.956232+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:34:32.991668+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18752433243207905,
-      "alb_target_response_time_seconds": 0.30245275,
-      "request_count_per_target_avg_1m": 0.4
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:48:19.943017+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1833347916909726,
-      "alb_target_response_time_seconds": 0.30272678378378376,
-      "request_count_per_target_avg_1m": 0.47435897435897434
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:48:52.885830+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1833347916909726,
-      "alb_target_response_time_seconds": 0.3027562682926829,
-      "request_count_per_target_avg_1m": 0.4659090909090909
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:49:26.910196+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20415281130911314,
-      "alb_target_response_time_seconds": 0.30248233333333335,
-      "request_count_per_target_avg_1m": 0.3
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:49:59.835248+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20415281130911314,
-      "alb_target_response_time_seconds": 0.3098575178571429,
-      "request_count_per_target_avg_1m": 0.4827586206896552
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:50:33.778786+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20009676020152808,
-      "alb_target_response_time_seconds": 0.302575,
-      "request_count_per_target_avg_1m": 0.25
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:52:07.340171+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2872385719759515,
-      "alb_target_response_time_seconds": 0.30979731578947367,
-      "request_count_per_target_avg_1m": 0.4523809523809524
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:52:40.172429+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18341494018157264,
-      "alb_target_response_time_seconds": 0.30979731578947367,
-      "request_count_per_target_avg_1m": 0.4523809523809524
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:53:13.000244+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19989870881461363,
-      "alb_target_response_time_seconds": 0.303734775,
-      "request_count_per_target_avg_1m": 0.45454545454545453
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:53:46.622054+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19989870881461363,
-      "alb_target_response_time_seconds": 0.3040325,
-      "request_count_per_target_avg_1m": 0.4827586206896552
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:54:19.769176+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20426342686819474,
-      "alb_target_response_time_seconds": 0.3040325,
-      "request_count_per_target_avg_1m": 0.4827586206896552
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:54:52.659910+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20426342686819474,
-      "alb_target_response_time_seconds": 0.3043794827586207,
-      "request_count_per_target_avg_1m": 0.47540983606557374
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:55:25.676253+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2166560159080047,
-      "alb_target_response_time_seconds": 0.3033669245283019,
-      "request_count_per_target_avg_1m": 0.4732142857142857
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:55:58.643130+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2166560159080047,
-      "alb_target_response_time_seconds": 0.3033669245283019,
-      "request_count_per_target_avg_1m": 0.4732142857142857
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:56:31.527914+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19592606185979777,
-      "alb_target_response_time_seconds": 0.3033669245283019,
-      "request_count_per_target_avg_1m": 0.4732142857142857
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:57:05.262759+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2289571365827211,
-      "alb_target_response_time_seconds": 0.3033880943396226,
-      "request_count_per_target_avg_1m": 0.4491525423728814
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:57:38.159890+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2289571365827211,
-      "alb_target_response_time_seconds": 0.30334952380952385,
-      "request_count_per_target_avg_1m": 0.45652173913043476
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:58:10.994554+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18749680566203344,
-      "alb_target_response_time_seconds": 0.30334952380952385,
-      "request_count_per_target_avg_1m": 0.45652173913043476
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:58:43.813119+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18749680566203344,
-      "alb_target_response_time_seconds": 0.303501488372093,
-      "request_count_per_target_avg_1m": 0.4574468085106383
-    },
-    {
-      "timestamp_utc": "2026-04-17T10:59:16.646140+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1833304167638856,
-      "alb_target_response_time_seconds": 0.303501488372093,
-      "request_count_per_target_avg_1m": 0.4574468085106383
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:00:09.065143+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19601711762695717,
-      "alb_target_response_time_seconds": 0.3119574878048781,
-      "request_count_per_target_avg_1m": 0.47674418604651164
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:00:41.885232+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19601711762695717,
-      "alb_target_response_time_seconds": 0.31111955813953485,
+      "cpu_utilization_avg": 0.900810729656691,
+      "alb_target_response_time_seconds": 0.30257183950617283,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T11:01:35.324311+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:35:05.745278+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2664246644295074,
-      "alb_target_response_time_seconds": 0.3105558478260869,
-      "request_count_per_target_avg_1m": 0.48936170212765956
+      "cpu_utilization_avg": 0.9083333333333333,
+      "alb_target_response_time_seconds": 0.30257803327787025,
+      "request_count_per_target_avg_1m": 0.49834162520729686
     },
     {
-      "timestamp_utc": "2026-04-17T11:02:09.021910+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:35:38.937112+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.22092557445141908,
-      "alb_target_response_time_seconds": 0.3105106382978723,
-      "request_count_per_target_avg_1m": 0.4519230769230769
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:02:41.896186+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.22092557445141908,
-      "alb_target_response_time_seconds": 0.30270960606060604,
-      "request_count_per_target_avg_1m": 0.44594594594594594
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:03:14.812196+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1958584431286245,
-      "alb_target_response_time_seconds": 0.30270960606060604,
-      "request_count_per_target_avg_1m": 0.44594594594594594
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:03:47.638419+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1958584431286245,
-      "alb_target_response_time_seconds": 0.30298748484848487,
-      "request_count_per_target_avg_1m": 0.44594594594594594
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:04:20.453009+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1999841304200252,
-      "alb_target_response_time_seconds": 0.30298748484848487,
-      "request_count_per_target_avg_1m": 0.44594594594594594
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:04:53.336799+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1999841304200252,
-      "alb_target_response_time_seconds": 0.30358452631578947,
-      "request_count_per_target_avg_1m": 0.4830508474576271
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:05:27.709822+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20426342686819474,
-      "alb_target_response_time_seconds": 0.30313507317073174,
-      "request_count_per_target_avg_1m": 0.47674418604651164
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:06:00.541965+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.20426342686819474,
-      "alb_target_response_time_seconds": 0.30313507317073174,
-      "request_count_per_target_avg_1m": 0.47674418604651164
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:06:33.521552+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.1874074505755547,
-      "alb_target_response_time_seconds": 0.30313507317073174,
-      "request_count_per_target_avg_1m": 0.0
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:07:06.425570+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2083333333333333,
-      "alb_target_response_time_seconds": 0.3110981666666667,
-      "request_count_per_target_avg_1m": 0.42857142857142855
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:07:39.271598+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2083333333333333,
-      "alb_target_response_time_seconds": 0.3110981666666667,
-      "request_count_per_target_avg_1m": 0.42857142857142855
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:08:12.125653+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18741701636359595,
-      "alb_target_response_time_seconds": 0.31084943396226417,
-      "request_count_per_target_avg_1m": 0.4649122807017544
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:08:44.999940+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18741701636359595,
-      "alb_target_response_time_seconds": 0.3028312162162162,
-      "request_count_per_target_avg_1m": 0.4625
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:09:18.873254+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19601280370272828,
-      "alb_target_response_time_seconds": 0.31088992592592596,
+      "cpu_utilization_avg": 0.9083333333333333,
+      "alb_target_response_time_seconds": 0.30260925484764545,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T11:09:51.768436+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:36:11.658956+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.19601280370272828,
-      "alb_target_response_time_seconds": 0.31088992592592596,
-      "request_count_per_target_avg_1m": 0.46551724137931033
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:10:24.645937+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2166666666666666,
-      "alb_target_response_time_seconds": 0.31088992592592596,
-      "request_count_per_target_avg_1m": 0.46551724137931033
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:10:57.479667+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2166666666666666,
-      "alb_target_response_time_seconds": 0.3083363333333333,
-      "request_count_per_target_avg_1m": 0.4672131147540984
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:11:30.306228+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.24571865061524883,
-      "alb_target_response_time_seconds": 0.3128966976744186,
+      "cpu_utilization_avg": 0.9166666666666666,
+      "alb_target_response_time_seconds": 0.30265507666666663,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T11:12:22.757125+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:36:44.330454+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18333355374077095,
-      "alb_target_response_time_seconds": 0.3128966976744186,
-      "request_count_per_target_avg_1m": 0.0
+      "cpu_utilization_avg": 0.9166666666666666,
+      "alb_target_response_time_seconds": 0.302160931780366,
+      "request_count_per_target_avg_1m": 0.49669421487603305
     },
     {
-      "timestamp_utc": "2026-04-17T11:12:55.584517+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:37:17.208942+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18333355374077095,
-      "alb_target_response_time_seconds": 0.3037202558139535,
-      "request_count_per_target_avg_1m": 0.4387755102040816
-    },
-    {
-      "timestamp_utc": "2026-04-17T11:13:28.515839+00:00",
-      "desired_capacity": 2,
-      "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18331668302145224,
-      "alb_target_response_time_seconds": 0.3116435,
+      "cpu_utilization_avg": 0.9116870444240213,
+      "alb_target_response_time_seconds": 0.3026234972067039,
       "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T11:14:01.430884+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:37:51.989431+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.18331668302145224,
-      "alb_target_response_time_seconds": 0.3116435,
-      "request_count_per_target_avg_1m": 0.45454545454545453
+      "cpu_utilization_avg": 0.9116870444240213,
+      "alb_target_response_time_seconds": 0.30259215025041736,
+      "request_count_per_target_avg_1m": 0.5
     },
     {
-      "timestamp_utc": "2026-04-17T11:14:34.296414+00:00",
-      "desired_capacity": 2,
+      "timestamp_utc": "2026-04-23T13:38:24.524820+00:00",
+      "desired_capacity": 4,
       "in_service_instances": 2,
-      "cpu_utilization_avg": 0.2041715573976987,
-      "alb_target_response_time_seconds": 0.31250291304347827,
+      "cpu_utilization_avg": 0.9133143372609951,
+      "alb_target_response_time_seconds": 0.30259215025041736,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:38:57.426966+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9133143372609951,
+      "alb_target_response_time_seconds": 0.30255612687813016,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:39:29.923938+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9033537179532154,
+      "alb_target_response_time_seconds": 0.30255612687813016,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:40:02.533358+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9258329719041183,
+      "alb_target_response_time_seconds": 0.3025986627906977,
+      "request_count_per_target_avg_1m": 0.49834437086092714
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:40:35.245274+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9258329719041183,
+      "alb_target_response_time_seconds": 0.30261451085141905,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:41:08.169468+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9662364217163726,
+      "alb_target_response_time_seconds": 0.30261451085141905,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:41:41.017396+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9662364217163726,
+      "alb_target_response_time_seconds": 0.30277446255506607,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:42:13.703744+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166597566374515,
+      "alb_target_response_time_seconds": 0.3028503660565724,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:42:46.465783+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166597566374515,
+      "alb_target_response_time_seconds": 0.30262638935108155,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:43:19.475605+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166601730810555,
+      "alb_target_response_time_seconds": 0.3026579665738161,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:43:53.558162+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166601730810555,
+      "alb_target_response_time_seconds": 0.3026811541038526,
+      "request_count_per_target_avg_1m": 0.4966722129783694
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:44:27.844133+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9037544615206226,
+      "alb_target_response_time_seconds": 0.30257240871021773,
+      "request_count_per_target_avg_1m": 0.498330550918197
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:45:00.581420+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9037544615206226,
+      "alb_target_response_time_seconds": 0.30257240871021773,
+      "request_count_per_target_avg_1m": 0.498330550918197
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:45:36.008291+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9212345974359537,
+      "alb_target_response_time_seconds": 0.30257240871021773,
+      "request_count_per_target_avg_1m": 0.498330550918197
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:46:08.781002+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.912507569570604,
+      "alb_target_response_time_seconds": 0.3025682533333333,
+      "request_count_per_target_avg_1m": 0.4966887417218543
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:46:41.398385+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.912507569570604,
+      "alb_target_response_time_seconds": 0.30260130550918196,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:47:14.050325+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9245957806022491,
+      "alb_target_response_time_seconds": 0.30260130550918196,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:47:47.579443+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9245957806022491,
+      "alb_target_response_time_seconds": 0.30209246179401994,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:48:20.233957+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9212499582957996,
+      "alb_target_response_time_seconds": 0.30255651006711415,
+      "request_count_per_target_avg_1m": 0.4983277591973244
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:48:52.756248+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9212499582957996,
+      "alb_target_response_time_seconds": 0.30255651006711415,
+      "request_count_per_target_avg_1m": 0.4983277591973244
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:49:25.517503+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9045682019116886,
+      "alb_target_response_time_seconds": 0.30255651006711415,
+      "request_count_per_target_avg_1m": 0.4983277591973244
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:49:58.108709+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9045682019116886,
+      "alb_target_response_time_seconds": 0.30325828618968387,
+      "request_count_per_target_avg_1m": 0.49834162520729686
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:50:32.437703+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9195483605218562,
+      "alb_target_response_time_seconds": 0.30206210517529214,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:51:05.243582+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.975927691732562,
+      "alb_target_response_time_seconds": 0.3018774931880109,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:51:37.808824+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.975927691732562,
+      "alb_target_response_time_seconds": 0.30223146600331674,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:52:10.520977+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166666669212962,
+      "alb_target_response_time_seconds": 0.30223146600331674,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:52:43.218041+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9166666669212962,
+      "alb_target_response_time_seconds": 0.3025604136986301,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:53:15.905488+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9083415983014842,
+      "alb_target_response_time_seconds": 0.3026064455958549,
+      "request_count_per_target_avg_1m": 0.5
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:53:48.716219+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9083415983014842,
+      "alb_target_response_time_seconds": 0.30258413522537564,
+      "request_count_per_target_avg_1m": 0.4983361064891847
+    },
+    {
+      "timestamp_utc": "2026-04-23T13:54:21.480888+00:00",
+      "desired_capacity": 4,
+      "in_service_instances": 2,
+      "cpu_utilization_avg": 0.9087348685783554,
+      "alb_target_response_time_seconds": 0.3025224061135372,
       "request_count_per_target_avg_1m": 0.5
     }
   ],
   "load_errors": [
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)",
-    "HTTPConnectionPool(host='127.0.0.1', port=7890): Read timed out. (read timeout=5)"
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Read timed out. (read timeout=5)",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "HTTPConnectionPool(host='experiment-alb-843355418.us-east-1.elb.amazonaws.com', port=80): Max retries exceeded with url: /request (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000002A961B6A160>, 'Connection to experiment-alb-843355418.us-east-1.elb.amazonaws.com timed out. (connect timeout=5)'))",
+    "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
   ],
   "notes": [
     "No AWS CLI subprocess used; boto3-only implementation.",

@@ -1,0 +1,279 @@
+{
+  "experiment": {
+    "strategy": "cpu",
+    "asg_name": "asg-cpu",
+    "alb_dns": "experiment-alb-843355418.us-east-1.elb.amazonaws.com",
+    "region": "us-east-1",
+    "duration_seconds": 900,
+    "request_rate_per_second": 70,
+    "request_delay_seconds": 1.0,
+    "started_at_utc": "2026-04-22T01:56:21.693646+00:00",
+    "ended_at_utc": "2026-04-22T02:11:26.563764+00:00"
+  },
+  "load_summary": {
+    "total_requests": 62965,
+    "successful_requests": 62965,
+    "failed_requests": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 1011.8663029912534,
+    "p95_response_time_ms": 1014.212417001545,
+    "p99_response_time_ms": 1127.3134669972933
+  },
+  "scaling_summary": {
+    "sample_count": 30,
+    "avg_desired_capacity": 1,
+    "max_desired_capacity": 1,
+    "min_desired_capacity": 1,
+    "scale_out_events": 0,
+    "scale_in_events": 0,
+    "avg_cpu_utilization": 15.028330602342796,
+    "max_cpu_utilization": 16.166666666666664
+  },
+  "metric_samples": [
+    {
+      "timestamp_utc": "2026-04-22T01:56:21.812029+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 9.941666666666666,
+      "alb_target_response_time_seconds": 1.0049102139457402,
+      "alb_request_count_sum_1m": 4202.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:56:51.969920+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 9.941666666666666,
+      "alb_target_response_time_seconds": 1.0034274894022384,
+      "alb_request_count_sum_1m": 4199.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:57:22.106059+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 9.9,
+      "alb_target_response_time_seconds": 1.0034274894022384,
+      "alb_request_count_sum_1m": 4199.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:57:52.259447+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 9.9,
+      "alb_target_response_time_seconds": 1.0034557810572688,
+      "alb_request_count_sum_1m": 6810.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:58:22.420063+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 14.108333333333334,
+      "alb_target_response_time_seconds": 1.0036154627469651,
+      "alb_request_count_sum_1m": 4201.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:58:52.562891+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 14.108333333333334,
+      "alb_target_response_time_seconds": 1.0033489223809524,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:59:22.706743+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01666666666667,
+      "alb_target_response_time_seconds": 1.0038064464285712,
+      "alb_request_count_sum_1m": 4200.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T01:59:52.887947+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01666666666667,
+      "alb_target_response_time_seconds": 1.0040689642857143,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:00:23.082387+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.94398374796017,
+      "alb_target_response_time_seconds": 1.0033645251250298,
+      "alb_request_count_sum_1m": 4199.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:00:53.323512+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.94398374796017,
+      "alb_target_response_time_seconds": 1.0032824286904762,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:01:23.476269+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.972708771227436,
+      "alb_target_response_time_seconds": 1.022088591904762,
+      "alb_request_count_sum_1m": 4200.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:01:53.659515+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.972708771227436,
+      "alb_target_response_time_seconds": 1.022447140595238,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:02:23.793187+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.166666666666664,
+      "alb_target_response_time_seconds": 1.0046376127649441,
+      "alb_request_count_sum_1m": 4199.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:02:53.963190+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.166666666666664,
+      "alb_target_response_time_seconds": 1.0043638635714285,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:03:24.105036+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01918305496811,
+      "alb_target_response_time_seconds": 1.0043638635714285,
+      "alb_request_count_sum_1m": 8400.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:03:54.268088+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01918305496811,
+      "alb_target_response_time_seconds": 1.0035714703011547,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:04:24.421706+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.941666666666668,
+      "alb_target_response_time_seconds": 1.0033064626190475,
+      "alb_request_count_sum_1m": 4200.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:04:54.584334+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.941666666666668,
+      "alb_target_response_time_seconds": 1.0031761589096535,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:05:24.763571+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.122574941198057,
+      "alb_target_response_time_seconds": 1.0031761589096535,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:05:54.901257+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.122574941198057,
+      "alb_target_response_time_seconds": 1.0032694949988092,
+      "alb_request_count_sum_1m": 8398.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:06:25.090157+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.125,
+      "alb_target_response_time_seconds": 1.0032694949988092,
+      "alb_request_count_sum_1m": 8398.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:06:55.278079+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.125,
+      "alb_target_response_time_seconds": 1.0036530390383243,
+      "alb_request_count_sum_1m": 4201.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:07:25.425211+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01059046857828,
+      "alb_target_response_time_seconds": 1.0039510848708488,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:07:55.579299+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.01059046857828,
+      "alb_target_response_time_seconds": 1.0047486849624956,
+      "alb_request_count_sum_1m": 8399.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:08:25.731883+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.058600976682943,
+      "alb_target_response_time_seconds": 1.003013800999762,
+      "alb_request_count_sum_1m": 4201.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:08:55.861336+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 16.058600976682943,
+      "alb_target_response_time_seconds": 1.003079862159267,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:09:26.041744+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.830650407860277,
+      "alb_target_response_time_seconds": 1.003079862159267,
+      "alb_request_count_sum_1m": 8401.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:09:56.180136+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.830650407860277,
+      "alb_target_response_time_seconds": 1.004332787597475,
+      "alb_request_count_sum_1m": 8079.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:10:26.350430+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.26666666666667,
+      "alb_target_response_time_seconds": 1.003089674761905,
+      "alb_request_count_sum_1m": 2100.0
+    },
+    {
+      "timestamp_utc": "2026-04-22T02:10:56.533541+00:00",
+      "desired_capacity": 1,
+      "in_service_instances": 1,
+      "cpu_utilization_avg": 15.26666666666667,
+      "alb_target_response_time_seconds": 1.0032277057142858,
+      "alb_request_count_sum_1m": 4200.0
+    }
+  ],
+  "load_errors": [],
+  "notes": [
+    "No AWS CLI subprocess used; boto3-only implementation.",
+    "If CloudWatch datapoints are delayed, some sample values may be null."
+  ]
+}

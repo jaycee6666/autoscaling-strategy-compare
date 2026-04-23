@@ -1,22 +1,22 @@
 {
-  "timestamp_utc": "2026-04-17T10:03:59.479072+00:00",
+  "timestamp_utc": "2026-04-23T10:56:11.790309+00:00",
   "region": "us-east-1",
-  "alb_dns": "experiment-alb-1466294824.us-east-1.elb.amazonaws.com",
+  "alb_dns": "experiment-alb-843355418.us-east-1.elb.amazonaws.com",
   "running_instances_before": {
     "asg-cpu": 1,
-    "asg-request": 2
+    "asg-request": 1
   },
   "launch_template_versions": {
-    "asg-cpu": "7",
-    "asg-request": "6"
+    "asg-cpu": "4",
+    "asg-request": "4"
   },
   "instance_refresh_ids": {
-    "asg-cpu": "b0cf053c-2622-47cb-a59b-4f0e4f33ef7c",
-    "asg-request": "35e467d5-e7bf-47c8-b4fc-12d3315c52a4"
+    "asg-cpu": "171583e5-2a55-4157-8aa7-b4af00f6a35d",
+    "asg-request": "bbf2614a-d4a7-46eb-8873-f35eae3cab42"
   },
   "subnet_updates": {
-    "asg-cpu": "subnet-0ee31bdc6a99a3c34,subnet-0380d57de0f4e7294",
-    "asg-request": "subnet-0ee31bdc6a99a3c34,subnet-0380d57de0f4e7294"
+    "asg-cpu": "subnet-0edc3fd6ef894e9c1,subnet-0edafa297e6569d21",
+    "asg-request": "subnet-0edc3fd6ef894e9c1,subnet-0edafa297e6569d21"
   },
   "private_route_has_default_egress": false,
   "asg_health": {
@@ -26,39 +26,19 @@
         "desired": 1,
         "instances": [
           {
-            "instance_id": "i-05e0de69d12135d81",
+            "instance_id": "i-01959c42af8c83192",
             "health": "Healthy",
             "lifecycle": "InService"
-          },
-          {
-            "instance_id": "i-0b3ccbd67234c7217",
-            "health": "Healthy",
-            "lifecycle": "Terminating"
           }
         ]
       },
       "asg-request": {
-        "desired": 2,
+        "desired": 1,
         "instances": [
           {
-            "instance_id": "i-010b46651d52329c1",
-            "health": "Healthy",
-            "lifecycle": "Terminating"
-          },
-          {
-            "instance_id": "i-0b8e90d9fad9e90f5",
+            "instance_id": "i-02477fc3e8f932857",
             "health": "Healthy",
             "lifecycle": "InService"
-          },
-          {
-            "instance_id": "i-0c2dfc40723e238b2",
-            "health": "Healthy",
-            "lifecycle": "InService"
-          },
-          {
-            "instance_id": "i-0df1399a158c2a780",
-            "health": "Healthy",
-            "lifecycle": "Terminating"
           }
         ]
       }
@@ -67,8 +47,8 @@
   "target_group_health": {
     "ready": true,
     "target_groups": {
-      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2": {
-        "total": 2,
+      "arn:aws:elasticloadbalancing:us-east-1:320343233742:targetgroup/tg-request-asg/ff4c1e15bf795e68": {
+        "total": 1,
         "healthy": 1
       }
     }
@@ -76,27 +56,27 @@
   "all_target_group_snapshot": {
     "ready": false,
     "target_groups": {
-      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2": {
-        "total": 2,
-        "healthy": 1
-      },
-      "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-request-asg/c94e9263cf021002": {
-        "total": 2,
+      "arn:aws:elasticloadbalancing:us-east-1:320343233742:targetgroup/tg-cpu-asg/0db8dd8a3a5e46f5": {
+        "total": 1,
         "healthy": 0
+      },
+      "arn:aws:elasticloadbalancing:us-east-1:320343233742:targetgroup/tg-request-asg/ff4c1e15bf795e68": {
+        "total": 1,
+        "healthy": 1
       }
     }
   },
-  "active_listener_target_group": "arn:aws:elasticloadbalancing:us-east-1:503280397333:targetgroup/tg-cpu-asg/debae529809b0ee2",
+  "active_listener_target_group": "arn:aws:elasticloadbalancing:us-east-1:320343233742:targetgroup/tg-request-asg/ff4c1e15bf795e68",
   "alb_health_probe": {
     "success": true,
     "attempts": 20,
-    "successes": 20,
+    "successes": 15,
     "status_codes": [
-      200,
-      200,
-      200,
-      200,
-      200,
+      502,
+      502,
+      502,
+      502,
+      502,
       200,
       200,
       200,
@@ -113,7 +93,7 @@
       200,
       200
     ],
-    "last_body": "{\"status\":\"healthy\",\"timestamp\":\"2026-04-17T10:03:54.249682\",\"version\":\"1.0\"}\n"
+    "last_body": "{\"status\":\"healthy\",\"timestamp\":\"2026-04-23T10:56:09.710996\",\"version\":\"1.0\"}\n"
   },
   "success": true
 }

@@ -44,8 +44,31 @@ class ASGSetup:
     def __init__(self, region: str = "us-east-1"):
         """Initialize autoscaling client."""
         self.autoscaling = boto3.client("autoscaling", region_name=region)
+        self.elbv2 = boto3.client("elbv2", region_name=region)
         self.region = region
         self.config: Dict[str, Any] = {}
+
+    def _get_listener_target_group(self, listener_arn: str) -> str:
+        response = self.elbv2.describe_listeners(ListenerArns=[listener_arn])
+        listeners = response.get("Listeners", [])
+        if not listeners:
+            raise RuntimeError(f"Listener not found: {listener_arn}")
+        actions = listeners[0].get("DefaultActions", [])
+        for action in actions:
+            if action.get("Type") == "forward" and action.get("TargetGroupArn"):
+                return str(action["TargetGroupArn"])
+        raise RuntimeError(f"No forward action on listener: {listener_arn}")
+
+    def _set_listener_target_group(self, listener_arn: str, target_group_arn: str) -> None:
+        self.elbv2.modify_listener(
+            ListenerArn=listener_arn,
+            DefaultActions=[
+                {
+                    "Type": "forward",
+                    "TargetGroupArn": target_group_arn,
+                }
+            ],
+        )
 
     def load_config(self, config_path: Path) -> Dict[str, str]:
         """Load configuration from JSON file."""
@@ -141,42 +164,40 @@ class ASGSetup:
             logger.error(f"✗ Failed to create scaling policy: {e}")
             raise
 
-    def create_custom_metric_scaling_policy(
+    def create_request_rate_scaling_policy(
         self,
         asg_name: str,
-        metric_name: str,
-        metric_namespace: str,
         target_value: float,
-        scale_out_cooldown: int = 60,
-        scale_in_cooldown: int = 300,
+        alb_arn: str,
+        target_group_arn: str,
+        estimated_instance_warmup: int = 60,
     ) -> None:
-        """Create target tracking policy for custom metrics."""
+        """Create target tracking policy based on ALB request count per target."""
         try:
-            logger.info(
-                f"Creating {metric_name} target tracking policy for {asg_name}..."
-            )
+            logger.info(f"Creating request-rate target tracking policy for {asg_name}...")
 
-            policy_name = f"{asg_name}-{metric_name.lower()}-policy"
+            alb_suffix = alb_arn.split("loadbalancer/")[-1]
+            tg_suffix = target_group_arn.split("targetgroup/")[-1]
+            resource_label = f"{alb_suffix}/targetgroup/{tg_suffix}"
+
+            policy_name = f"{asg_name}-request-rate-policy"
 
             self.autoscaling.put_scaling_policy(
                 AutoScalingGroupName=asg_name,
                 PolicyName=policy_name,
                 PolicyType="TargetTrackingScaling",
+                EstimatedInstanceWarmup=estimated_instance_warmup,
                 TargetTrackingConfiguration={
                     "TargetValue": target_value,
-                    "CustomizedMetricSpecification": {
-                        "MetricName": metric_name,
-                        "Namespace": metric_namespace,
-                        "Statistic": "Average",
-                        "Unit": "Count/Second"
-                        if metric_name == "RequestRate"
-                        else "None",
+                    "PredefinedMetricSpecification": {
+                        "PredefinedMetricType": "ALBRequestCountPerTarget",
+                        "ResourceLabel": resource_label,
                     },
                 },
             )
 
             logger.info(
-                f"✓ {metric_name} scaling policy created (target: {target_value})"
+                f"✓ Request-rate scaling policy created (target: {target_value} req/min per target)"
             )
         except ClientError as e:
             logger.error(f"✗ Failed to create scaling policy: {e}")
@@ -212,7 +233,7 @@ class ASGSetup:
                 subnets,
                 min_size=1,
                 max_size=5,
-                desired_capacity=2,
+                desired_capacity=1,
                 health_check_type="ELB",
                 health_check_grace_period=300,
             )
@@ -228,7 +249,7 @@ class ASGSetup:
                 subnets,
                 min_size=1,
                 max_size=5,
-                desired_capacity=2,
+                desired_capacity=1,
                 health_check_type="ELB",
                 health_check_grace_period=300,
             )
@@ -239,14 +260,28 @@ class ASGSetup:
             self.create_cpu_scaling_policy(cpu_asg_name, target_cpu=50.0)
 
             logger.info("\n[4/4] Creating request-rate scaling policy...")
-            self.create_custom_metric_scaling_policy(
-                request_asg_name,
-                metric_name="RequestRate",
-                metric_namespace="AutoscaleExperiment",
-                target_value=10.0,  # 10 requests/second per instance
-                scale_out_cooldown=60,
-                scale_in_cooldown=300,
-            )
+            listener_arn = alb_config["listener_arn"]
+            original_target_group = self._get_listener_target_group(listener_arn)
+            switched_listener = False
+            try:
+                if original_target_group != request_tg_arn:
+                    logger.info(
+                        "Switching listener to request target group for policy validation..."
+                    )
+                    self._set_listener_target_group(listener_arn, request_tg_arn)
+                    switched_listener = True
+
+                self.create_request_rate_scaling_policy(
+                    request_asg_name,
+                    target_value=360.0,
+                    alb_arn=alb_config["alb_arn"],
+                    target_group_arn=request_tg_arn,
+                    estimated_instance_warmup=60,
+                )
+            finally:
+                if switched_listener:
+                    logger.info("Restoring listener default target group...")
+                    self._set_listener_target_group(listener_arn, original_target_group)
 
             logger.info("=" * 60)
             logger.info("Auto Scaling Groups Setup Complete!")

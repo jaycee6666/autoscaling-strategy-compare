@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import json
 import statistics
 import threading
@@ -33,6 +34,8 @@ class ExperimentConfig:
     duration_seconds: int
     request_rate_per_second: int
     request_delay_seconds: float
+    endpoint_path: str
+    cpu_work_seconds: float
     sample_interval_seconds: int
 
 
@@ -68,9 +71,23 @@ def _percentile(values: List[float], pct: float) -> float:
     return sorted_values[idx]
 
 
-def _load_config(duration_seconds: int) -> ExperimentConfig:
+def _load_config(
+    duration_seconds: int,
+    request_rate_per_second: int,
+    request_delay_seconds: float,
+    endpoint_path: str,
+    cpu_work_seconds: float,
+) -> ExperimentConfig:
     asg_config = _read_json(INFRA_DIR / "asg-config.json")
     alb_config = _read_json(INFRA_DIR / "alb-config.json")
+    endpoint_value = endpoint_path.replace("\\", "/").strip()
+    if ":" in endpoint_value:
+        endpoint_value = endpoint_value.rsplit("/", maxsplit=1)[-1]
+    normalized_endpoint = (
+        endpoint_value if endpoint_value.startswith("/") else f"/{endpoint_value}"
+    )
+    if normalized_endpoint in {"", "/"}:
+        normalized_endpoint = "/request"
     return ExperimentConfig(
         strategy="request_rate",
         asg_name=asg_config["request_asg_name"],
@@ -80,8 +97,10 @@ def _load_config(duration_seconds: int) -> ExperimentConfig:
         alb_dns=alb_config["alb_dns"],
         region="us-east-1",
         duration_seconds=duration_seconds,
-        request_rate_per_second=10,
-        request_delay_seconds=0.3,
+        request_rate_per_second=request_rate_per_second,
+        request_delay_seconds=request_delay_seconds,
+        endpoint_path=normalized_endpoint,
+        cpu_work_seconds=cpu_work_seconds,
         sample_interval_seconds=30,
     )
 
@@ -116,72 +135,122 @@ class RequestRateExperimentRunner:
     def _set_desired_capacity(self) -> None:
         self.autoscaling.set_desired_capacity(
             AutoScalingGroupName=self.config.asg_name,
-            DesiredCapacity=2,
+            DesiredCapacity=1,
             HonorCooldown=False,
         )
 
+    def _wait_for_target_group_ready(
+        self, min_healthy: int = 1, timeout_seconds: int = 420
+    ) -> None:
+        deadline = time.time() + timeout_seconds
+        while time.time() < deadline:
+            response = self.elbv2.describe_target_health(
+                TargetGroupArn=self.config.target_group_arn
+            )
+            descriptions = response.get("TargetHealthDescriptions", [])
+            healthy = sum(
+                1
+                for row in descriptions
+                if row.get("TargetHealth", {}).get("State") == "healthy"
+            )
+            if healthy >= min_healthy:
+                return
+            time.sleep(10)
+
+        raise TimeoutError(
+            f"Target group not healthy in time: {self.config.target_group_arn}"
+        )
+
+    def _send_request(self, url: str) -> Dict[str, Any]:
+        request_started = time.perf_counter()
+        payload: Dict[str, Any]
+        if self.config.endpoint_path == "/cpu-intensive":
+            payload = {"duration": self.config.cpu_work_seconds}
+        else:
+            payload = {"delay": self.config.request_delay_seconds}
+        try:
+            response = requests.post(url, json=payload, timeout=5)
+            elapsed_ms = (time.perf_counter() - request_started) * 1000.0
+            return {
+                "ok": 200 <= response.status_code < 300,
+                "elapsed_ms": elapsed_ms,
+                "error": None
+                if 200 <= response.status_code < 300
+                else f"HTTP {response.status_code}",
+            }
+        except Exception as exc:  # pragma: no cover
+            return {"ok": False, "elapsed_ms": None, "error": str(exc)}
+
+    def _ingest_request_result(self, result: Dict[str, Any]) -> None:
+        self.load_results["total_requests"] += 1
+        elapsed_ms = result.get("elapsed_ms")
+        if elapsed_ms is not None:
+            self.load_results["response_times_ms"].append(elapsed_ms)
+        if result.get("ok"):
+            self.load_results["successful_requests"] += 1
+        else:
+            self.load_results["failed_requests"] += 1
+            error = result.get("error")
+            if error:
+                self.load_results["errors"].append(error)
+
     def _run_load(self, stop_time: float) -> None:
-        url = f"http://{self.config.alb_dns}/request"
+        url = f"http://{self.config.alb_dns}{self.config.endpoint_path}"
         interval = 1.0 / self.config.request_rate_per_second
         progress_interval = 60  # Print progress every 60 seconds
         last_progress = time.time()
+        max_workers = max(4, self.config.request_rate_per_second * 4)
+        pending: List[concurrent.futures.Future] = []
 
         print(f"[{datetime.now(timezone.utc).isoformat()}] Load generation started")
         print(f"  Target: {self.config.request_rate_per_second} req/s")
         print(
             f"  Duration: {self.config.duration_seconds} seconds ({self.config.duration_seconds // 60} min)"
         )
-        print(f"  URL: http://{self.config.alb_dns}/request")
+        print(f"  URL: {url}")
         print()
 
-        while time.time() < stop_time:
-            request_started = time.perf_counter()
-            try:
-                response = requests.post(
-                    url,
-                    json={"delay": self.config.request_delay_seconds},
-                    timeout=5,
-                )
-                elapsed_ms = (time.perf_counter() - request_started) * 1000.0
-                self.load_results["total_requests"] += 1
-                self.load_results["response_times_ms"].append(elapsed_ms)
-                if 200 <= response.status_code < 300:
-                    self.load_results["successful_requests"] += 1
-                else:
-                    self.load_results["failed_requests"] += 1
-                    self.load_results["errors"].append(f"HTTP {response.status_code}")
-            except Exception as exc:  # pragma: no cover - depends on runtime network
-                self.load_results["total_requests"] += 1
-                self.load_results["failed_requests"] += 1
-                self.load_results["errors"].append(str(exc))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            next_tick = time.perf_counter()
+            while time.time() < stop_time:
+                pending.append(executor.submit(self._send_request, url))
 
-            # Print progress every 60 seconds
-            now = time.time()
-            if now - last_progress >= progress_interval:
-                elapsed = now - (stop_time - self.config.duration_seconds)
-                success_rate = (
-                    self.load_results["successful_requests"]
-                    / self.load_results["total_requests"]
-                    if self.load_results["total_requests"]
-                    else 0.0
-                )
-                avg_time = (
-                    sum(self.load_results["response_times_ms"])
-                    / len(self.load_results["response_times_ms"])
-                    if self.load_results["response_times_ms"]
-                    else 0.0
-                )
-                print(
-                    f"[{elapsed:.0f}s/{self.config.duration_seconds}s] "
-                    f"Requests: {self.load_results['total_requests']} | "
-                    f"Success: {success_rate * 100:.1f}% | "
-                    f"Avg time: {avg_time:.0f}ms"
-                )
-                last_progress = now
+                done = [future for future in pending if future.done()]
+                if done:
+                    for future in done:
+                        self._ingest_request_result(future.result())
+                    pending = [future for future in pending if not future.done()]
 
-            remaining = interval - (time.perf_counter() - request_started)
-            if remaining > 0:
-                time.sleep(remaining)
+                now = time.time()
+                if now - last_progress >= progress_interval:
+                    elapsed = now - (stop_time - self.config.duration_seconds)
+                    success_rate = (
+                        self.load_results["successful_requests"]
+                        / self.load_results["total_requests"]
+                        if self.load_results["total_requests"]
+                        else 0.0
+                    )
+                    avg_time = (
+                        sum(self.load_results["response_times_ms"])
+                        / len(self.load_results["response_times_ms"])
+                        if self.load_results["response_times_ms"]
+                        else 0.0
+                    )
+                    print(
+                        f"[{elapsed:.0f}s/{self.config.duration_seconds}s] "
+                        f"Requests: {self.load_results['total_requests']} | "
+                        f"Success: {success_rate * 100:.1f}% | "
+                        f"Avg time: {avg_time:.0f}ms"
+                    )
+                    last_progress = now
+
+                next_tick += interval
+                sleep_for = next_tick - time.perf_counter()
+                if sleep_for > 0:
+                    time.sleep(sleep_for)
+
+            for future in concurrent.futures.as_completed(pending):
+                self._ingest_request_result(future.result())
 
     def _collect_sample(self) -> Dict[str, Any]:
         asg_resp = self.autoscaling.describe_auto_scaling_groups(
@@ -293,6 +362,7 @@ class RequestRateExperimentRunner:
 
         self._route_listener()
         self._set_desired_capacity()
+        self._wait_for_target_group_ready()
 
         started_at = datetime.now(timezone.utc)
         stop_time = time.time() + self.config.duration_seconds
@@ -395,9 +465,19 @@ class RequestRateExperimentRunner:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--duration-seconds", type=int, default=1800)
+    parser.add_argument("--request-rate", type=int, default=10)
+    parser.add_argument("--request-delay", type=float, default=0.3)
+    parser.add_argument("--endpoint", type=str, default="/request")
+    parser.add_argument("--cpu-work-seconds", type=float, default=1.0)
     args = parser.parse_args()
 
-    config = _load_config(duration_seconds=args.duration_seconds)
+    config = _load_config(
+        duration_seconds=args.duration_seconds,
+        request_rate_per_second=args.request_rate,
+        request_delay_seconds=args.request_delay,
+        endpoint_path=args.endpoint,
+        cpu_work_seconds=args.cpu_work_seconds,
+    )
     runner = RequestRateExperimentRunner(config)
     result = runner.run()
 

@@ -1,50 +1,69 @@
 {
-  "timestamp_utc": "2026-04-17T11:15:36.629799+00:00",
+  "timestamp_utc": "2026-04-23T13:54:51.749204+00:00",
   "comparison": {
     "cpu_strategy": {
       "strategy": "CPU Utilization Target",
-      "total_requests": 1433,
-      "success_rate": 0.9295184926727146,
-      "avg_response_time_ms": 970.6417442942919,
-      "p95_response_time_ms": 1175.7360999999946,
-      "p99_response_time_ms": 1935.852699999998,
-      "max_instances": 2,
-      "avg_instances": 1.2083333333333333,
+      "total_requests": 18000,
+      "success_rate": 0.9991666666666666,
+      "avg_response_time_ms": 897.0857131609673,
+      "p95_response_time_ms": 1137.9930999999033,
+      "p99_response_time_ms": 1971.9344000000092,
+      "max_instances": 1,
+      "avg_instances": 1,
       "scale_out_events": 0,
-      "scale_in_events": 1,
-      "avg_cpu_utilization": 0.6520388026107498
+      "scale_in_events": 0,
+      "avg_cpu_utilization": 1.5449308729035243
     },
     "request_rate_strategy": {
       "strategy": "Request Rate Target",
-      "total_requests": 1485,
-      "success_rate": 0.9373737373737374,
-      "avg_response_time_ms": 959.9272008620709,
-      "p95_response_time_ms": 1026.3390000000072,
-      "p99_response_time_ms": 1691.8502999999987,
-      "max_instances": 2,
-      "avg_instances": 2,
-      "scale_out_events": 0,
+      "total_requests": 18000,
+      "success_rate": 0.9992222222222222,
+      "avg_response_time_ms": 912.1313751417783,
+      "p95_response_time_ms": 1194.094199999995,
+      "p99_response_time_ms": 2115.617800000109,
+      "max_instances": 4,
+      "avg_instances": 3.290909090909091,
+      "scale_out_events": 2,
       "scale_in_events": 0,
-      "avg_cpu_utilization": 0.19916741836750262
+      "avg_cpu_utilization": 1.0534549413365968
     }
   },
   "metrics": {
     "cpu_strategy": {
-      "cost_factor": 7200,
-      "cost_per_request": 5.024424284717377,
-      "latency_score": 1245.7216777177143,
-      "success_rate_pct": 92.95184926727146
+      "cost_factor": 3600,
+      "cost_per_request": 0.2,
+      "latency_score": 1208.41840526435,
+      "success_rate_pct": 99.91666666666667
     },
     "request_rate_strategy": {
-      "cost_factor": 7200,
-      "cost_per_request": 4.848484848484849,
-      "latency_score": 1132.876540344831,
-      "success_rate_pct": 93.73737373737374
+      "cost_factor": 14400,
+      "cost_per_request": 0.8,
+      "latency_score": 1265.6137900567312,
+      "success_rate_pct": 99.92222222222222
     }
   },
+  "proposal_metrics": {
+    "cpu_strategy": {
+      "error_rate_pct": 0.08333333333333526,
+      "p95_response_time_ms": 1137.9930999999033,
+      "scale_out_latency_seconds": null
+    },
+    "request_rate_strategy": {
+      "error_rate_pct": 0.07777777777777661,
+      "p95_response_time_ms": 1194.094199999995,
+      "scale_out_latency_seconds": 366.906125
+    }
+  },
+  "proposal_alignment": {
+    "has_scaling_phase": true,
+    "notes": [
+      "Proposal requires evaluating P95 latency, scale-out latency, and error rate during scale-out phase.",
+      "If no scale-out occurs, result is marked inconclusive for proposal validation."
+    ]
+  },
   "winner": {
-    "strategy": "Request-Rate Strategy",
-    "confidence_pct": 2.3685992891539343,
-    "rationale": "Request-rate strategy achieved better response time (960ms vs 971ms)"
+    "strategy": "CPU Strategy",
+    "confidence_pct": 4.630051008342824,
+    "rationale": "CPU strategy achieved lower P95 latency (1138ms vs 1194ms)"
   }
 }

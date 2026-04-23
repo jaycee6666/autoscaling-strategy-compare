@@ -1,0 +1,10 @@
+{
+  "instance_id": "i-01c46e63bada134ac",
+  "public_ip": "3.216.27.179",
+  "private_ip": "10.0.1.173",
+  "subnet_id": "subnet-0edc3fd6ef894e9c1",
+  "vpc_id": "vpc-015438ef3947bb68e",
+  "sg_id": "sg-0d44845de5ca6bb60",
+  "key_name": "loadgen-key-20260421",
+  "key_path": "infrastructure/loadgen-key.pem"
+}
