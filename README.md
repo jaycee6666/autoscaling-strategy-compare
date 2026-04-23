@@ -66,3 +66,39 @@ The repository is structured to make verification straightforward.
 
 ## 📁 Project Structure
 The repository is organized for clarity, with distinct sections for application code (`apps/`), infrastructure scripts (`scripts/`), experiment orchestration (`experiments/`), and documentation (`docs/`).
+
+```text
+autoscaling-strategy-compare/
+├── apps/                               # Flask microservice source code
+│   └── test_app/
+│       ├── app.py                      # Main application logic with I/O delay
+│       └── Dockerfile                  # Containerization config
+├── config/                             # Environment configuration
+│   └── .env.template                   # Template for AWS credentials
+├── deployment/                         # App deployment orchestrators
+│   └── deploy_app.py                   # Injects app into EC2 via User Data
+├── docs/                               # Visualizations and charts
+│   ├── chart_latency_bar.png           # Median latency comparison
+│   ├── chart_latency_box.png           # Latency distribution (Boxplot)
+│   ├── chart_p99_trend.png             # Stability trend over rounds
+│   └── chart_scaling.png               # Scaling behavior comparison
+├── experiments/                        # Experiment orchestration & datasets
+│   ├── 01_verify_infrastructure.py     # Pre-check health script
+│   ├── 02_run_cpu_experiment.py        # CPU strategy experiment
+│   ├── 03_run_request_rate_experiment.py # Request-rate experiment
+│   ├── 04_aggregate_results.py         # Data aggregation
+│   ├── 06_analyze_results.py           # Analysis script
+│   ├── results_round13_22_median.json  # Final aggregated metrics
+│   └── results_round13...22/           # Raw data from 10 test rounds
+├── infrastructure/                     # AWS IaC configuration states
+│   └── loadgen-host.json               # Dedicated load generator info
+├── scripts/                            # Core automation scripts (Boto3)
+│   ├── setup.py                        # Environment initializer
+│   ├── deploy_all.py                   # Master infrastructure provisioner
+│   ├── run_all_experiments.py          # Master experimental pipeline
+│   └── setup_asg.py, setup_alb.py...   # Component-specific IaC scripts
+├── ARTIFACT_APPENDIX.md                # Submission artifact details
+├── generate_custom_charts.py           # Script to plot academic charts
+├── README.md                           # Project overview
+└── requirements.txt                    # Python dependencies
+```
